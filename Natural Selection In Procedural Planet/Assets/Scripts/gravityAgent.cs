@@ -11,6 +11,14 @@ public class gravityAgent : MonoBehaviour
     void Start()
     {
         planet = GameObject.FindWithTag("Planet");
+
+        if (gameObject.tag == "Moon")
+        {
+            Rigidbody rb;
+            rb = GetComponent<Rigidbody>();
+            if (rb != null)
+                rb.velocity = new Vector3(0, 0, 30);
+        }
     }
 
     // Update is called once per frame

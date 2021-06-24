@@ -10,8 +10,14 @@ public class gravityAttractor : MonoBehaviour
 
     void FixedUpdate()
     {
-        AttractAnimals();
-        AttractFood();
+        if (gameObject.tag != "Moon")
+        {
+            //We only attract animals and food from the planet for purposes of the simulation
+            AttractAnimals();
+            AttractFood();
+        }
+
+        AttractMoons();
     }
 
     void Attract(GameObject objToAttract)
@@ -44,6 +50,16 @@ public class gravityAttractor : MonoBehaviour
         {
             if (animal != this)
                 Attract(animal);
+        }
+    }
+
+    void AttractMoons()
+    {
+        GameObject[] moons = GameObject.FindGameObjectsWithTag("Moon");
+        foreach (GameObject moon in moons)
+        {
+            if (moon != this)
+                Attract(moon);
         }
     }
 }
