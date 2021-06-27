@@ -31,8 +31,15 @@ public class animalAI : MonoBehaviour
         if (other.gameObject.tag == "Food")
         {
             hunger += DataHolder.hungerIncrementAtEating;
-            Destroy(other.gameObject);
             DataHolder.food.Remove(other.gameObject);
+            Destroy(other.gameObject);                
+        }
+    }
+
+    //Vision
+    void OnTriggerEnter(Collider other){
+        if (other.gameObject.tag == "Food"){
+            transform.LookAt(other.gameObject.transform);
         }
     }
 }
