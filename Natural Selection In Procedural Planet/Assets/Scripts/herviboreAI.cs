@@ -1,8 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class animalAI : MonoBehaviour
+public class herviboreAI : MonoBehaviour
 {
     public float speed = 3.0f;
     public float hunger = 100.0f;
@@ -42,6 +42,13 @@ public class animalAI : MonoBehaviour
         if (other.gameObject.tag == "Food")
         {
             transform.LookAt(other.gameObject.transform);
+        }
+
+        var multiTag = other.gameObject.GetComponent<CustomTag>();
+        //Escape from carnivores
+        if (multiTag != null && multiTag.HasTag("Carnivore"))
+        {
+            transform.LookAt(transform.position - (other.gameObject.transform.position - transform.position));
         }
     }
 
