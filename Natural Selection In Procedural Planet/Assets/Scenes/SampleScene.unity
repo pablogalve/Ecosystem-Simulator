@@ -445,9 +445,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04683a27664815d42ba62165546aa992, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animalPrefab: {fileID: 6984277439546809361, guid: 2cd96a9e2d33e614d901fbc389b51578,
+  herviborePrefab: {fileID: 4133934291495611277, guid: e0e83b5f7eef0fe48af56d9ceaebc8c9,
     type: 3}
-  animalsToSpawn: 100
+  herviboresToSpawn: 50
+  omnivorePrefab: {fileID: 0}
+  omnivoresToSpawn: 0
+  carnivorePrefab: {fileID: 6984277439546809361, guid: 2cd96a9e2d33e614d901fbc389b51578,
+    type: 3}
+  carnivoresToSpawn: 50
 --- !u!1 &1894555736 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1904745022329742582, guid: fbe5935e6a9a0974497a4f5ab5fc4f7c,
