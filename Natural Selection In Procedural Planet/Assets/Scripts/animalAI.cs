@@ -7,9 +7,9 @@ public class animalAI : MonoBehaviour
     public float speed = 3.0f;
     public float hunger = 100.0f;
 
-    protected List<GameObject> visibleCarnivores = new List<GameObject>();
-    protected List<GameObject> visibleHervibores = new List<GameObject>();
-    protected List<GameObject> visibleFood = new List<GameObject>();
+    public List<GameObject> visibleCarnivores = new List<GameObject>();
+    public List<GameObject> visibleHervibores = new List<GameObject>();
+    public List<GameObject> visibleFood = new List<GameObject>();
 
     protected virtual void Update()
     {
@@ -27,7 +27,7 @@ public class animalAI : MonoBehaviour
         hunger -= Time.deltaTime;
 
         if (hunger <= 0.0f)
-            Destroy(this.gameObject);
+            entityManager.KillEntity(this.gameObject);
     }
 
     protected virtual void OnTriggerEnter(Collider other)

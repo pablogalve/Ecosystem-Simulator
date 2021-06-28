@@ -21,10 +21,9 @@ public class herviboreAI : animalAI
     {
         if (other.gameObject.tag == "Food")
         {
-            visibleFood.Remove(other.gameObject);
             hunger += DataHolder.hungerIncrementAtEating;
-            DataHolder.food.Remove(other.gameObject);
-            Destroy(other.gameObject);
+
+            entityManager.KillEntity(other.gameObject);
         }
     }
 
