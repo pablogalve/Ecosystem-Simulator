@@ -7,7 +7,7 @@ public class animalAI : MonoBehaviour
     public float speed = 3.0f;
     public float hunger = 100.0f;
 
-    void Update()
+    protected virtual void Update()
     {
         Move();
         UpdateStats();
@@ -24,32 +24,5 @@ public class animalAI : MonoBehaviour
 
         if (hunger <= 0.0f)
             Destroy(this.gameObject);
-    }
-
-    void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.tag == "Food")
-        {
-            hunger += DataHolder.hungerIncrementAtEating;
-            DataHolder.food.Remove(other.gameObject);
-            Destroy(other.gameObject);
-        }
-    }
-
-    //Vision
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Food")
-        {
-            transform.LookAt(other.gameObject.transform);
-        }
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Food")
-        {
-            transform.LookAt(other.gameObject.transform);
-        }
     }
 }
