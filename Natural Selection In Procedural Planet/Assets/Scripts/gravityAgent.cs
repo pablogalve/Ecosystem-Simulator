@@ -25,6 +25,9 @@ public class gravityAgent : MonoBehaviour
     void Update()
     {
         distanceToCenter = GetDistance(gameObject, planet);
+
+        if (distanceToCenter >= 1000.0f)
+            Destroy(this.gameObject);
     }
 
     float GetDistance(GameObject obj1, GameObject obj2)
