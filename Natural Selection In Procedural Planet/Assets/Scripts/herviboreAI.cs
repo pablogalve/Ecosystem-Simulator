@@ -12,6 +12,7 @@ public class herviboreAI : animalAI
 
     protected override void UpdateStats()
     {
+        //Debug.Log("Total food " + EntityManager.food.Count);
         Debug.Log("Food in view: " + visibleFood.Count);
         //Debug.Log("Hervibores in view: " + visibleHervibores.Count);
         //Debug.Log("Carnivores in view: " + visibleCarnivores.Count);
@@ -23,7 +24,7 @@ public class herviboreAI : animalAI
         {
             hunger += DataHolder.hungerIncrementAtEating;
 
-            entityManager.KillEntity(other.gameObject);
+            EntityManager.KillEntity(other.gameObject);
         }
     }
 

@@ -18,28 +18,20 @@ public class animalSpawner : MonoBehaviour
         for (int i = 0; i < herviboresToSpawn; i++)
         {
             GameObject newAnimal = Instantiate(herviborePrefab, GetRandomVector3(), Quaternion.identity);
-            AddToList(newAnimal);
+            EntityManager.CreateEntity("hervibores", newAnimal);
         }
 
         for (int i = 0; i < omnivoresToSpawn; i++)
         {
             GameObject newAnimal = Instantiate(omnivorePrefab, GetRandomVector3(), Quaternion.identity);
-            AddToList(newAnimal);
+            EntityManager.CreateEntity("omnivores", newAnimal);
         }
 
         for (int i = 0; i < carnivoresToSpawn; i++)
         {
             GameObject newAnimal = Instantiate(carnivorePrefab, GetRandomVector3(), Quaternion.identity);
-            AddToList(newAnimal);
+            EntityManager.CreateEntity("carnivores", newAnimal);
         }
-    }
-
-    void AddToList(GameObject newAnimal)
-    {
-        if (DataHolder.animals == null)
-            DataHolder.animals = new List<GameObject>();
-
-        DataHolder.animals.Add(newAnimal);
     }
 
     Vector3 GetRandomVector3()

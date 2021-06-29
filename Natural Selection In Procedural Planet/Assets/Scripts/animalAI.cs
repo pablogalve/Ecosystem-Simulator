@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class animalAI : MonoBehaviour
+[System.Serializable]
+public class animalAI : entity
 {
     public float speed = 3.0f;
     public float hunger = 100.0f;
@@ -27,7 +28,7 @@ public class animalAI : MonoBehaviour
         hunger -= Time.deltaTime;
 
         if (hunger <= 0.0f)
-            entityManager.KillEntity(this.gameObject);
+            EntityManager.KillEntity(this.gameObject);
     }
 
     protected virtual void OnTriggerEnter(Collider other)
@@ -35,14 +36,14 @@ public class animalAI : MonoBehaviour
         var multiTag = other.gameObject.GetComponent<CustomTag>();
 
         {   //Keep track of objects inside area of vision
-            if (other.gameObject.tag == "Food")
+            if (other.gameObject.tag == "Food" && !visibleFood.Contains(other.gameObject))
                 visibleFood.Add(other.gameObject);
 
             if (multiTag != null)
             {
-                if (multiTag.HasTag("Carnivore"))
+                if (multiTag.HasTag("Carnivore") && !visibleCarnivores.Contains(other.gameObject))
                     visibleCarnivores.Add(other.gameObject);
-                else if (multiTag.HasTag("Hervibore"))
+                else if (multiTag.HasTag("Hervibore") && !visibleHervibores.Contains(other.gameObject))
                     visibleHervibores.Add(other.gameObject);
             }
         }

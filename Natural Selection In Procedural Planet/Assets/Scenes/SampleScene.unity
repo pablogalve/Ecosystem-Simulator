@@ -394,7 +394,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   foodPrefab: {fileID: 4244181223118124285, guid: e83d71b1c3c6c91449a11158462d1257,
     type: 3}
-  foodToSpawn: 500
+  foodToSpawn: 50
 --- !u!114 &1650469647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -475,6 +475,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FoodGenerator
+      objectReference: {fileID: 0}
+    - target: {fileID: 119455041837896371, guid: 2fa56a084e9090e45a39018fad6a19d3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2414216612324411562, guid: 2fa56a084e9090e45a39018fad6a19d3,
         type: 3}

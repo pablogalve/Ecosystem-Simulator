@@ -2,62 +2,72 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class entityManager : MonoBehaviour
+public class EntityManager : MonoBehaviour
 {
+    public static List<GameObject> food = new List<GameObject>();
+    public static List<GameObject> hervibores = new List<GameObject>();
+    public static List<GameObject> carnivores = new List<GameObject>();
+
+    public static void CreateEntity(string entityType, GameObject newObj)
+    {
+        switch (entityType)
+        {
+            case "food":
+                if (food == null)
+                    food = new List<GameObject>();
+
+                if (!food.Contains(newObj))
+                    food.Add(newObj);
+                break;
+            case "hervibores":
+                if (hervibores == null)
+                    hervibores = new List<GameObject>();
+
+                if (!hervibores.Contains(newObj))
+                    hervibores.Add(newObj);
+                break;
+            case "carnivores":
+                if (carnivores == null)
+                    carnivores = new List<GameObject>();
+
+                if (!carnivores.Contains(newObj))
+                    carnivores.Add(newObj);
+                break;
+                break;
+            default:
+                Debug.Log("AddToList: 'ListName' is not valid");
+                break;
+        }
+    }
     public static void KillEntity(GameObject killedObj)
     {
-        RemoveElementFromLists(killedObj);
-        RemoveFromDataHolder(killedObj);
+        killedObj.GetComponent<entity>().toDelete = true;
+        RemoveToDeleteObjectsFromLists();
         Destroy(killedObj);
     }
 
-    //Remove element from all the references in all the animals's lists
-    private static void RemoveElementFromLists(GameObject killedObj)
+    private static void RemoveToDeleteObjectsFromLists()
     {
-        var multiTag = killedObj.GetComponent<CustomTag>();
-
-        int tag = -1;
-        if (killedObj.tag == "Food") tag = 1;
-        if (multiTag != null && multiTag.HasTag("Carnivore")) tag = 2;
-        if (multiTag != null && multiTag.HasTag("Hervibore")) tag = 3;
-
-        if (tag == -1)
-            return;
-
-        for (int i = 0; i < DataHolder.animals.Count; i++)
+        for (var i = hervibores.Count - 1; i > -1; i--)
         {
-            switch (tag)
-            {
-                case 1:
-                    DataHolder.animals[i].GetComponent<animalAI>().visibleFood.Remove(killedObj);
-                    break;
-                case 2:
-                    DataHolder.animals[i].GetComponent<animalAI>().visibleCarnivores.Remove(killedObj);
-                    break;
-                case 3:
-                    DataHolder.animals[i].GetComponent<animalAI>().visibleHervibores.Remove(killedObj);
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
-    private static void RemoveFromDataHolder(GameObject killedObj)
-    {
-        if (killedObj.tag == "Food")
-        {
-            DataHolder.food.Remove(killedObj);
-            return;
+            if (hervibores[i].GetComponent<entity>().toDelete)
+                hervibores[i].GetComponent<herviboreAI>().visibleFood.RemoveAt(i);
         }
 
-        var multiTag = killedObj.GetComponent<CustomTag>();
-
-        if (multiTag != null)
+        for (var i = food.Count - 1; i > -1; i--)
         {
-            if (multiTag.HasTag("Carnivore") || multiTag.HasTag("Hervibore"))
+            if (food[i].GetComponent<entity>().toDelete)
+                food.RemoveAt(i);
+        }
+
+        for (var i = hervibores.Count - 1; i > -1; i--)
+        {
+            for (var j = hervibores[i].GetComponent<animalAI>().visibleFood.Count - 1; j > -1; j--)
             {
-                DataHolder.animals.Remove(killedObj);
+                if (hervibores[i].GetComponent<animalAI>().visibleFood[j].GetComponent<entity>().toDelete)
+                {
+                    hervibores[i].GetComponent<animalAI>().visibleFood.RemoveAt(j);
+                }
             }
         }
     }

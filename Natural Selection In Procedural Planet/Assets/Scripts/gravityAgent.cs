@@ -27,7 +27,7 @@ public class gravityAgent : MonoBehaviour
         distanceToCenter = GetDistance(gameObject, planet);
 
         if (distanceToCenter >= 1000.0f)
-            entityManager.KillEntity(this.gameObject);
+            EntityManager.KillEntity(this.gameObject);
     }
 
     float GetDistance(GameObject obj1, GameObject obj2)
