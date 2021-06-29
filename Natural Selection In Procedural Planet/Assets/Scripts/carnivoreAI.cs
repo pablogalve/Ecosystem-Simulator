@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class herviboreAI : animalAI
+public class carnivoreAI : animalAI
 {
     protected override void Update()
     {
@@ -17,10 +17,11 @@ public class herviboreAI : animalAI
 
     void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag == "Food")
+        var multiTag = other.gameObject.GetComponent<CustomTag>();
+        //Kill hervibores
+        if (multiTag != null && multiTag.HasTag("Hervibore"))
         {
             hunger += DataHolder.hungerIncrementAtEating;
-
             EntityManager.KillEntity(other.gameObject);
         }
     }
@@ -30,26 +31,16 @@ public class herviboreAI : animalAI
     {
         base.OnTriggerEnter(other);
 
-        if (other.gameObject.tag == "Food")
-        {
-            transform.LookAt(other.gameObject.transform);
-        }
-
         var multiTag = other.gameObject.GetComponent<CustomTag>();
-        //Escape from carnivores
-        if (multiTag != null && multiTag.HasTag("Carnivore"))
+
+        if (multiTag != null && multiTag.HasTag("Hervibore"))
         {
-            transform.LookAt(transform.position - (other.gameObject.transform.position - transform.position));
+            transform.LookAt(other.gameObject.transform.position);
         }
     }
 
     protected override void OnTriggerExit(Collider other)
     {
         base.OnTriggerExit(other);
-
-        if (other.gameObject.tag == "Food")
-        {
-            transform.LookAt(other.gameObject.transform);
-        }
     }
 }

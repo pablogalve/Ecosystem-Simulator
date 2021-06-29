@@ -48,26 +48,26 @@ public class EntityManager : MonoBehaviour
 
     private static void RemoveToDeleteObjectsFromLists()
     {
-        for (var i = hervibores.Count - 1; i > -1; i--)
+        for (var i = hervibores.Count - 1; i >= 0; i--)
         {
             if (hervibores[i].GetComponent<entity>().toDelete)
-                hervibores[i].GetComponent<herviboreAI>().visibleFood.RemoveAt(i);
+                hervibores.RemoveAt(i);
         }
 
+        //Remove food from food list
         for (var i = food.Count - 1; i > -1; i--)
         {
             if (food[i].GetComponent<entity>().toDelete)
                 food.RemoveAt(i);
         }
 
+        //Remove food from hervibores visible area
         for (var i = hervibores.Count - 1; i > -1; i--)
         {
             for (var j = hervibores[i].GetComponent<animalAI>().visibleFood.Count - 1; j > -1; j--)
             {
                 if (hervibores[i].GetComponent<animalAI>().visibleFood[j].GetComponent<entity>().toDelete)
-                {
                     hervibores[i].GetComponent<animalAI>().visibleFood.RemoveAt(j);
-                }
             }
         }
     }
