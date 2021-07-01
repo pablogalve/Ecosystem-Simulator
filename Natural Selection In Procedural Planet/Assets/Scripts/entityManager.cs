@@ -48,26 +48,80 @@ public class EntityManager : MonoBehaviour
 
     private static void RemoveToDeleteObjectsFromLists()
     {
-        for (var i = hervibores.Count - 1; i >= 0; i--)
+        //Remove deleted objects from visibleAreas
         {
-            if (hervibores[i].GetComponent<entity>().toDelete)
-                hervibores.RemoveAt(i);
-        }
-
-        //Remove food from food list
-        for (var i = food.Count - 1; i > -1; i--)
-        {
-            if (food[i].GetComponent<entity>().toDelete)
-                food.RemoveAt(i);
-        }
-
-        //Remove food from hervibores visible area
-        for (var i = hervibores.Count - 1; i > -1; i--)
-        {
-            for (var j = hervibores[i].GetComponent<animalAI>().visibleFood.Count - 1; j > -1; j--)
+            //Remove all objects from hervibores visible area
+            for (var i = hervibores.Count - 1; i > -1; i--)
             {
-                if (hervibores[i].GetComponent<animalAI>().visibleFood[j].GetComponent<entity>().toDelete)
-                    hervibores[i].GetComponent<animalAI>().visibleFood.RemoveAt(j);
+                //Remove food from hervibores visible area
+                for (var j = hervibores[i].GetComponent<animalAI>().visibleFood.Count - 1; j > -1; j--)
+                {
+                    if (hervibores[i].GetComponent<animalAI>().visibleFood[j].GetComponent<entity>().toDelete)
+                        hervibores[i].GetComponent<animalAI>().visibleFood.RemoveAt(j);
+                }
+
+                //Remove other hervibores from hervibores visible area
+                for (var j = hervibores[i].GetComponent<animalAI>().visibleHervibores.Count - 1; j > -1; j--)
+                {
+                    if (hervibores[i].GetComponent<animalAI>().visibleHervibores[j].GetComponent<entity>().toDelete)
+                        hervibores[i].GetComponent<animalAI>().visibleHervibores.RemoveAt(j);
+                }
+
+                //Remove carnivores from hervibores visible area
+                for (var j = hervibores[i].GetComponent<animalAI>().visibleCarnivores.Count - 1; j > -1; j--)
+                {
+                    if (hervibores[i].GetComponent<animalAI>().visibleCarnivores[j].GetComponent<entity>().toDelete)
+                        hervibores[i].GetComponent<animalAI>().visibleCarnivores.RemoveAt(j);
+                }
+            }
+
+            //Remove objects from carnivores visible area
+            for (var i = carnivores.Count - 1; i > -1; i--)
+            {
+                //Remove food from carnivores visible area
+                for (var j = carnivores[i].GetComponent<animalAI>().visibleFood.Count - 1; j > -1; j--)
+                {
+                    if (carnivores[i].GetComponent<animalAI>().visibleFood[j].GetComponent<entity>().toDelete)
+                        carnivores[i].GetComponent<animalAI>().visibleFood.RemoveAt(j);
+                }
+
+                //Remove hervibores from carnivores visible area
+                for (var j = carnivores[i].GetComponent<animalAI>().visibleHervibores.Count - 1; j > -1; j--)
+                {
+                    if (carnivores[i].GetComponent<animalAI>().visibleHervibores[j].GetComponent<entity>().toDelete)
+                        carnivores[i].GetComponent<animalAI>().visibleHervibores.RemoveAt(j);
+                }
+
+                //Remove carnivores from carnivores visible area
+                for (var j = carnivores[i].GetComponent<animalAI>().visibleCarnivores.Count - 1; j > -1; j--)
+                {
+                    if (carnivores[i].GetComponent<animalAI>().visibleCarnivores[j].GetComponent<entity>().toDelete)
+                        carnivores[i].GetComponent<animalAI>().visibleCarnivores.RemoveAt(j);
+                }
+            }
+        }
+
+        //Objects list
+        {
+            //Remove hervibores from hervibores list
+            for (var i = hervibores.Count - 1; i >= 0; i--)
+            {
+                if (hervibores[i].GetComponent<entity>().toDelete)
+                    hervibores.RemoveAt(i);
+            }
+
+            //Remove food from food list
+            for (var i = food.Count - 1; i > -1; i--)
+            {
+                if (food[i].GetComponent<entity>().toDelete)
+                    food.RemoveAt(i);
+            }
+
+            //Remove carnivores from carnivores list
+            for (var i = hervibores.Count - 1; i >= 0; i--)
+            {
+                if (hervibores[i].GetComponent<entity>().toDelete)
+                    hervibores.RemoveAt(i);
             }
         }
     }
