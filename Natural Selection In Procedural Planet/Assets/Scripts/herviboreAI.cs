@@ -47,7 +47,7 @@ public class herviboreAI : animalAI
     {
         base.OnTriggerExit(other);
 
-        if (other.gameObject.tag == "Food")
+        if (other.gameObject.tag == "Food" && visibleFood.Count == 0)
         {
             transform.LookAt(other.gameObject.transform);
         }
