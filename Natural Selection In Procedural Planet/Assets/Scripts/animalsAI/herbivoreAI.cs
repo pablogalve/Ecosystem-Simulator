@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class herviboreAI : animalAI
+public class herbivoreAI : animalAI
 {
     protected override void Update()
     {

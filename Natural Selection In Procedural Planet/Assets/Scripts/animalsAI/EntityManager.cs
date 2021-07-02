@@ -33,7 +33,6 @@ public class EntityManager : MonoBehaviour
                 if (!carnivores.Contains(newObj))
                     carnivores.Add(newObj);
                 break;
-                break;
             default:
                 Debug.Log("AddToList: 'ListName' is not valid");
                 break;
