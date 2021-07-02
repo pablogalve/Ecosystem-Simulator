@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 4133934291495611269}
   - component: {fileID: 2909480266311964310}
   - component: {fileID: 2274872998453082306}
+  - component: {fileID: -6670237020328872098}
   m_Layer: 0
   m_Name: HerbivoreMale
   m_TagString: Animal
@@ -177,3 +178,15 @@ MonoBehaviour:
   visibleCarnivores: []
   visibleHerbivores: []
   visibleFood: []
+--- !u!114 &-6670237020328872098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4133934291495611277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf2b25f143c9444e9f12c0ecfed6122, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -77,6 +77,8 @@ public class EntityManager : MonoBehaviour
             //Remove objects from carnivores visible area
             for (var i = carnivores.Count - 1; i > -1; i--)
             {
+                if (carnivores[i].GetComponent<animalAI>() == null)
+                    Debug.Log("animalAI component in a carnivore is NULL");
                 //Remove food from carnivores visible area
                 for (var j = carnivores[i].GetComponent<animalAI>().visibleFood.Count - 1; j > -1; j--)
                 {
