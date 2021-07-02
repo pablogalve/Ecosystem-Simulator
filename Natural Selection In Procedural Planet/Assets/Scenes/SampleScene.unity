@@ -502,7 +502,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   foodPrefab: {fileID: 4244181223118124285, guid: e83d71b1c3c6c91449a11158462d1257,
     type: 3}
-  foodToSpawn: 200
+  foodToSpawn: 800
 --- !u!114 &1650469647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -557,13 +557,13 @@ MonoBehaviour:
     type: 3}
   herbivoreFemale: {fileID: 1353250228331019904, guid: cdcb3c6c7a4492243aad5f175debff03,
     type: 3}
-  herbivoresToSpawn: 50
+  herbivoresToSpawn: 500
   omnivorePrefab: {fileID: 0}
   omnivoresToSpawn: 0
   carnivoreMale: {fileID: 6874461335875942310, guid: a3f294e96bb281b4caad27f2f2831730,
     type: 3}
   carnivoreFemale: {fileID: 0}
-  carnivoresToSpawn: 10
+  carnivoresToSpawn: 100
 --- !u!1 &1894555736 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1904745022329742582, guid: fbe5935e6a9a0974497a4f5ab5fc4f7c,
