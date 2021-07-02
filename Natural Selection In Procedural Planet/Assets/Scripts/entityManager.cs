@@ -5,7 +5,7 @@ using UnityEngine;
 public class EntityManager : MonoBehaviour
 {
     public static List<GameObject> food = new List<GameObject>();
-    public static List<GameObject> hervibores = new List<GameObject>();
+    public static List<GameObject> herbivores = new List<GameObject>();
     public static List<GameObject> carnivores = new List<GameObject>();
 
     public static void CreateEntity(string entityType, GameObject newObj)
@@ -19,12 +19,12 @@ public class EntityManager : MonoBehaviour
                 if (!food.Contains(newObj))
                     food.Add(newObj);
                 break;
-            case "hervibores":
-                if (hervibores == null)
-                    hervibores = new List<GameObject>();
+            case "herbivores":
+                if (herbivores == null)
+                    herbivores = new List<GameObject>();
 
-                if (!hervibores.Contains(newObj))
-                    hervibores.Add(newObj);
+                if (!herbivores.Contains(newObj))
+                    herbivores.Add(newObj);
                 break;
             case "carnivores":
                 if (carnivores == null)
@@ -50,28 +50,28 @@ public class EntityManager : MonoBehaviour
     {
         //Remove deleted objects from visibleAreas
         {
-            //Remove all objects from hervibores visible area
-            for (var i = hervibores.Count - 1; i > -1; i--)
+            //Remove all objects from herbivores visible area
+            for (var i = herbivores.Count - 1; i > -1; i--)
             {
-                //Remove food from hervibores visible area
-                for (var j = hervibores[i].GetComponent<animalAI>().visibleFood.Count - 1; j > -1; j--)
+                //Remove food from herbivores visible area
+                for (var j = herbivores[i].GetComponent<animalAI>().visibleFood.Count - 1; j > -1; j--)
                 {
-                    if (hervibores[i].GetComponent<animalAI>().visibleFood[j].GetComponent<entity>().toDelete)
-                        hervibores[i].GetComponent<animalAI>().visibleFood.RemoveAt(j);
+                    if (herbivores[i].GetComponent<animalAI>().visibleFood[j].GetComponent<entity>().toDelete)
+                        herbivores[i].GetComponent<animalAI>().visibleFood.RemoveAt(j);
                 }
 
-                //Remove other hervibores from hervibores visible area
-                for (var j = hervibores[i].GetComponent<animalAI>().visibleHervibores.Count - 1; j > -1; j--)
+                //Remove other herbivores from herbivores visible area
+                for (var j = herbivores[i].GetComponent<animalAI>().visibleHerbivores.Count - 1; j > -1; j--)
                 {
-                    if (hervibores[i].GetComponent<animalAI>().visibleHervibores[j].GetComponent<entity>().toDelete)
-                        hervibores[i].GetComponent<animalAI>().visibleHervibores.RemoveAt(j);
+                    if (herbivores[i].GetComponent<animalAI>().visibleHerbivores[j].GetComponent<entity>().toDelete)
+                        herbivores[i].GetComponent<animalAI>().visibleHerbivores.RemoveAt(j);
                 }
 
-                //Remove carnivores from hervibores visible area
-                for (var j = hervibores[i].GetComponent<animalAI>().visibleCarnivores.Count - 1; j > -1; j--)
+                //Remove carnivores from herbivores visible area
+                for (var j = herbivores[i].GetComponent<animalAI>().visibleCarnivores.Count - 1; j > -1; j--)
                 {
-                    if (hervibores[i].GetComponent<animalAI>().visibleCarnivores[j].GetComponent<entity>().toDelete)
-                        hervibores[i].GetComponent<animalAI>().visibleCarnivores.RemoveAt(j);
+                    if (herbivores[i].GetComponent<animalAI>().visibleCarnivores[j].GetComponent<entity>().toDelete)
+                        herbivores[i].GetComponent<animalAI>().visibleCarnivores.RemoveAt(j);
                 }
             }
 
@@ -85,11 +85,11 @@ public class EntityManager : MonoBehaviour
                         carnivores[i].GetComponent<animalAI>().visibleFood.RemoveAt(j);
                 }
 
-                //Remove hervibores from carnivores visible area
-                for (var j = carnivores[i].GetComponent<animalAI>().visibleHervibores.Count - 1; j > -1; j--)
+                //Remove herbivores from carnivores visible area
+                for (var j = carnivores[i].GetComponent<animalAI>().visibleHerbivores.Count - 1; j > -1; j--)
                 {
-                    if (carnivores[i].GetComponent<animalAI>().visibleHervibores[j].GetComponent<entity>().toDelete)
-                        carnivores[i].GetComponent<animalAI>().visibleHervibores.RemoveAt(j);
+                    if (carnivores[i].GetComponent<animalAI>().visibleHerbivores[j].GetComponent<entity>().toDelete)
+                        carnivores[i].GetComponent<animalAI>().visibleHerbivores.RemoveAt(j);
                 }
 
                 //Remove carnivores from carnivores visible area
@@ -103,11 +103,11 @@ public class EntityManager : MonoBehaviour
 
         //Objects list
         {
-            //Remove hervibores from hervibores list
-            for (var i = hervibores.Count - 1; i >= 0; i--)
+            //Remove herbivores from hervbivores list
+            for (var i = herbivores.Count - 1; i >= 0; i--)
             {
-                if (hervibores[i].GetComponent<entity>().toDelete)
-                    hervibores.RemoveAt(i);
+                if (herbivores[i].GetComponent<entity>().toDelete)
+                    herbivores.RemoveAt(i);
             }
 
             //Remove food from food list
@@ -118,10 +118,10 @@ public class EntityManager : MonoBehaviour
             }
 
             //Remove carnivores from carnivores list
-            for (var i = hervibores.Count - 1; i >= 0; i--)
+            for (var i = herbivores.Count - 1; i >= 0; i--)
             {
-                if (hervibores[i].GetComponent<entity>().toDelete)
-                    hervibores.RemoveAt(i);
+                if (herbivores[i].GetComponent<entity>().toDelete)
+                    herbivores.RemoveAt(i);
             }
         }
     }

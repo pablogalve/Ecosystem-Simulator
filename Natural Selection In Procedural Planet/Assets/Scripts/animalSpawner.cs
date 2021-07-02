@@ -4,21 +4,23 @@ using UnityEngine;
 
 public class animalSpawner : MonoBehaviour
 {
-    public GameObject herviborePrefab;
-    public int herviboresToSpawn = 50;
+    public GameObject herbivoreMale;
+    public GameObject herbivoreFemale;
+    public int herbivoresToSpawn = 50;
 
     public GameObject omnivorePrefab;
     public int omnivoresToSpawn = 50;
 
-    public GameObject carnivorePrefab;
+    public GameObject carnivoreMale;
+    public GameObject carnivoreFemale;
     public int carnivoresToSpawn = 50;
 
     void Start()
     {
-        for (int i = 0; i < herviboresToSpawn; i++)
+        for (int i = 0; i < herbivoresToSpawn; i++)
         {
-            GameObject newAnimal = Instantiate(herviborePrefab, GetRandomVector3(), Quaternion.identity);
-            EntityManager.CreateEntity("hervibores", newAnimal);
+            GameObject newAnimal = Instantiate(herbivoreMale, GetRandomVector3(), Quaternion.identity);
+            EntityManager.CreateEntity("herbivores", newAnimal);
         }
 
         for (int i = 0; i < omnivoresToSpawn; i++)
@@ -29,7 +31,7 @@ public class animalSpawner : MonoBehaviour
 
         for (int i = 0; i < carnivoresToSpawn; i++)
         {
-            GameObject newAnimal = Instantiate(carnivorePrefab, GetRandomVector3(), Quaternion.identity);
+            GameObject newAnimal = Instantiate(carnivoreMale, GetRandomVector3(), Quaternion.identity);
             EntityManager.CreateEntity("carnivores", newAnimal);
         }
     }

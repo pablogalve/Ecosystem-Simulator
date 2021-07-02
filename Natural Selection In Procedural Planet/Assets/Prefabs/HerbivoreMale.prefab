@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 2909480266311964310}
   - component: {fileID: 2274872998453082306}
   m_Layer: 0
-  m_Name: Hervibore
+  m_Name: HerbivoreMale
   m_TagString: Animal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -157,7 +157,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tags:
   - Animal
-  - Hervibore
+  - Herbivore
   - Male
 --- !u!114 &2274872998453082306
 MonoBehaviour:
@@ -171,5 +171,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63d123e12dad25a43afa59ffe212cd3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  toDelete: 0
   speed: 3
   hunger: 100
+  visibleCarnivores: []
+  visibleHerbivores: []
+  visibleFood: []

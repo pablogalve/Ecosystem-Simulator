@@ -18,8 +18,8 @@ public class carnivoreAI : animalAI
     void OnCollisionEnter(Collision other)
     {
         var multiTag = other.gameObject.GetComponent<CustomTag>();
-        //Kill hervibores
-        if (multiTag != null && multiTag.HasTag("Hervibore"))
+        //Kill herbivores
+        if (multiTag != null && multiTag.HasTag("Herbivore"))
         {
             hunger += DataHolder.hungerIncrementAtEating;
             EntityManager.KillEntity(other.gameObject);

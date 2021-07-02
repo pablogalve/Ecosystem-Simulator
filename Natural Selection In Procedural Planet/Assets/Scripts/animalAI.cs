@@ -9,7 +9,7 @@ public class animalAI : entity
     public float hunger = 100.0f;
 
     public List<GameObject> visibleCarnivores = new List<GameObject>();
-    public List<GameObject> visibleHervibores = new List<GameObject>();
+    public List<GameObject> visibleHerbivores = new List<GameObject>();
     public List<GameObject> visibleFood = new List<GameObject>();
 
     protected virtual void Update()
@@ -43,8 +43,8 @@ public class animalAI : entity
             {
                 if (multiTag.HasTag("Carnivore") && !visibleCarnivores.Contains(other.gameObject))
                     visibleCarnivores.Add(other.gameObject);
-                else if (multiTag.HasTag("Hervibore") && !visibleHervibores.Contains(other.gameObject))
-                    visibleHervibores.Add(other.gameObject);
+                else if (multiTag.HasTag("Herbivore") && !visibleHerbivores.Contains(other.gameObject))
+                    visibleHerbivores.Add(other.gameObject);
             }
         }
     }
@@ -61,8 +61,8 @@ public class animalAI : entity
             {
                 if (multiTag.HasTag("Carnivore"))
                     visibleCarnivores.Remove(other.gameObject);
-                else if (multiTag.HasTag("Hervibore"))
-                    visibleHervibores.Remove(other.gameObject);
+                else if (multiTag.HasTag("Herbivore"))
+                    visibleHerbivores.Remove(other.gameObject);
             }
         }
     }
