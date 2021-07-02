@@ -4,35 +4,25 @@ using UnityEngine;
 
 public class animalSpawner : MonoBehaviour
 {
-    public GameObject herbivoreMale;
-    public GameObject herbivoreFemale;
-    public int herbivoresToSpawn = 50;
-
-    public GameObject omnivorePrefab;
-    public int omnivoresToSpawn = 50;
-
-    public GameObject carnivoreMale;
-    public GameObject carnivoreFemale;
-    public int carnivoresToSpawn = 50;
+    public GameObject[] prefabs;
+    public string[] specieName;
+    public int[] numberToSpawn;
 
     void Start()
     {
-        for (int i = 0; i < herbivoresToSpawn; i++)
+        if (prefabs.Length == numberToSpawn.Length && prefabs.Length == specieName.Length) //Check that 3 lists are of the same length
         {
-            GameObject newAnimal = Instantiate(herbivoreMale, GetRandomVector3(), Quaternion.identity);
-            EntityManager.CreateEntity("herbivores", newAnimal);
-        }
-
-        for (int i = 0; i < omnivoresToSpawn; i++)
-        {
-            GameObject newAnimal = Instantiate(omnivorePrefab, GetRandomVector3(), Quaternion.identity);
-            EntityManager.CreateEntity("omnivores", newAnimal);
-        }
-
-        for (int i = 0; i < carnivoresToSpawn; i++)
-        {
-            GameObject newAnimal = Instantiate(carnivoreMale, GetRandomVector3(), Quaternion.identity);
-            EntityManager.CreateEntity("carnivores", newAnimal);
+            for (int i = 0; i < prefabs.Length; i++)
+            {
+                if (prefabs[i] != null && specieName[i] != null && numberToSpawn[i] != null)
+                {
+                    for (int j = 0; j < numberToSpawn[i]; j++)
+                    {
+                        GameObject newAnimal = Instantiate(prefabs[i], GetRandomVector3(), Quaternion.identity);
+                        EntityManager.CreateEntity(specieName[i], newAnimal);
+                    }
+                }
+            }
         }
     }
 

@@ -19,14 +19,14 @@ public class EntityManager : MonoBehaviour
                 if (!food.Contains(newObj))
                     food.Add(newObj);
                 break;
-            case "herbivores":
+            case "herbivore":
                 if (herbivores == null)
                     herbivores = new List<GameObject>();
 
                 if (!herbivores.Contains(newObj))
                     herbivores.Add(newObj);
                 break;
-            case "carnivores":
+            case "carnivore":
                 if (carnivores == null)
                     carnivores = new List<GameObject>();
 

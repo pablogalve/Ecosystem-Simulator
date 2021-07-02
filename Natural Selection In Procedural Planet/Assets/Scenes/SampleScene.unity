@@ -553,17 +553,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04683a27664815d42ba62165546aa992, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  herbivoreMale: {fileID: 4133934291495611277, guid: e0e83b5f7eef0fe48af56d9ceaebc8c9,
-    type: 3}
-  herbivoreFemale: {fileID: 1353250228331019904, guid: cdcb3c6c7a4492243aad5f175debff03,
-    type: 3}
-  herbivoresToSpawn: 500
-  omnivorePrefab: {fileID: 0}
-  omnivoresToSpawn: 0
-  carnivoreMale: {fileID: 6874461335875942310, guid: a3f294e96bb281b4caad27f2f2831730,
-    type: 3}
-  carnivoreFemale: {fileID: 0}
-  carnivoresToSpawn: 100
+  prefabs:
+  - {fileID: 4133934291495611277, guid: e0e83b5f7eef0fe48af56d9ceaebc8c9, type: 3}
+  - {fileID: 1353250228331019904, guid: cdcb3c6c7a4492243aad5f175debff03, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 6874461335875942310, guid: a3f294e96bb281b4caad27f2f2831730, type: 3}
+  - {fileID: 6874461335875942310, guid: a3f294e96bb281b4caad27f2f2831730, type: 3}
+  specieName:
+  - herbivore
+  - herbivore
+  - omnivore
+  - omnivore
+  - carnivore
+  - carnivore
+  numberToSpawn: fa000000fa00000000000000000000003200000032000000
 --- !u!1 &1894555736 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1904745022329742582, guid: fbe5935e6a9a0974497a4f5ab5fc4f7c,
