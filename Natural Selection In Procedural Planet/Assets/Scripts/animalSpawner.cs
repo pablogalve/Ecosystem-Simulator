@@ -14,7 +14,7 @@ public class animalSpawner : MonoBehaviour
         {
             for (int i = 0; i < prefabs.Length; i++)
             {
-                if (prefabs[i] != null && specieName[i] != null && numberToSpawn[i] != null)
+                if (prefabs[i] != null && specieName[i] != null && numberToSpawn[i] != 0)
                 {
                     for (int j = 0; j < numberToSpawn[i]; j++)
                     {

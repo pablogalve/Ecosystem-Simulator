@@ -10,11 +10,6 @@ public class carnivoreAI : animalAI
         base.Update();
     }
 
-    protected override void UpdateStats()
-    {
-        base.UpdateStats();
-    }
-
     void OnCollisionEnter(Collision other)
     {
         var multiTag = other.gameObject.GetComponent<CustomTag>();

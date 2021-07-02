@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4133934291495611277
+--- !u!1 &8721876555433617489
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,52 +8,52 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4133934291495611268}
-  - component: {fileID: 4133934291495611271}
-  - component: {fileID: 4133934291495611270}
-  - component: {fileID: 4133934291495611265}
-  - component: {fileID: 4133934291495611264}
-  - component: {fileID: 4133934291495611267}
-  - component: {fileID: 4133934291495611269}
-  - component: {fileID: 2909480266311964310}
-  - component: {fileID: 2274872998453082306}
-  - component: {fileID: -6670237020328872098}
+  - component: {fileID: 8721876555433617492}
+  - component: {fileID: 8721876555433617493}
+  - component: {fileID: 8721876555433617494}
+  - component: {fileID: 8721876555433617495}
+  - component: {fileID: 8721876555433617488}
+  - component: {fileID: 8721876555433617499}
+  - component: {fileID: 1050382952738804978}
+  - component: {fileID: 8583810243993492616}
+  - component: {fileID: 5386950545105933937}
+  - component: {fileID: 1777952047547465364}
   m_Layer: 0
-  m_Name: HerbivoreMale
+  m_Name: CarnivoreFemale
   m_TagString: Animal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4133934291495611268
+--- !u!4 &8721876555433617492
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4133934291495611277}
+  m_GameObject: {fileID: 8721876555433617489}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.32, y: 50.55, z: 5.43}
+  m_LocalPosition: {x: 0.32, y: 55.2, z: 5.43}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &4133934291495611271
+--- !u!33 &8721876555433617493
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4133934291495611277}
+  m_GameObject: {fileID: 8721876555433617489}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &4133934291495611270
+--- !u!23 &8721876555433617494
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4133934291495611277}
+  m_GameObject: {fileID: 8721876555433617489}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -66,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b7b937c8f96d4434ca1c7afd04b61e31, type: 2}
+  - {fileID: 2100000, guid: faabef8ff283de849894e795ef98b8f2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -88,26 +88,26 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4133934291495611265
+--- !u!65 &8721876555433617495
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4133934291495611277}
+  m_GameObject: {fileID: 8721876555433617489}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4133934291495611264
+--- !u!114 &8721876555433617488
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4133934291495611277}
+  m_GameObject: {fileID: 8721876555433617489}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 61214afc3ccdd6448b5f35d966b07050, type: 3}
@@ -115,13 +115,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distanceToCenter: 0
   planet: {fileID: 0}
---- !u!54 &4133934291495611267
+--- !u!54 &8721876555433617499
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4133934291495611277}
+  m_GameObject: {fileID: 8721876555433617489}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -131,26 +131,13 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &4133934291495611269
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4133934291495611277}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 5
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2909480266311964310
+--- !u!114 &1050382952738804978
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4133934291495611277}
+  m_GameObject: {fileID: 8721876555433617489}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c389698b7ba3b024fbee4d93e7f4d61e, type: 3}
@@ -158,36 +145,53 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tags:
   - Animal
-  - Herbivore
-  - Male
---- !u!114 &2274872998453082306
+  - Carnivore
+  - Female
+--- !u!135 &8583810243993492616
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8721876555433617489}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 7
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5386950545105933937
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4133934291495611277}
+  m_GameObject: {fileID: 8721876555433617489}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63d123e12dad25a43afa59ffe212cd3b, type: 3}
+  m_Script: {fileID: 11500000, guid: 25ff05dad5d20234290a37f14e1f2e32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   toDelete: 0
-  speed: 3
+  speed: 5
   hunger: 100
   visibleCarnivores: []
   visibleHerbivores: []
   visibleFood: []
---- !u!114 &-6670237020328872098
+--- !u!114 &1777952047547465364
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4133934291495611277}
+  m_GameObject: {fileID: 8721876555433617489}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbf2b25f143c9444e9f12c0ecfed6122, type: 3}
+  m_Script: {fileID: 11500000, guid: 725c487fc33756e4cac216367746a266, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  specie: 1
+  specie: 3
+  isPregnant: 0
+  incubationTime: 20
+  incubationTimer: 0
+  myBabyPrefab: {fileID: 8721876555433617489}

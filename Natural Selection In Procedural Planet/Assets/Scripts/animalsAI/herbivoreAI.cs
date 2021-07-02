@@ -10,11 +10,6 @@ public class herbivoreAI : animalAI
         base.Update();
     }
 
-    protected override void UpdateStats()
-    {
-        base.UpdateStats();
-    }
-
     void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.tag == "Food")

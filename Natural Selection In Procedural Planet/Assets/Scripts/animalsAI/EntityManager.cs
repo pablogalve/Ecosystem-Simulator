@@ -40,6 +40,9 @@ public class EntityManager : MonoBehaviour
     }
     public static void KillEntity(GameObject killedObj)
     {
+        Debug.Log("Carnivores: " + carnivores.Count);
+        Debug.Log("Herbivores: " + herbivores.Count);
+
         killedObj.GetComponent<entity>().toDelete = true;
 
         var multiTag = killedObj.gameObject.GetComponent<CustomTag>();
@@ -49,11 +52,11 @@ public class EntityManager : MonoBehaviour
 
         if (multiTag != null)
         {
-            if (multiTag.HasTag("Herbivores"))
+            if (multiTag.HasTag("Herbivore"))
                 RemoveHerbivoresFromLists();
-            if (multiTag.HasTag("Omnivores"))
+            if (multiTag.HasTag("Omnivore"))
                 RemoveOmnivoresFromLists();
-            if (multiTag.HasTag("Carnivores"))
+            if (multiTag.HasTag("Carnivore"))
                 RemoveCarnivoresFromLists();
         }
 

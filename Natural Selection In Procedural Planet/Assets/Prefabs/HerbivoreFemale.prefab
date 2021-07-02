@@ -190,3 +190,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 725c487fc33756e4cac216367746a266, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  specie: 1
+  isPregnant: 0
+  incubationTime: 20
+  incubationTimer: 0
+  myBabyPrefab: {fileID: 1353250228331019904}

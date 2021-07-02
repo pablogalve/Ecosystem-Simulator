@@ -468,6 +468,28 @@ LightingSettings:
   m_PVRFilteringAtrousPositionSigmaDirect: 0.5
   m_PVRFilteringAtrousPositionSigmaIndirect: 2
   m_PVRFilteringAtrousPositionSigmaAO: 1
+--- !u!1 &1520986522 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4673199480430822504, guid: b047ce20e3fc97040a71058836917e85,
+    type: 3}
+  m_PrefabInstance: {fileID: 1356843323223531089}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1520986529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520986522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e593de5eebffd641962dd04d0859f27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: 5
+  currTimer: 0
+  foodPrefab: {fileID: 4244181223118124285, guid: e83d71b1c3c6c91449a11158462d1257,
+    type: 3}
 --- !u!1 &1650469645
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,7 +524,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   foodPrefab: {fileID: 4244181223118124285, guid: e83d71b1c3c6c91449a11158462d1257,
     type: 3}
-  foodToSpawn: 800
+  foodToSpawn: 200
 --- !u!114 &1650469647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -558,8 +580,8 @@ MonoBehaviour:
   - {fileID: 1353250228331019904, guid: cdcb3c6c7a4492243aad5f175debff03, type: 3}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 6874461335875942310, guid: a3f294e96bb281b4caad27f2f2831730, type: 3}
-  - {fileID: 6874461335875942310, guid: a3f294e96bb281b4caad27f2f2831730, type: 3}
+  - {fileID: 3226170020980811168, guid: b8f5bfcccc2de994ab332d68c63c7746, type: 3}
+  - {fileID: 8721876555433617489, guid: cb22d9f0a6ff7ad4281210cd42ca0030, type: 3}
   specieName:
   - herbivore
   - herbivore
@@ -567,7 +589,7 @@ MonoBehaviour:
   - omnivore
   - carnivore
   - carnivore
-  numberToSpawn: fa000000fa00000000000000000000003200000032000000
+  numberToSpawn: fa000000fa00000000000000000000001e0000001e000000
 --- !u!1 &1894555736 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1904745022329742582, guid: fbe5935e6a9a0974497a4f5ab5fc4f7c,
