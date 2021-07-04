@@ -28,7 +28,7 @@ public class carnivoreAI : animalAI
 
         var multiTag = other.gameObject.GetComponent<CustomTag>();
 
-        if (multiTag != null && multiTag.HasTag("Hervibore"))
+        if (multiTag != null && multiTag.HasTag("Herbivore"))
         {
             transform.LookAt(other.gameObject.transform.position);
         }

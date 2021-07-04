@@ -34,15 +34,12 @@ public class EntityManager : MonoBehaviour
                     carnivores.Add(newObj);
                 break;
             default:
-                Debug.Log("AddToList: 'ListName' is not valid");
+                Debug.Log("AddToList: 'entityType' is not valid");
                 break;
         }
     }
     public static void KillEntity(GameObject killedObj)
     {
-        Debug.Log("Carnivores: " + carnivores.Count);
-        Debug.Log("Herbivores: " + herbivores.Count);
-
         killedObj.GetComponent<entity>().toDelete = true;
 
         var multiTag = killedObj.gameObject.GetComponent<CustomTag>();
@@ -108,13 +105,6 @@ public class EntityManager : MonoBehaviour
 
     private static void RemoveHerbivoresFromLists()
     {
-        //Remove herbivores from hervbivores list
-        for (var i = herbivores.Count - 1; i >= 0; i--)
-        {
-            if (herbivores[i].GetComponent<entity>().toDelete)
-                herbivores.RemoveAt(i);
-        }
-
         for (var i = herbivores.Count - 1; i > -1; i--)
         {
             //Remove other herbivores from herbivores visible area
@@ -123,6 +113,10 @@ public class EntityManager : MonoBehaviour
                 if (herbivores[i].GetComponent<animalAI>().visibleHerbivores[j].GetComponent<entity>().toDelete)
                     herbivores[i].GetComponent<animalAI>().visibleHerbivores.RemoveAt(j);
             }
+
+            //Remove herbivores from hervbivores list
+            if (herbivores[i].GetComponent<entity>().toDelete)
+                herbivores.RemoveAt(i);
         }
 
         for (var i = carnivores.Count - 1; i > -1; i--)
@@ -143,13 +137,6 @@ public class EntityManager : MonoBehaviour
 
     private static void RemoveCarnivoresFromLists()
     {
-        //Remove carnivores from carnivores list
-        for (var i = herbivores.Count - 1; i >= 0; i--)
-        {
-            if (herbivores[i].GetComponent<entity>().toDelete)
-                herbivores.RemoveAt(i);
-        }
-
         for (var i = herbivores.Count - 1; i > -1; i--)
         {
             //Remove carnivores from herbivores visible area
@@ -168,6 +155,10 @@ public class EntityManager : MonoBehaviour
                 if (carnivores[i].GetComponent<animalAI>().visibleCarnivores[j].GetComponent<entity>().toDelete)
                     carnivores[i].GetComponent<animalAI>().visibleCarnivores.RemoveAt(j);
             }
+
+            //Remove carnivores from carnivores list
+            if (carnivores[i].GetComponent<entity>().toDelete)
+                carnivores.RemoveAt(i);
         }
     }
 }
