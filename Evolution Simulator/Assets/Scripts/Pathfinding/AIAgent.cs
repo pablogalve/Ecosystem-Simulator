@@ -13,7 +13,6 @@ public class AIAgent : MonoBehaviour
         int[] map = null;
         Pathfinding.CreateWalkabilityMap(10, 10, 10, ref map);
         Pathfinding.SetMap(10, 10, 10, ref map);
-        //Pathfinding.CreateTestGrid(10, 10, 10);
         CalculatePath();
     }
 
@@ -21,15 +20,16 @@ public class AIAgent : MonoBehaviour
     void Update()
     {
         Move();
-        //CalculatePath();
     }
 
     void CalculatePath()
     {
-        Vector3 origin = transform.position; //TODO: Those are positions
-        Vector3 destination = new Vector3(2.0f, 2.0f, 2.0f); //TODO: Those are positions
+        Vector3 origin = transform.position;
+        Vector3 destination = new Vector3(2.0f, 2.0f, 2.0f);
+        Vector3Int originIndex = Pathfinding.positionToIndices(origin);
+        Vector3Int destinationIndex = Pathfinding.positionToIndices(destination);
 
-        Pathfinding.CreatePath(origin, destination, ref last_path);
+        Pathfinding.CreatePath(origin, destination, originIndex, destinationIndex, ref last_path);
     }
 
     void Move()

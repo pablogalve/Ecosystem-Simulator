@@ -10,6 +10,7 @@ public class Node : MonoBehaviour
         position.y = y;
         position.z = z;
         indices = Pathfinding.positionToIndices(position);
+        isNull = false;
     }
     public Node(float _g, float _h, Vector3 _pos, Node _parent){
         g = _g;
@@ -17,6 +18,7 @@ public class Node : MonoBehaviour
         position = _pos;
         indices = Pathfinding.positionToIndices(position);
         parent = _parent;
+        isNull = false;
     }
     public Node(Node node) {
         g = node.g;
@@ -24,16 +26,24 @@ public class Node : MonoBehaviour
         position = node.position;
         indices = Pathfinding.positionToIndices(position);
         parent = node.parent;
+        isNull = false;
+    }
+
+    public Node(bool isNull) //Only used for PathList::Find(Node node)
+    {
+        g = -1;
+        h = -1;
+        position = new Vector3(-1, -1, -1);
+        indices = Pathfinding.positionToIndices(position);
+        parent = null;
+        isNull = true;
     }
 
     public float GetScore() { return g + h; }
-    public float CalculateF(Vector3 destination)
+    public float CalculateF(Vector3Int destination)
     {
-        if (parent.isNull == false)
-            g = parent.g + 1;
-        else 
-            g = 0;
-        h = Vector3.Distance(position, destination);
+        g = parent.g + 1;
+        h = Pathfinding.GetDistanceTo(indices, destination);
 
         return g + h;
     }
@@ -66,13 +76,13 @@ public class Node : MonoBehaviour
         int ret = adjacentNodes.list.Count;
         return ret;
     }
-
+      
     public float g; // Distance from starting node
     private float h; // Distance from end node
     public Vector3Int indices; // Indices in the pathfinding node list
     public Vector3 position;
     public Node parent; // Used to reconstruct the path in the end
-    public bool isNull = false;
+    public bool isNull;
 }
 
 public struct PathList
@@ -83,16 +93,26 @@ public struct PathList
     public Node Find(Node node) {
         for(int i = 0; i < list.Count; ++i)
         {
-            if (list[i] == node)
+            if (list[i].indices == node.indices)
                 return list[i];
         }
-        return null;
+        return new Node(true);
+    }
+
+    public bool Exists(Node node)
+    {
+        for (int i = 0; i < list.Count; ++i)
+        {
+            if (list[i].indices == node.indices)
+                return true;
+        }
+        return false;
     }
 
     // Returns the Node with lowest score in this list or null if empty
     public Node GetNodeLowestScore()
     {
-        Node ret = null;
+        Node ret = new Node(true);
         float min = float.MaxValue;
 
         for(int i = 0; i < list.Count; ++i)

@@ -36,10 +36,10 @@ public class Pathfinding
         }
     }
 
-    public static int CreatePath(Vector3 origin, Vector3 destination, ref List<Vector3Int> last_path)
+    public static int CreatePath(Vector3 origin, Vector3 destination, Vector3Int originIndex, Vector3Int destinationIndex, ref List<Vector3Int> last_path)
     {
         //Return -1 if the path origin or destination are unwalkable
-        if(!IsWalkable(positionToIndices(origin)) || !IsWalkable(positionToIndices(destination)))
+        if(!IsWalkable(originIndex) || !IsWalkable(destinationIndex))
             return -1;
 
         // Create 2 Path lists
@@ -50,36 +50,26 @@ public class Pathfinding
         closed.list = new List<Node>();
 
         // Add the origin tile to open
-        Node nodeToAdd = new Node(0, Vector3.Distance(origin, destination), origin, null);
+        Node nodeToAdd = new Node(0, GetDistanceTo(originIndex, destinationIndex), origin, null);
         open.list.Add(nodeToAdd);
 
         // Iterate while we have tile in the open list
-        Node current_node;
-
         while (open.GetNodeLowestScore().isNull == false)
         {
-            current_node = new Node(open.GetNodeLowestScore());
+            Debug.Log("Open: " + open);
+            Debug.Log("Closed: " + closed);
+            Debug.Log("Last_path: " + last_path);
+            Node current_node = new Node(open.GetNodeLowestScore());
             //Move the lowest score cell from open list to the closed list
             closed.list.Add(current_node);
             open.list.Remove(current_node);
 
-            if(positionToIndices(current_node.position) == positionToIndices(destination))
+            if(current_node.indices == destinationIndex)
             {
-                Node iterator = current_node;
-                for (iterator = current_node; iterator.position != origin; iterator = iterator.parent)
+                for (Node iterator = current_node; iterator.position != origin; iterator = iterator.parent)
                 {                       
                     last_path.Add(iterator.indices);
                 }
-
-                //last_path.Add(positionToIndices(origin));
-
-                /*Node pathNode = current_node;
-
-                while (pathNode)
-                {
-                    last_path.Add(pathNode.indices);
-                    pathNode = pathNode.parent;
-                }*/
 
                 last_path.Reverse();
 
@@ -94,31 +84,41 @@ public class Pathfinding
             for (int i = 0; i < limit; ++i)
             {
                 // ignore nodes in the closed list <======> do things only if we didnt find them
-                if (closed.Find(adjacentNodes.list[i]) == null)
+                if(closed.Exists(adjacentNodes.list[i]) == false)
                 {
                     //if adjacent node is null, we calculate the open one
-                    if ((open.Find(adjacentNodes.list[i])) == null)
+                    if(open.Exists(adjacentNodes.list[i]) == false)
                     {
-                        adjacentNodes.list[i].CalculateF(destination);
+                        adjacentNodes.list[i].CalculateF(destinationIndex);
                         open.list.Add(adjacentNodes.list[i]);
                     }
-                    else
-                    { //if we are already into open list, we check a better path
-                        if (adjacentNodes.list[i].g < open.Find(adjacentNodes.list[i]).g)
-                        {
-                            // if we find a better path, we search a new parent
-                            adjacentNodes.list[i].CalculateF(destination);
-                            open.list.Remove(open.Find(adjacentNodes.list[i]));
-                            open.list.Add(adjacentNodes.list[i]);
-                        }
+                    //if we are already into open list, we check a better path
+                    else if (adjacentNodes.list[i].g < open.Find(adjacentNodes.list[i]).g)
+                    {
+                        // if we find a better path, we search a new parent
+                        adjacentNodes.list[i].CalculateF(destinationIndex);
+                        open.list.Remove(open.Find(adjacentNodes.list[i]));
+                        open.list.Add(adjacentNodes.list[i]);                    
                     }
                 }
             }
         }
         return -1;
     }
-    public static bool IsWalkable(Vector3Int indices){ return true;  } //TODO
-    public static bool IsWalkable(Node pos) { return true; } //TODO
+    public static bool IsWalkable(Vector3Int indices){
+        if (indices.x < 0) return false;
+        if (indices.y < 0) return false;
+        if (indices.z < 0) return false;
+        return true;
+    } 
+
+    public static bool IsWalkable(Node node) {
+        // TODO: This is temporal
+        if (node.indices.x < 0) return false;
+        if (node.indices.y < 0) return false;
+        if (node.indices.z < 0) return false;
+        return true;
+    } 
 
     public static Vector3 indicesToPosition(Vector3Int indices) {
         return indices;
@@ -126,5 +126,12 @@ public class Pathfinding
 
     public static Vector3Int positionToIndices(Vector3 position) {
         return new Vector3Int((int)position.x, (int)position.y, (int)position.z);
+    }
+
+    //Return the distance in nodes
+    public static int GetDistanceTo(Vector3Int origin, Vector3Int destination)
+    {
+        int result = origin.x - destination.x + origin.y - destination.y + origin.z - destination.z;
+        return result >= 0 ? result : (-1 * result);
     }
 }
