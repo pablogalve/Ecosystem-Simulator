@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "EvolutionSimulator",
+			"Path": "C:\\Users\\Pablo Galve\\OneDrive\\Documentos\\GitHub\\Evolution-Simulator\\Unreal Engine\\EvolutionSimulator\\Source\\EvolutionSimulator.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "EvolutionSimulatorEditor",
+			"Path": "C:\\Users\\Pablo Galve\\OneDrive\\Documentos\\GitHub\\Evolution-Simulator\\Unreal Engine\\EvolutionSimulator\\Source\\EvolutionSimulatorEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}

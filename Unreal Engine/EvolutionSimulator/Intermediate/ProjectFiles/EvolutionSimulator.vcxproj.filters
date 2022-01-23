@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\EvolutionSimulator.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{1315B79E-DFE9-484D-9573-4941537ADA84}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\EvolutionSimulator.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\EvolutionSimulatorEditor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <Filter Include="Config">
+      <UniqueIdentifier>{78845D9E-43AF-42AE-88F1-E399935361D6}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Source\EvolutionSimulator">
+      <UniqueIdentifier>{69C9B78B-BCE6-4782-A09C-274F873083D2}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\EvolutionSimulator\EvolutionSimulator.Build.cs">
+      <Filter>Source\EvolutionSimulator</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\EvolutionSimulator\EvolutionSimulator.cpp">
+      <Filter>Source\EvolutionSimulator</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\EvolutionSimulator\EvolutionSimulator.h">
+      <Filter>Source\EvolutionSimulator</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\EvolutionSimulator\EvolutionSimulatorGameModeBase.cpp">
+      <Filter>Source\EvolutionSimulator</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\EvolutionSimulator\EvolutionSimulatorGameModeBase.h">
+      <Filter>Source\EvolutionSimulator</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

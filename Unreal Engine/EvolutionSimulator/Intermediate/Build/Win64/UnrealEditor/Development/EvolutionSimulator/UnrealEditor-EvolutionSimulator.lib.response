@@ -1,0 +1,16 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UnrealEditor-EvolutionSimulator.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"C:\Users\Pablo Galve\OneDrive\Documentos\GitHub\Evolution-Simulator\Unreal Engine\EvolutionSimulator\Intermediate\Build\Win64\EvolutionSimulatorEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.obj"
+"C:\Users\Pablo Galve\OneDrive\Documentos\GitHub\Evolution-Simulator\Unreal Engine\EvolutionSimulator\Intermediate\Build\Win64\UnrealEditor\Development\EvolutionSimulator\EvolutionSimulator.cpp.obj"
+"C:\Users\Pablo Galve\OneDrive\Documentos\GitHub\Evolution-Simulator\Unreal Engine\EvolutionSimulator\Intermediate\Build\Win64\UnrealEditor\Development\EvolutionSimulator\EvolutionSimulatorGameModeBase.cpp.obj"
+"C:\Users\Pablo Galve\OneDrive\Documentos\GitHub\Evolution-Simulator\Unreal Engine\EvolutionSimulator\Intermediate\Build\Win64\UnrealEditor\Development\EvolutionSimulator\EvolutionSimulator.init.gen.cpp.obj"
+"C:\Users\Pablo Galve\OneDrive\Documentos\GitHub\Evolution-Simulator\Unreal Engine\EvolutionSimulator\Intermediate\Build\Win64\UnrealEditor\Development\EvolutionSimulator\EvolutionSimulatorGameModeBase.gen.cpp.obj"
+"C:\Users\Pablo Galve\OneDrive\Documentos\GitHub\Evolution-Simulator\Unreal Engine\EvolutionSimulator\Intermediate\Build\Win64\UnrealEditor\Development\EvolutionSimulator\Default.rc2.res"
+/OUT:"C:\Users\Pablo Galve\OneDrive\Documentos\GitHub\Evolution-Simulator\Unreal Engine\EvolutionSimulator\Intermediate\Build\Win64\UnrealEditor\Development\EvolutionSimulator\UnrealEditor-EvolutionSimulator.lib"
+/INCLUDE:IMPLEMENT_MODULE_EvolutionSimulator

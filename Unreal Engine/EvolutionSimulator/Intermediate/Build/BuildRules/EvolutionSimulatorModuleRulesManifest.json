@@ -1,0 +1,8 @@
+{
+	"SourceFiles": [
+		"C:\\Users\\Pablo Galve\\OneDrive\\Documentos\\GitHub\\Evolution-Simulator\\Unreal Engine\\EvolutionSimulator\\Source\\EvolutionSimulator\\EvolutionSimulator.Build.cs",
+		"C:\\Users\\Pablo Galve\\OneDrive\\Documentos\\GitHub\\Evolution-Simulator\\Unreal Engine\\EvolutionSimulator\\Source\\EvolutionSimulator.Target.cs",
+		"C:\\Users\\Pablo Galve\\OneDrive\\Documentos\\GitHub\\Evolution-Simulator\\Unreal Engine\\EvolutionSimulator\\Source\\EvolutionSimulatorEditor.Target.cs"
+	],
+	"EngineVersion": "5.0.0"
+}
