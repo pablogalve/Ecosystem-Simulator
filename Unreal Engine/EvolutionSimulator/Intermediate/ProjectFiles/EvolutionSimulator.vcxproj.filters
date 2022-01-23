@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\EvolutionSimulator.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{0593AD82-0238-4C75-86B2-01D62C62E48B}</UniqueIdentifier>
+      <UniqueIdentifier>{04961EB7-6614-4653-9300-411461001C0A}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\EvolutionSimulator.Target.cs">
       <Filter>Source</Filter>
@@ -12,7 +12,7 @@
       <Filter>Source</Filter>
     </None>
     <Filter Include="Config">
-      <UniqueIdentifier>{A715852B-4726-421E-BF2D-7B30376C8F95}</UniqueIdentifier>
+      <UniqueIdentifier>{97557C41-1E37-4641-BA60-768E38E5695D}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -24,7 +24,7 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\EvolutionSimulator">
-      <UniqueIdentifier>{93677FA5-91E7-40D5-A658-364BDAECCCA9}</UniqueIdentifier>
+      <UniqueIdentifier>{A912E375-241E-476E-A892-BB48E2969942}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\EvolutionSimulator\EvolutionSimulator.Build.cs">
       <Filter>Source\EvolutionSimulator</Filter>
