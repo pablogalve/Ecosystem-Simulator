@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\EcosystemSimulator.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{E7740446-A41F-41B0-960D-1FC981F3E21A}</UniqueIdentifier>
+      <UniqueIdentifier>{CDC3500A-A8D5-4E98-BDB9-08B1893DB091}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\EcosystemSimulator.Target.cs">
       <Filter>Source</Filter>
@@ -12,7 +12,7 @@
       <Filter>Source</Filter>
     </None>
     <Filter Include="Config">
-      <UniqueIdentifier>{B82A9351-A7E2-4ABE-9ACB-BC125831801D}</UniqueIdentifier>
+      <UniqueIdentifier>{A533E621-EEBF-4FF2-8F3C-BBA1A79B827D}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -24,7 +24,7 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\EcosystemSimulator">
-      <UniqueIdentifier>{97D4113B-910F-4611-86FB-FCA6F775902C}</UniqueIdentifier>
+      <UniqueIdentifier>{D6C86AF0-959A-4409-8BEE-6623AEAAABC0}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\EcosystemSimulator\EcosystemSimulator.Build.cs">
       <Filter>Source\EcosystemSimulator</Filter>
