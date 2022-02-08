@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "EcosystemSimulator",
+			"Path": "C:\\Users\\Pablo Galve\\Documents\\GitHub\\Natural-Selection-In-Procedural-Planet\\EcosystemSimulator\\Source\\EcosystemSimulator.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "EcosystemSimulatorEditor",
+			"Path": "C:\\Users\\Pablo Galve\\Documents\\GitHub\\Natural-Selection-In-Procedural-Planet\\EcosystemSimulator\\Source\\EcosystemSimulatorEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}

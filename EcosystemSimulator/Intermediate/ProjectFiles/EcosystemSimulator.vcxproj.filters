@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\EcosystemSimulator.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{E7740446-A41F-41B0-960D-1FC981F3E21A}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\EcosystemSimulator.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\EcosystemSimulatorEditor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <Filter Include="Config">
+      <UniqueIdentifier>{B82A9351-A7E2-4ABE-9ACB-BC125831801D}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Source\EcosystemSimulator">
+      <UniqueIdentifier>{97D4113B-910F-4611-86FB-FCA6F775902C}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\EcosystemSimulator\EcosystemSimulator.Build.cs">
+      <Filter>Source\EcosystemSimulator</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\EcosystemSimulator\EcosystemSimulator.cpp">
+      <Filter>Source\EcosystemSimulator</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\EcosystemSimulator\EcosystemSimulator.h">
+      <Filter>Source\EcosystemSimulator</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\EcosystemSimulator\EcosystemSimulatorGameModeBase.cpp">
+      <Filter>Source\EcosystemSimulator</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\EcosystemSimulator\EcosystemSimulatorGameModeBase.h">
+      <Filter>Source\EcosystemSimulator</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
