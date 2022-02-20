@@ -78,15 +78,14 @@ public class Tree : MonoBehaviour
         if(reproductionTimer <= 0)
         {
             reproductionTimer = reproductionFreq;
-            {
-                // Generate a spawn position
-                Vector3 spawnPos = gameObject.transform.position;
-                spawnPos.x += GetRandomVariation(-20.0f, +20.0f);
-                spawnPos.y += // get height
-                spawnPos.z += GetRandomVariation(-20.0f, +20.0f);
-            }
             
-            Instantiate(gameObject, spawnPos, Quaternion.identity);            
+            // Generate a spawn position
+            Vector3 spawnPos = gameObject.transform.position;
+            spawnPos.x += GetRandomVariation(-20.0f, +20.0f);            
+            spawnPos.z += GetRandomVariation(-20.0f, +20.0f);
+            spawnPos = HeighmapData.GetTerrainHeight(spawnPos.x, spawnPos.z);
+
+            Instantiate(gameObject, spawnPos, Quaternion.identity);
         }
     }
 
