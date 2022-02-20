@@ -81,12 +81,20 @@ public class Tree : MonoBehaviour
             
             // Generate a spawn position
             Vector3 spawnPos = gameObject.transform.position;
-            spawnPos.x += GetRandomVariation(-20.0f, +20.0f);            
-            spawnPos.z += GetRandomVariation(-20.0f, +20.0f);
+            spawnPos.x += GetRandomVariation(-200.0f, +200.0f);            
+            spawnPos.z += GetRandomVariation(-200.0f, +200.0f);
             spawnPos = HeighmapData.GetTerrainHeight(spawnPos.x, spawnPos.z);
 
-            Instantiate(gameObject, spawnPos, Quaternion.identity);
+            if(isValidSpawnPoint(spawnPos)) Instantiate(gameObject, spawnPos, Quaternion.identity);
         }
+    }
+
+    private bool isValidSpawnPoint(Vector3 position)
+    {
+        if (position == null) return false;
+        if (position.y < 20.0f || position.y > 115.0f) return false; // Out of grass bioma // TODO: Numbers shouldn't be hardcoded
+
+        return true;
     }
 
     private void Die()
