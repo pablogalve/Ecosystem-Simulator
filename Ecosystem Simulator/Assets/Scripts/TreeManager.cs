@@ -10,7 +10,9 @@ public class TreeManager : MonoBehaviour
     public int maxTrees = 3000;
 
     // AGE
-    public float maxAge = 20.0f;
+    public byte maxAge = 10; // Max age (in seconds) is the result of: growthFreq * maxAge
+    public float growthFreq = 10.0f;
+    private float growthTimer;
 
     // FOOD
     public GameObject foodPrefab;
@@ -37,22 +39,14 @@ public class TreeManager : MonoBehaviour
 
         FoodGeneration();
 
-        Grow();
+        GrowOrDie();
 
         Reproduce();
-
-        Death();
     }
 
     private void Timers()
-    {
-        for(int i = 0; i < trees.Count; i++)
-        {
-            Tree tree = trees[i].GetComponent<Tree>();
-            if (tree != null) tree.age += Time.deltaTime;
-            else Debug.LogError("tree " + i + " is null on TreeManager.cs. Couldn't update age");
-        }
-        
+    {        
+        growthTimer -= Time.deltaTime;
         foodGenerationTimer -= Time.deltaTime;
         reproductionTimer -= Time.deltaTime;
     }
@@ -62,9 +56,38 @@ public class TreeManager : MonoBehaviour
 
     }
 
-    private void Grow()
+    private void GrowOrDie()
     {
+        if(growthTimer <= 0f)
+        {
+            growthTimer = growthFreq;
 
+            for (int i = 0; i < trees.Count; i++)
+            {
+                // Try to get tree script, or fail with error log
+                Tree tree = trees[i].GetComponent<Tree>();
+                if (tree == null)
+                {
+                    Debug.LogError("tree " + i + " is null on TreeManager.cs. Couldn't update age");
+                    continue;
+                }
+
+                // Update the age, or kill it if it's too old
+                if (tree.age + 1 > maxAge) {
+                    // Kill tree
+                    trees.RemoveAt(i);
+                    Destroy(tree.gameObject);
+
+                    // Keep track of alive trees
+                    amountOfTrees--;
+                }
+                else tree.age++;
+
+                // Scale the tree in the world according to its age
+                float agePercentage = (float)(tree.age) / (float)(maxAge);
+                trees[i].transform.localScale = Vector3.one * agePercentage;
+            }
+        }        
     }
 
     private void Reproduce()
@@ -80,29 +103,6 @@ public class TreeManager : MonoBehaviour
         }
     }
 
-    private void Death()
-    {
-        for (int i = 0; i < trees.Count; i++)
-        {
-            Tree tree = trees[i].GetComponent<Tree>();
-            if (tree == null) {
-                Debug.LogError("tree " + i + " is null on TreeManager.cs. Couldn't update age");
-                continue;
-            }
-            
-            if(tree.age >= maxAge)
-            {
-                trees.RemoveAt(i);
-                Destroy(tree.gameObject);
-
-                // Keep track of alive trees
-                amountOfTrees--;
-            }
-        }            
-
-        Debug.Log("Amount of trees: " + amountOfTrees);        
-    }
-
     private float GetRandomVariation(float min, float max)
     {
         return Random.Range(min, max);
@@ -111,7 +111,10 @@ public class TreeManager : MonoBehaviour
     private bool isValidSpawnPoint(Vector3 position)
     {
         if (position == null) return false;
-        if (position.y < 20.0f || position.y > 115.0f) return false; // Out of grass bioma // TODO: Numbers shouldn't be hardcoded
+
+        // TODO: Numbers shouldn't be hardcoded
+        if (position.y < 25.0f) return false; // Position too low, out of grass bioma 
+        if (position.y > 115.0f) return false; // Position too high, out of grass bioma 
 
         return true;
     }

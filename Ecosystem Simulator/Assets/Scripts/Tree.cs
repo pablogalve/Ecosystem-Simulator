@@ -5,11 +5,12 @@ using UnityEngine;
 public class Tree : MonoBehaviour
 {
     // AGE
-    public float age;
+    public byte age; // 0 - 255
 
     // Start is called before the first frame update
     void Start()
     {
-        age = 0.0f;
+        age = 0;
+        transform.localScale = Vector3.zero; // Trees initial scale is 0f until they start growing
     }
 }

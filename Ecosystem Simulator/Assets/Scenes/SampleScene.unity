@@ -283,7 +283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c6a6df342b52d24092cf6bbb590c535, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveHeight: 1.5
+  waveHeight: 2
   waveFrequency: 0.2
   waveLength: 0.5
   waveOriginPosition: {x: 0, y: 0, z: 0}
@@ -595,7 +595,8 @@ MonoBehaviour:
   trees: []
   amountOfTrees: 0
   maxTrees: 3000
-  maxAge: 30
+  maxAge: 10
+  growthFreq: 10
   foodPrefab: {fileID: 0}
   foodGenerationFreq: 30
   reproductionFreq: 5

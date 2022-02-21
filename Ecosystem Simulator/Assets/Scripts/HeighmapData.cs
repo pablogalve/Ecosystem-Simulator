@@ -10,7 +10,7 @@ public class HeighmapData : MonoBehaviour
         RaycastHit hit;
 
         //Create origin for raycast that is above the terrain. I chose 100.
-        Vector3 origin = new Vector3(x, 100, z);
+        Vector3 origin = new Vector3(x, 500, z);
 
         //Send the raycast.
         Physics.Raycast(origin, Vector3.down, out hit, Mathf.Infinity);
