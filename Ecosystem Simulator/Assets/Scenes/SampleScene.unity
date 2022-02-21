@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &63101084
 AudioListener:
   m_ObjectHideFlags: 0
@@ -555,13 +555,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: -0, y: 0.2986481, z: -0, w: 0.95436335}
-  m_LocalPosition: {x: -316, y: 134, z: -637}
+  m_LocalRotation: {x: 0.1941408, y: 0.29240358, z: -0.060752332, w: 0.9344082}
+  m_LocalPosition: {x: -248, y: 442, z: -538}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 34.753, z: 0}
+  m_LocalEulerAnglesHint: {x: 23.475, y: 34.753, z: 0}
 --- !u!1 &1232884832
 GameObject:
   m_ObjectHideFlags: 0
@@ -594,7 +594,7 @@ MonoBehaviour:
   treePrefab: {fileID: 1806213140507979633, guid: aaf4cec9501e3fd48a3f8d78d616c663, type: 3}
   trees: []
   amountOfTrees: 0
-  maxTrees: 3000
+  maxTrees: 6000
   maxAge: 10
   growthFreq: 10
   foodPrefab: {fileID: 0}
