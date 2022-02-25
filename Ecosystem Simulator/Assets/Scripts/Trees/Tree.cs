@@ -7,7 +7,6 @@ public class Tree : MonoBehaviour
     // AGE
     public byte age; // 0 - 255
 
-    // Start is called before the first frame update
     void Start()
     {
         age = 0;
