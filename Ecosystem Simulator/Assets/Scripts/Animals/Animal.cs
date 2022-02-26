@@ -6,8 +6,9 @@ using UnityEngine.AI;
 public class Animal : MonoBehaviour
 {
     // FOOD and HUNGER
-    public float hunger = 50;
+    public float hunger = 180f;
     FoodManager foodManager;
+    public float minDistanceToEat = 1f;
 
     NavMeshAgent myNavMeshAgent;    
 
@@ -42,6 +43,18 @@ public class Animal : MonoBehaviour
         }
     }
 
+    void Eat(GameObject food)
+    {
+        if(food == null)
+        {
+            Debug.LogWarning("food is null on Animal.cs. Eat(GameObject food)");
+            return;
+        }
+
+        hunger += 30f;
+        foodManager.KillFood(food);
+    }
+
     Transform FindClosestFood()
     {
         // Create local list because it is not guaranteed that "foodManager.foodList" will not change while it is being iterated
@@ -52,7 +65,18 @@ public class Animal : MonoBehaviour
 
         for(int i = 0; i < foodList.Count; i++)
         {
+            // Food died before we could arrive
+            if (foodList[i] == null) continue;
+
             float distance = Vector3.Distance(foodList[i].transform.position, gameObject.transform.position);
+
+            // If food is found at an eatable distance, then animal stops looking for other food
+            if(distance <= minDistanceToEat)
+            {
+                Eat(foodList[i]);
+                break;
+            }
+
             if (distance < smallestDistance)
             {
                 indexOfClosestFood = i;

@@ -711,6 +711,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3964415652145999578, guid: 4716040c324cb3243bec8ee9b1aebfd1, type: 3}
+      propertyPath: minDistanceToEat
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1291810309633072332, guid: 4716040c324cb3243bec8ee9b1aebfd1, type: 3}
       propertyPath: m_Name
       value: Animal

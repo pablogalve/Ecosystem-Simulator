@@ -179,8 +179,7 @@ public class TreeManager : MonoBehaviour
         }
         else if(type == Types.FOOD)
         {
-            GameObject newFood = Instantiate(prefab, spawnPos, Quaternion.identity);
-            foodManager.foodList.Add(newFood);
+            foodManager.SpawnFood(prefab, spawnPos);
         }       
     }
 }
