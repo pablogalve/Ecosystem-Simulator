@@ -32,14 +32,15 @@ public class TreeManager : MonoBehaviour
 
     void Start()
     {
-        {
-            // Create initial tree
-            // Generate a spawn position
-            TryToSpawn(Types.TREE, treePrefab, 0f, 0f, 0.0f);            
-        }
+        SetInitialTreeScene();
 
         foodManager = GetComponent<FoodManager>();
         if (foodManager == null) Debug.LogError("FoodManager script couldn't be found on TreeManager.cs");
+    }
+
+    void SetInitialTreeScene()
+    {
+        TryToSpawn(Types.TREE, treePrefab, 0f, 0f, 0.0f);
     }
 
     // Update is called once per frame
