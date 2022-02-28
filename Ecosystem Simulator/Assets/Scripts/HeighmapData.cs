@@ -17,4 +17,20 @@ public class HeighmapData : MonoBehaviour
 
         return hit.point;
     }
+
+    public static bool isValidSpawnPoint(Vector3 position)
+    {
+        if (position == null) return false;
+
+        // TODO: Numbers shouldn't be hardcoded
+        if (position.y < 25.0f) return false; // Position too low, out of grass bioma 
+        if (position.y > 115.0f) return false; // Position too high, out of grass bioma 
+
+        return true;
+    }
+
+    public static float GetRandomVariation(float min, float max)
+    {
+        return Random.Range(min, max);
+    }
 }

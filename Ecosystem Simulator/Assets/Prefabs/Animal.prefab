@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2381100159656603023}
   - component: {fileID: -197795183172024547}
   - component: {fileID: -3964415652145999578}
+  - component: {fileID: -5274298205901416852}
   m_Layer: 0
   m_Name: Animal
   m_TagString: Untagged
@@ -131,3 +132,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b21153ecf5ebc1469684ab62be22e06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  age: 0
+  hunger: 180
+  minDistanceToEat: 1
+--- !u!114 &-5274298205901416852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291810309633072332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea7bbffda08c7de4f92bcdb979efa191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  age: 0
+  maxAge: 10
+  reproductionAge: 0.5
+  growsInSize: 1
+  prefab: {fileID: 1291810309633072332}

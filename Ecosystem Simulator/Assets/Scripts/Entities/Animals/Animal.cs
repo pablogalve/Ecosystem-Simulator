@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Animal : MonoBehaviour
+public class Animal : Entity
 {
     // FOOD and HUNGER
     public float hunger = 180f;
