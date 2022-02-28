@@ -6,8 +6,8 @@ using UnityEngine.AI;
 public class Animal : Entity
 {
     // FOOD and HUNGER
+    EntityManager entityManager = null;
     public float hunger = 180f;
-    FoodManager foodManager;
     public float minDistanceToEat = 1f;
 
     NavMeshAgent myNavMeshAgent;    
@@ -17,7 +17,7 @@ public class Animal : Entity
     {
         myNavMeshAgent = GetComponent<NavMeshAgent>();
         GameObject gameManager = GameObject.FindGameObjectWithTag("GameManager");
-        foodManager = gameManager.GetComponent<FoodManager>();
+        entityManager = gameManager.GetComponent<EntityManager>();
     }
 
     // Update is called once per frame
@@ -47,18 +47,26 @@ public class Animal : Entity
     {
         if(food == null)
         {
-            Debug.LogWarning("food is null on Animal.cs. Eat(GameObject food)");
+            Debug.LogWarning("food is null on Animal.cs. Eat()");
             return;
         }
 
-        hunger += 30f;
-        foodManager.KillFood(food);
+        Entity entityScript = food.GetComponent<Entity>();
+        if (entityScript == null)
+        {
+            Debug.LogWarning("entityScript is null on Animal.cs. Eat()");
+            return;
+        }
+
+        if (entityManager.TryToKill(EntityManager.EntityType.FOOD, entityScript.GetUUID())) {
+            hunger += 30f;
+        }
     }
 
     Transform FindClosestFood()
     {
         // Create local list because it is not guaranteed that "foodManager.foodList" will not change while it is being iterated
-        List<GameObject> foodList = foodManager.foodList;
+        List<GameObject> foodList = entityManager.entities[(int)EntityManager.EntityType.FOOD];
 
         int indexOfClosestFood = -1;
         float smallestDistance = float.MaxValue;

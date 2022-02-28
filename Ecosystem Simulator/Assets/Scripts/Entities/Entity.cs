@@ -4,13 +4,10 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
-    // AGE
-    public byte age; // 0 - 255
     private string uuid;
 
     void Start()
     {
-        age = 0;
         SetUUID();
     }
 

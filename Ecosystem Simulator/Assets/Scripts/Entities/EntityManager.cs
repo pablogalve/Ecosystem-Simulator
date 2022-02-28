@@ -22,7 +22,7 @@ public class EntityManager : MonoBehaviour
         for(int i = 0; i < 3; ++i)
         {
             entities.Add(new List<GameObject>());
-        }        
+        }
 
         SetInitialScene();
 
@@ -71,7 +71,7 @@ public class EntityManager : MonoBehaviour
         }
     }
 
-    protected bool TryToKill(EntityType type, string UUIDtoKill)
+    public bool TryToKill(EntityType type, string UUIDtoKill)
     {
         // Looks for the UUIDtoKill in the entities list specified as argument
         // Returns true if it was successfully killed, and false otherwise
@@ -110,8 +110,8 @@ public class EntityManager : MonoBehaviour
 
                         if (entityScript.GetUUID() == UUIDtoKill)
                         {
-                            Destroy(entities[(int)EntityType.TREE][i]);
-                            entities[(int)EntityType.TREE].RemoveAt(i);
+                            Destroy(entities[(int)EntityType.FOOD][i]);
+                            entities[(int)EntityType.FOOD].RemoveAt(i);
                             return true;
                         }
                     }
@@ -131,7 +131,7 @@ public class EntityManager : MonoBehaviour
                         if (entityScript.GetUUID() == UUIDtoKill)
                         {
                             Destroy(entities[(int)EntityType.ANIMAL][i]);
-                            entities[(int)EntityType.TREE].RemoveAt(i);
+                            entities[(int)EntityType.ANIMAL].RemoveAt(i);
                             return true;
                         }
                     }
@@ -227,7 +227,7 @@ public class EntityManager : MonoBehaviour
             else return true;
         }
 
-        if (type == EntityType.TREE && currentAmount < maxTrees)
+        if (type == EntityType.TREE)
         {
             if (currentAmount < maxTrees) return false;
             else return true;
