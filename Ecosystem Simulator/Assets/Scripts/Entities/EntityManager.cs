@@ -12,16 +12,25 @@ public class EntityManager : MonoBehaviour
     }
 
     public List<List<GameObject>> entities = new List<List<GameObject>>(); // This list contains one list for every type of entity
+    public List<List<string>> entitiesToDelete = new List<List<string>>();  // List of UUIDs of GO that have to be removed at the end of the frame
     public int maxTrees = 2000;
     public int maxFood = 5000;
     public int maxAnimals = 100;
 
+    // Acess to other scripts
+    AnimalManager animalManager = null;
+    TreeManager treeManager = null;
+
     void Start()
     {
+        animalManager = GetComponent<AnimalManager>();
+        treeManager = GetComponent<TreeManager>();
+
         // Initialize list. The size of the loop is equivalent to the amount of different EntityTypes
-        for(int i = 0; i < 3; ++i)
+        for (int i = 0; i < 3; ++i)
         {
             entities.Add(new List<GameObject>());
+            entitiesToDelete.Add(new List<string>());
         }
 
         SetInitialScene();
@@ -30,13 +39,85 @@ public class EntityManager : MonoBehaviour
         StartCoroutine(Reproduce());
     }
 
+    // LateUpdate is called after all Update functions have been called. It should be used to delete gameObjects
+    private void LateUpdate()
+    {
+        DeleteEntities();
+    }
+
+    private void DeleteEntities()
+    {
+        // Delete all gameObjects waiting to be removed at the end of the frame
+
+        #region Delete Trees
+        for (int i = 0; i < entitiesToDelete[(int)EntityType.TREE].Count; ++i)
+        {
+            // Check for the UUIDs in the actual entities list
+            for (int j = entities[(int)EntityType.TREE].Count - 1; j >= 0; --j)
+            {
+                // When there's a match, entity is removed
+                Entity entityScript = entities[(int)EntityType.TREE][j].GetComponent<Entity>();
+                if (entitiesToDelete[(int)EntityType.TREE][i] == entityScript.GetUUID())
+                {
+                    Destroy(entities[(int)EntityType.TREE][j]);
+                    entities[(int)EntityType.TREE].RemoveAt(j);
+                    continue;
+                }
+            }
+        }
+        #endregion
+
+        #region Delete Animals
+        for (int i = 0; i < entitiesToDelete[(int)EntityType.ANIMAL].Count; ++i)
+        {
+            // Check for the UUIDs in the actual entities list
+            for (int j = entities[(int)EntityType.ANIMAL].Count - 1; j >= 0; j--)
+            {
+                // When there's a match, entity is removed
+                Entity entityScript = entities[(int)EntityType.ANIMAL][j].GetComponent<Entity>();
+                if (entitiesToDelete[(int)EntityType.ANIMAL][i] == entityScript.GetUUID())
+                {
+                    Destroy(entities[(int)EntityType.ANIMAL][j]);
+                    entities[(int)EntityType.ANIMAL].RemoveAt(j);
+                    continue;
+                }
+            }
+        }
+        #endregion
+
+        #region Delete Food
+        for (int i = 0; i < entitiesToDelete[(int)EntityType.FOOD].Count; ++i)
+        {
+            // Check for the UUIDs in the actual entities list
+            for (int j = entities[(int)EntityType.FOOD].Count - 1; j >= 0; j--)
+            {
+                // When there's a match, entity is removed
+                Entity entityScript = entities[(int)EntityType.FOOD][j].GetComponent<Entity>();
+                if (entitiesToDelete[(int)EntityType.FOOD][i] == entityScript.GetUUID())
+                {
+                    Destroy(entities[(int)EntityType.FOOD][j]);
+                    entities[(int)EntityType.FOOD].RemoveAt(j);
+                    continue;
+                }
+            }
+        }
+        #endregion
+    }
+
     private void SetInitialScene()
     {
-        TreeManager treeManager = GetComponent<TreeManager>();
         TryToSpawn(EntityType.TREE, treeManager.treePrefab, 0f, 0f, 0.0f);
+        TryToSpawn(EntityType.TREE, treeManager.treePrefab, 100f, 100f, 0.0f);
+        TryToSpawn(EntityType.TREE, treeManager.treePrefab, 200f, 200f, 0.0f);
 
         AnimalManager animalManager = GetComponent<AnimalManager>();
-        TryToSpawn(EntityType.ANIMAL, animalManager.prefab, 50f, 50f, 0.0f);
+        TryToSpawn(EntityType.ANIMAL, animalManager.animalPrefab, 50f, 50f, 0.0f);
+        TryToSpawn(EntityType.ANIMAL, animalManager.animalPrefab, 300f, 300f, 0.0f);
+        TryToSpawn(EntityType.ANIMAL, animalManager.animalPrefab, 200f, 300f, 0.0f);
+        TryToSpawn(EntityType.ANIMAL, animalManager.animalPrefab, 400f, 300f, 0.0f);
+        TryToSpawn(EntityType.ANIMAL, animalManager.animalPrefab, 50f, 300f, 0.0f);
+        TryToSpawn(EntityType.ANIMAL, animalManager.animalPrefab, 300f, 250f, 0.0f);
+        TryToSpawn(EntityType.ANIMAL, animalManager.animalPrefab, 30f, 30f, 0.0f);
     }
 
     public void TryToSpawn(EntityType type, GameObject prefab, float x, float z, float randomVariation)
@@ -49,7 +130,7 @@ public class EntityManager : MonoBehaviour
         spawnPos.z += HeighmapData.GetRandomVariation(-randomVariation, randomVariation);
         spawnPos = HeighmapData.GetTerrainHeight(spawnPos.x, spawnPos.z);
 
-        if (!HeighmapData.isValidSpawnPoint(spawnPos)) return;
+        if (!HeighmapData.isValidSpawnPoint(type, spawnPos)) return;
 
         // Prefab and position are valid, so it can be instantiated
         GameObject gameObject = Instantiate(prefab, spawnPos, Quaternion.identity);
@@ -71,82 +152,12 @@ public class EntityManager : MonoBehaviour
         }
     }
 
-    public bool TryToKill(EntityType type, string UUIDtoKill)
+    public void TryToKill(EntityType type, string UUIDtoKill)
     {
-        // Looks for the UUIDtoKill in the entities list specified as argument
-        // Returns true if it was successfully killed, and false otherwise
-        switch (type)
-        {
-            case EntityType.TREE:
-                {
-                    for (int i = 0; i < entities[(int)EntityType.TREE].Count; i++)
-                    {
-                        Entity entityScript = entities[(int)EntityType.TREE][i].GetComponent<Entity>();
-                        if (entityScript == null)
-                        {
-                            Debug.LogError("entityScript was null on EntityManager.cs on TryToKill()");
-                            return false;
-                        }
-
-                        if (entityScript.GetUUID() == UUIDtoKill)
-                        {
-                            Destroy(entities[(int)EntityType.TREE][i]);
-                            entities[(int)EntityType.TREE].RemoveAt(i);
-                            return true;
-                        }
-                    }
-                }
-                break;
-            case EntityType.FOOD:
-                {
-                    for (int i = 0; i < entities[(int)EntityType.FOOD].Count; i++)
-                    {
-                        Entity entityScript = entities[(int)EntityType.FOOD][i].GetComponent<Entity>();
-                        if (entityScript == null)
-                        {
-                            Debug.LogError("entityScript was null on EntityManager.cs on TryToKill()");
-                            return false;
-                        }
-
-                        if (entityScript.GetUUID() == UUIDtoKill)
-                        {
-                            Destroy(entities[(int)EntityType.FOOD][i]);
-                            entities[(int)EntityType.FOOD].RemoveAt(i);
-                            return true;
-                        }
-                    }
-                }
-                break;
-            case EntityType.ANIMAL:
-                {
-                    for (int i = 0; i < entities[(int)EntityType.ANIMAL].Count; i++)
-                    {
-                        Entity entityScript = entities[(int)EntityType.ANIMAL][i].GetComponent<Entity>();
-                        if (entityScript == null)
-                        {
-                            Debug.LogError("entityScript was null on EntityManager.cs on TryToKill()");
-                            return false;
-                        }
-
-                        if (entityScript.GetUUID() == UUIDtoKill)
-                        {
-                            Destroy(entities[(int)EntityType.ANIMAL][i]);
-                            entities[(int)EntityType.ANIMAL].RemoveAt(i);
-                            return true;
-                        }
-                    }
-                }
-                break;
-            default:
-                Debug.LogError("Entered default on TryToSpawn on EntityManager.cs");
-                break;
-        }
-
-        // Couldn't kill it
-        return false;
+        entitiesToDelete[(int)type].Add(UUIDtoKill);
     }
 
-    protected IEnumerator Reproduce() {
+    private IEnumerator Reproduce() {
         // Iterate different types of entities
         for (int i = 0; i < entities.Count; i++)
         {
@@ -167,19 +178,27 @@ public class EntityManager : MonoBehaviour
 
                 if (ageController.canReproduce())
                 {
-                    // Short variation by default, except for trees
-                    float randomVariation = 2f;
-                    if (i == (int)EntityType.TREE) randomVariation = 50f;
-
-                    TryToSpawn((EntityType)i, ageController.prefab, entities[i][j].transform.position.x, entities[i][j].transform.position.z, randomVariation);
+                    if (i == (int)EntityType.TREE)
+                    {
+                        TryToSpawn((EntityType)i, treeManager.treePrefab, entities[i][j].transform.position.x, entities[i][j].transform.position.z, 50f);
+                    }
+                    else if (i == (int)EntityType.ANIMAL)
+                    {
+                        TryToSpawn((EntityType)i, animalManager.animalPrefab, entities[i][j].transform.position.x, entities[i][j].transform.position.z, 2f);
+                    }
+                    else Debug.LogError("Reproduction of EntityType " + i + " is not being handled on EntityManager.cs on Reproduce()");
                 }
             }
+            yield return null;
         }
-        yield return new WaitForSeconds(30.0f); // Wait before repeating the cycle
+        Debug.Log("Trees: " + entities[(int)EntityType.TREE].Count);
+        Debug.Log("Animals: " + entities[(int)EntityType.ANIMAL].Count);
+        Debug.Log("Food: " + entities[(int)EntityType.FOOD].Count);
+        yield return new WaitForSeconds(15f);
         StartCoroutine(Reproduce());
     }
 
-    protected IEnumerator GrowOrDie()
+    private IEnumerator GrowOrDie()
     {
         // Iterate different types of entities
         for (int i = 0; i < entities.Count; i++)
@@ -192,9 +211,9 @@ public class EntityManager : MonoBehaviour
 
                 // Kill tree if it has reached it's maximum age
                 if (ageController.age + 1 > ageController.maxAge)
-                {                    
-                    entities[i].RemoveAt(j);
-                    Destroy(ageController.gameObject);
+                {
+                    Entity entityScript = entities[i][j].GetComponent<Entity>();
+                    TryToKill((EntityType)i, entityScript.GetUUID());
                 }
                 else ageController.age++;
 
@@ -203,12 +222,11 @@ public class EntityManager : MonoBehaviour
                 {
                     float agePercentage = (float)(ageController.age) / (float)(ageController.maxAge);
                     entities[i][j].transform.localScale = Vector3.one * agePercentage;
-                }                
+                }
             }
-            yield return new WaitForSeconds(0.1f); // Wait between different types of entities
+            //yield return null;
         }
-
-        yield return new WaitForSeconds(10.0f); // Wait before repeating the cycle
+        yield return new WaitForSeconds(5f);
         StartCoroutine(GrowOrDie());
     }
 

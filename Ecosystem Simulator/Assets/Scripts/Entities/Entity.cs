@@ -5,6 +5,7 @@ using UnityEngine;
 public class Entity : MonoBehaviour
 {
     private string uuid;
+    //public bool isActive; // TODO: Should I do an entity pool? 
 
     void Start()
     {

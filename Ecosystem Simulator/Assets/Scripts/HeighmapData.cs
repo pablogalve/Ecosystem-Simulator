@@ -18,13 +18,25 @@ public class HeighmapData : MonoBehaviour
         return hit.point;
     }
 
-    public static bool isValidSpawnPoint(Vector3 position)
+    public static bool isValidSpawnPoint(EntityManager.EntityType type, Vector3 position)
     {
         if (position == null) return false;
 
-        // TODO: Numbers shouldn't be hardcoded
-        if (position.y < 25.0f) return false; // Position too low, out of grass bioma 
-        if (position.y > 115.0f) return false; // Position too high, out of grass bioma 
+        switch (type)
+        {
+            case EntityManager.EntityType.TREE:
+                {
+                    // TODO: Numbers shouldn't be hardcoded
+                    if (position.y < 25.0f) return false; // Position too low, out of grass bioma 
+                    if (position.y > 115.0f) return false; // Position too high, out of grass bioma 
+                }
+                break;
+            case EntityManager.EntityType.FOOD:
+                return true;
+            case EntityManager.EntityType.ANIMAL:
+                return true;
+                default: return false;
+        }        
 
         return true;
     }

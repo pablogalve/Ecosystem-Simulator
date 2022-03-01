@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AnimalManager : MonoBehaviour
 {
-    public GameObject prefab;
+    public GameObject animalPrefab;
     // Start is called before the first frame update
     void Start()
     {

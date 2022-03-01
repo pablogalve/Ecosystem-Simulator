@@ -8,7 +8,6 @@ public class AgeController : MonoBehaviour
     public byte maxAge = 10;
     public float reproductionAge = 0.5f; // 0.0f <> 1.0f // Percentage of age when tree can start to reproduce
     public bool growsInSize = false;
-    public GameObject prefab;
 
     private void Start()
     {

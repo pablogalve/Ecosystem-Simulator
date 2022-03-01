@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Animal : Entity
+public class Animal : MonoBehaviour
 {
     // FOOD and HUNGER
     EntityManager entityManager = null;
@@ -58,9 +58,8 @@ public class Animal : Entity
             return;
         }
 
-        if (entityManager.TryToKill(EntityManager.EntityType.FOOD, entityScript.GetUUID())) {
-            hunger += 30f;
-        }
+        entityManager.TryToKill(EntityManager.EntityType.FOOD, entityScript.GetUUID());
+        hunger += 30f;        
     }
 
     Transform FindClosestFood()
