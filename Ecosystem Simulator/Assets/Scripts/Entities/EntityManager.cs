@@ -44,30 +44,30 @@ public class EntityManager : MonoBehaviour
     // LateUpdate is called after all Update functions have been called. It should be used to delete gameObjects
     private void LateUpdate()
     {
-        DeleteEntities();
+        DeleteEntities(10);
     }
 
-    private void DeleteEntities(/*int maxOfEachTypeToDelete*/)
+    private void DeleteEntities(int maxOfEachTypeToDeleteInThisFrame)
     {
         // Delete all gameObjects waiting to be removed at the end of the frame
 
         #region Delete Trees
+        int deletedTrees = 0;
         for (int i = entitiesToDelete[(int)EntityType.TREE].Count - 1; i >= 0; i--)
-        //for (int i = 0; i < entitiesToDelete[(int)EntityType.TREE].Count; ++i)
         {
+            if (deletedTrees >= maxOfEachTypeToDeleteInThisFrame) break;
+
             // Check for the UUIDs in the actual entities list
             for (int j = entities[(int)EntityType.TREE].Count - 1; j >= 0; --j)
             {
                 // When there's a match, entity is removed
                 Entity entityScript = entities[(int)EntityType.TREE][j].GetComponent<Entity>();
-                if (entityScript == null) Debug.LogWarning("entityScript is null");
-                Debug.Log("i: " + i);
-                Debug.Log("entitiesToDelete[(int)EntityType.TREE].Count: " + entitiesToDelete[(int)EntityType.TREE].Count);
                 if (entitiesToDelete[(int)EntityType.TREE][i] == entityScript.GetUUID())
                 {
                     Destroy(entities[(int)EntityType.TREE][j]);
                     entities[(int)EntityType.TREE].RemoveAt(j);
                     entitiesToDelete[(int)EntityType.TREE].RemoveAt(i);
+                    deletedTrees++;
                     break;
                 }
             }
@@ -75,9 +75,11 @@ public class EntityManager : MonoBehaviour
         #endregion        
 
         #region Delete Food
+        int deletedFoods = 0;
         for (int i = entitiesToDelete[(int)EntityType.FOOD].Count - 1; i >= 0; i--)
-        //for (int i = 0; i < entitiesToDelete[(int)EntityType.FOOD].Count; ++i)
         {
+            if (deletedFoods >= maxOfEachTypeToDeleteInThisFrame) break;
+
             // Check for the UUIDs in the actual entities list
             for (int j = entities[(int)EntityType.FOOD].Count - 1; j >= 0; j--)
             {
@@ -95,8 +97,11 @@ public class EntityManager : MonoBehaviour
         #endregion
 
         #region Delete Animals
+        int deletedAnimals = 0;
         for (int i = entitiesToDelete[(int)EntityType.ANIMAL].Count - 1; i >= 0; i--)
         {
+            if (deletedAnimals >= maxOfEachTypeToDeleteInThisFrame) break;
+
             // Check for the UUIDs in the actual entities list
             for (int j = entities[(int)EntityType.ANIMAL].Count - 1; j >= 0; j--)
             {
