@@ -80,11 +80,6 @@ public class TreeManager : MonoBehaviour
                                         50f);
             }
         }
-        yield return null;
-        
-        /*Debug.Log("Trees: " + entities[(int)EntityType.TREE].Count);
-        Debug.Log("Animals: " + entities[(int)EntityType.ANIMAL].Count);
-        Debug.Log("Food: " + entities[(int)EntityType.FOOD].Count);*/
 
         yield return new WaitForSeconds(15f);
         StartCoroutine(AsexualReproduction());
