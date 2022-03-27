@@ -5,93 +5,57 @@ using UnityEngine.AI;
 
 public class Animal : MonoBehaviour
 {
-    // FOOD and HUNGER
-    EntityManager entityManager = null;
-    public float hunger = 180f;
-    public float minDistanceToEat = 1f;
+    public AnimalManager.States state;
 
-    NavMeshAgent myNavMeshAgent;    
+    // Basic needs for animals
+    private byte maxNeed = 10; // Needs go from 
+    public byte reproductionUrge; // Goes from 0 (no reproduction urge) to max
+    public byte hunger; // Goes from 0 (death from starvation) to max
+    private float minDistanceToEat = 1f;
 
     // Start is called before the first frame update
     void Start()
     {
-        myNavMeshAgent = GetComponent<NavMeshAgent>();
-        GameObject gameManager = GameObject.FindGameObjectWithTag("GameManager");
-        entityManager = gameManager.GetComponent<EntityManager>();
+        state = AnimalManager.States.IDLE;
+        reproductionUrge = maxNeed;
+        hunger = maxNeed;
     }
 
-    // Update is called once per frame
-    void Update()
+    public bool isHungry()
     {
-        hunger -= Time.deltaTime;
-
-        if(hunger <= 0)
-        {
-            Destroy(gameObject);
-        }
-
-        MoveToFood();
+        float hungerPercentage = (float)(hunger) / (float)(maxNeed);
+        return hungerPercentage <= 0.4f;
     }
 
-    void MoveToFood()
+    public bool wantsToReproduce()
     {
-        Transform foodPos = FindClosestFood();
-
-        if(foodPos != null)
-        {
-            myNavMeshAgent.SetDestination(foodPos.position);
-        }
+        float reproductionUrgePercentage = (float)(reproductionUrge) / (float)(reproductionUrge);
+        return reproductionUrgePercentage <= 0.4f;
     }
 
-    void Eat(GameObject food)
+    public bool canEat(float distance)
     {
-        if(food == null)
-        {
-            Debug.LogWarning("food is null on Animal.cs. Eat()");
-            return;
-        }
-
-        Entity entityScript = food.GetComponent<Entity>();
-        if (entityScript == null)
-        {
-            Debug.LogWarning("entityScript is null on Animal.cs. Eat()");
-            return;
-        }
-
-        entityManager.TryToKill(EntityManager.EntityType.FOOD, entityScript.GetUUID());
-        hunger += 30f;        
+        return distance <= minDistanceToEat;
     }
 
-    Transform FindClosestFood()
+    public void SetMaxHunger()
     {
-        // Create local list because it is not guaranteed that "foodManager.foodList" will not change while it is being iterated
-        List<GameObject> foodList = entityManager.entities[(int)EntityManager.EntityType.FOOD];
+        hunger = maxNeed;
+    }
 
-        int indexOfClosestFood = -1;
-        float smallestDistance = float.MaxValue;
-
-        for(int i = 0; i < foodList.Count; i++)
-        {
-            // Food died before we could arrive
-            if (foodList[i] == null) continue;
-
-            float distance = Vector3.Distance(foodList[i].transform.position, gameObject.transform.position);
-
-            // If food is found at an eatable distance, then animal stops looking for other food
-            if(distance <= minDistanceToEat)
-            {
-                Eat(foodList[i]);
-                break;
-            }
-
-            if (distance < smallestDistance)
-            {
-                indexOfClosestFood = i;
-                smallestDistance = distance;
-            }
+    public void UpdateAllStats()
+    {
+        if (hunger == 0) {
+            Die();
         }
+        hunger--;
+        reproductionUrge--;
+    }
 
-        if (indexOfClosestFood == -1) return null;
-        else return foodList[indexOfClosestFood].transform;
+    private void Die()
+    {
+        EntityManager entityManager = GameObject.Find("GameManager").GetComponent<EntityManager>();
+        Entity entityScript = gameObject.GetComponent<Entity>();
+        entityManager.TryToKill(EntityManager.EntityType.ANIMAL, entityScript.GetUUID());
     }
 }

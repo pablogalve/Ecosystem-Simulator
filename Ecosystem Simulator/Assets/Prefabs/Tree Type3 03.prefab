@@ -96,8 +96,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   age: 1
-  maxAge: 15
-  reproductionAge: 0.5
+  maxAge: 30
+  reproductionAge: 0.25
   growsInSize: 1
 --- !u!114 &-7794253981079642969
 MonoBehaviour:

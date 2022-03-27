@@ -11,14 +11,10 @@ public class AgeController : MonoBehaviour
 
     private void Start()
     {
-        // Initialize at age 0 and size 0
+        if (growsInSize)
         {
-            age = 1;
-            if (growsInSize) 
-            {
-                float agePercentage = (float)(age) / (float)(maxAge);
-                transform.localScale = Vector3.one * agePercentage;
-            }
+            float agePercentage = (float)(age) / (float)(maxAge);
+            transform.localScale = Vector3.one * agePercentage;
         }
     }
     public bool canReproduce()

@@ -143,17 +143,17 @@ public class EntityManager : MonoBehaviour
     private void SetInitialScene()
     {
         for (int i = 0; i < 50; i++) {
-            TryToSpawn(EntityType.TREE, treeManager.treePrefab, 1000, 1000, 500);
+            TryToSpawn(EntityType.TREE, treeManager.treePrefab, 1000, 1000, 500, 15);
         }
 
         AnimalManager animalManager = GetComponent<AnimalManager>();
         for (int i = 0; i < 10; i++)
         {
-            TryToSpawn(EntityType.TREE, animalManager.animalPrefab, 1000, 1000, 500);
+            TryToSpawn(EntityType.ANIMAL, animalManager.animalPrefab, 1000, 1000, 500);
         }
     }
 
-    public void TryToSpawn(EntityType type, GameObject prefab, float x, float z, float randomVariation)
+    public void TryToSpawn(EntityType type, GameObject prefab, float x, float z, float randomVariation, byte initialAge = 1)
     {
         if (prefab == null) return;
 
@@ -167,6 +167,10 @@ public class EntityManager : MonoBehaviour
 
         // Prefab and position are valid, so it can be instantiated
         GameObject gameObject = Instantiate(prefab, spawnPos, Quaternion.identity);
+
+        //Set age
+        AgeController ageController = gameObject.GetComponent<AgeController>();
+        ageController.age = initialAge;
 
         switch (type)
         {
@@ -218,7 +222,7 @@ public class EntityManager : MonoBehaviour
                 }
             }
         }
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(30f);
         StartCoroutine(GrowOrDie());
     }
 
