@@ -20,6 +20,7 @@ public class EntityManager : MonoBehaviour
     // Acess to other scripts
     AnimalManager animalManager = null;
     TreeManager treeManager = null;
+    HeighmapData heightmapData = null;
 
     private void Awake()
     {
@@ -34,7 +35,8 @@ public class EntityManager : MonoBehaviour
     void Start()
     {
         animalManager = GetComponent<AnimalManager>();
-        treeManager = GetComponent<TreeManager>();        
+        treeManager = GetComponent<TreeManager>();
+        heightmapData = GetComponent<HeighmapData>();        
 
         SetInitialScene();
 
@@ -143,12 +145,8 @@ public class EntityManager : MonoBehaviour
     private void SetInitialScene()
     {
         for (int i = 0; i < 50; i++) {
-            TryToSpawn(EntityType.TREE, treeManager.treePrefab, i, i, i * 200);
+            TryToSpawn(EntityType.TREE, treeManager.treePrefab, 1000, 1000, 500);
         }
-
-        TryToSpawn(EntityType.TREE, treeManager.treePrefab, 0f, 0f, 0.0f);
-        TryToSpawn(EntityType.TREE, treeManager.treePrefab, 100f, 100f, 0.0f);
-        TryToSpawn(EntityType.TREE, treeManager.treePrefab, 200f, 200f, 0.0f);
 
         AnimalManager animalManager = GetComponent<AnimalManager>();
         TryToSpawn(EntityType.ANIMAL, animalManager.animalPrefab, 50f, 50f, 0.0f);
@@ -166,11 +164,11 @@ public class EntityManager : MonoBehaviour
 
         // Generate a spawn position
         Vector3 spawnPos = new Vector3(x, 0f, z);
-        spawnPos.x += HeighmapData.GetRandomVariation(-randomVariation, randomVariation);
-        spawnPos.z += HeighmapData.GetRandomVariation(-randomVariation, randomVariation);
-        spawnPos = HeighmapData.GetTerrainHeight(spawnPos.x, spawnPos.z);
+        spawnPos.x += heightmapData.GetRandomVariation(-randomVariation, randomVariation);
+        spawnPos.z += heightmapData.GetRandomVariation(-randomVariation, randomVariation);
+        spawnPos = heightmapData.GetTerrainHeight(spawnPos.x, spawnPos.z);
 
-        if (!HeighmapData.isValidSpawnPoint(type, spawnPos)) return;
+        if (!heightmapData.isValidSpawnPoint(type, spawnPos)) return;
 
         // Prefab and position are valid, so it can be instantiated
         GameObject gameObject = Instantiate(prefab, spawnPos, Quaternion.identity);
