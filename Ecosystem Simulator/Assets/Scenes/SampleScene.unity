@@ -200,7 +200,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 63101083}
   m_LocalRotation: {x: 0.027955856, y: -0.9579779, z: 0.100183554, w: 0.2673203}
-  m_LocalPosition: {x: 858, y: 344, z: 1018}
+  m_LocalPosition: {x: 1495, y: 344, z: 1620}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -230,7 +230,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 86398286}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.4996, y: 315.46875, z: 362.3833}
+  m_LocalPosition: {x: 616.5004, y: 315.46875, z: 964.3833}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1712192851}
@@ -423,7 +423,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: 637, y: 3, z: 602}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -538,7 +538,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.1941408, y: 0.29240358, z: -0.060752332, w: 0.9344082}
-  m_LocalPosition: {x: -248, y: 442, z: -538}
+  m_LocalPosition: {x: 389, y: 442, z: 64}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -572,6 +572,8 @@ GameObject:
   - component: {fileID: 1232884833}
   - component: {fileID: 1232884836}
   - component: {fileID: 1232884837}
+  - component: {fileID: 1232884835}
+  - component: {fileID: 1232884838}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameManager
@@ -601,12 +603,27 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1232884832}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 637, y: 0, z: 602}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1232884835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232884832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9255a4b035e42804c99cfa3965b8734a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapAreas: {x: 20, y: 20}
+  worldSize: {x: 2200, y: 2200}
+  maxTreesPerArea: 100
 --- !u!114 &1232884836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -635,6 +652,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animalPrefab: {fileID: 1291810309633072332, guid: 4716040c324cb3243bec8ee9b1aebfd1, type: 3}
+--- !u!114 &1232884838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232884832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caaa324d2310f1343b3dbc873ec60c9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1337333415
 PrefabInstance:
   m_ObjectHideFlags: 0

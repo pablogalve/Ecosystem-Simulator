@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class HeighmapData : MonoBehaviour
 {
-    public static Vector3 GetTerrainHeight(float x, float z)
+    AmountOfTreesPerArea amountOfTreesPerArea = null;
+    private void Start()
+    {
+        amountOfTreesPerArea = GetComponent<AmountOfTreesPerArea>();
+    }
+
+    public Vector3 GetTerrainHeight(float x, float z)
     {
         //Create object to store raycast data
         RaycastHit hit;
@@ -18,7 +24,7 @@ public class HeighmapData : MonoBehaviour
         return hit.point;
     }
 
-    public static bool isValidSpawnPoint(EntityManager.EntityType type, Vector3 position)
+    public bool isValidSpawnPoint(EntityManager.EntityType type, Vector3 position)
     {
         if (position == null) return false;
 
@@ -29,6 +35,8 @@ public class HeighmapData : MonoBehaviour
                     // TODO: Numbers shouldn't be hardcoded
                     if (position.y < 25.0f) return false; // Position too low, out of grass bioma 
                     if (position.y > 115.0f) return false; // Position too high, out of grass bioma 
+
+                    if (amountOfTreesPerArea.hasReachedMaxAmountOfTrees(position.x, position.z)) return false;
                 }
                 break;
             case EntityManager.EntityType.FOOD:
@@ -41,8 +49,30 @@ public class HeighmapData : MonoBehaviour
         return true;
     }
 
-    public static float GetRandomVariation(float min, float max)
+    public float GetRandomVariation(float min, float max)
     {
         return Random.Range(min, max);
     }
+
+    #region SINGLETON PATTERN
+    public static HeighmapData _instance;
+    public static HeighmapData Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = GameObject.FindObjectOfType<HeighmapData>();
+
+                if (_instance == null)
+                {
+                    GameObject container = new GameObject("AmountOfTreesPerArea");
+                    _instance = container.AddComponent<HeighmapData>();
+                }
+            }
+
+            return _instance;
+        }
+    }
+    #endregion
 }
