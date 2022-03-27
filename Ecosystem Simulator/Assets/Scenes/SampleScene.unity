@@ -619,9 +619,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eca431c53d4603b44a28d0053b3bbfec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxTrees: 2000
+  maxTrees: 10000
   maxFood: 5000
-  maxAnimals: 100
+  maxAnimals: 0
 --- !u!114 &1232884837
 MonoBehaviour:
   m_ObjectHideFlags: 0

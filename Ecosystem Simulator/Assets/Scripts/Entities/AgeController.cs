@@ -13,8 +13,12 @@ public class AgeController : MonoBehaviour
     {
         // Initialize at age 0 and size 0
         {
-            age = 0;
-            if(growsInSize) transform.transform.localScale = Vector3.zero;
+            age = 1;
+            if (growsInSize) 
+            {
+                float agePercentage = (float)(age) / (float)(maxAge);
+                transform.localScale = Vector3.one * agePercentage;
+            }
         }
     }
     public bool canReproduce()

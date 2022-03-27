@@ -14,6 +14,7 @@ public class TreeManager : MonoBehaviour
     {
         entityManager = GetComponent<EntityManager>();
         StartCoroutine(GenerateFood());
+        StartCoroutine(AsexualReproduction());
     }
 
     // Update is called once per frame
@@ -33,7 +34,7 @@ public class TreeManager : MonoBehaviour
         {
             for (int i = 0; i < trees.Count; i++)
             {
-                if (entityManager.isMaxCapReached(EntityManager.EntityType.FOOD, entityManager.entities[(int)EntityManager.EntityType.FOOD].Count) == true) break;
+                if (entityManager.isMaxCapReached(EntityManager.EntityType.FOOD)) break;
 
                 AgeController ageScript = trees[i].GetComponent<AgeController>();
                 if (ageScript == null)
@@ -52,5 +53,35 @@ public class TreeManager : MonoBehaviour
 
         yield return new WaitForSeconds(10.0f); // Wait before repeating the cycle
         StartCoroutine(GenerateFood());
+    }
+
+    private IEnumerator AsexualReproduction()
+    {        
+        if (entityManager.isMaxCapReached((int)EntityManager.EntityType.TREE)) yield return null; // We can't have infinite entities for performance issues
+
+        // Iterate all the entities of the same type
+        for (int j = 0; j < entityManager.entities[(int)EntityManager.EntityType.TREE].Count; j++)
+        {
+            if (entityManager.isMaxCapReached((int)EntityManager.EntityType.TREE)) break;
+
+            AgeController ageController = entityManager.entities[(int)EntityManager.EntityType.TREE][j].GetComponent<AgeController>();
+            if (ageController == null)
+            {
+                Debug.LogError("AgeController is null on EntityManager.cs: Reproduce()");
+                continue;
+            }
+
+            if (ageController.canReproduce())
+            {
+                entityManager.TryToSpawn(EntityManager.EntityType.TREE, 
+                                        treePrefab, 
+                                        entityManager.entities[(int)EntityManager.EntityType.TREE][j].transform.position.x, 
+                                        entityManager.entities[(int)EntityManager.EntityType.TREE][j].transform.position.z, 
+                                        50f);
+            }
+        }
+
+        yield return new WaitForSeconds(15f);
+        StartCoroutine(AsexualReproduction());
     }
 }
