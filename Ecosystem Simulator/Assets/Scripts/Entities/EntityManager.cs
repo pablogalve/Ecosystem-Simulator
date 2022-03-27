@@ -44,7 +44,7 @@ public class EntityManager : MonoBehaviour
     // LateUpdate is called after all Update functions have been called. It should be used to delete gameObjects
     private void LateUpdate()
     {
-        DeleteEntities(10);
+        DeleteEntities(1);
     }
 
     private void DeleteEntities(int maxOfEachTypeToDeleteInThisFrame)
@@ -57,6 +57,7 @@ public class EntityManager : MonoBehaviour
         {
             if (deletedTrees >= maxOfEachTypeToDeleteInThisFrame) break;
 
+            bool found = false;
             // Check for the UUIDs in the actual entities list
             for (int j = entities[(int)EntityType.TREE].Count - 1; j >= 0; --j)
             {
@@ -68,8 +69,14 @@ public class EntityManager : MonoBehaviour
                     entities[(int)EntityType.TREE].RemoveAt(j);
                     entitiesToDelete[(int)EntityType.TREE].RemoveAt(i);
                     deletedTrees++;
+                    found = true;
                     break;
                 }
+            }
+            if (!found) 
+            { 
+                Debug.LogWarning("Tree with UUID " + entitiesToDelete[(int)EntityType.TREE][i] + " was not found in the entities list");
+                entitiesToDelete[(int)EntityType.TREE].RemoveAt(i);
             }
         }
         #endregion        
@@ -80,6 +87,7 @@ public class EntityManager : MonoBehaviour
         {
             if (deletedFoods >= maxOfEachTypeToDeleteInThisFrame) break;
 
+            bool found = false;
             // Check for the UUIDs in the actual entities list
             for (int j = entities[(int)EntityType.FOOD].Count - 1; j >= 0; j--)
             {
@@ -90,8 +98,14 @@ public class EntityManager : MonoBehaviour
                     Destroy(entities[(int)EntityType.FOOD][j]);
                     entities[(int)EntityType.FOOD].RemoveAt(j);
                     entitiesToDelete[(int)EntityType.FOOD].RemoveAt(i);
+                    found = true;
                     break;
                 }
+            }
+            if (!found)
+            {
+                Debug.LogWarning("Food with UUID " + entitiesToDelete[(int)EntityType.FOOD][i] + " was not found in the entities list");
+                entitiesToDelete[(int)EntityType.FOOD].RemoveAt(i);
             }
         }
         #endregion
@@ -102,6 +116,7 @@ public class EntityManager : MonoBehaviour
         {
             if (deletedAnimals >= maxOfEachTypeToDeleteInThisFrame) break;
 
+            bool found = false;
             // Check for the UUIDs in the actual entities list
             for (int j = entities[(int)EntityType.ANIMAL].Count - 1; j >= 0; j--)
             {
@@ -112,8 +127,14 @@ public class EntityManager : MonoBehaviour
                     Destroy(entities[(int)EntityType.ANIMAL][j]);
                     entities[(int)EntityType.ANIMAL].RemoveAt(j);
                     entitiesToDelete[(int)EntityType.ANIMAL].RemoveAt(i);
+                    found = true;
                     break;
                 }
+            }
+            if (!found)
+            {
+                Debug.LogWarning("Animal with UUID " + entitiesToDelete[(int)EntityType.ANIMAL][i] + " was not found in the entities list");
+                entitiesToDelete[(int)EntityType.ANIMAL].RemoveAt(i);
             }
         }
         #endregion
