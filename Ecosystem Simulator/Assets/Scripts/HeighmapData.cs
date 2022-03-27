@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class HeighmapData : MonoBehaviour
 {
-    AmountOfTreesPerArea amountOfTreesPerArea = null;
-    private void Start()
-    {
-        amountOfTreesPerArea = GetComponent<AmountOfTreesPerArea>();
-    }
-
     public Vector3 GetTerrainHeight(float x, float z)
     {
         //Create object to store raycast data
@@ -36,7 +30,7 @@ public class HeighmapData : MonoBehaviour
                     if (position.y < 25.0f) return false; // Position too low, out of grass bioma 
                     if (position.y > 115.0f) return false; // Position too high, out of grass bioma 
 
-                    if (amountOfTreesPerArea.hasReachedMaxAmountOfTrees(position.x, position.z)) return false;
+                    if (AmountOfTreesPerArea.Instance.hasReachedMaxAmountOfTrees(position.x, position.z)) return false;
                 }
                 break;
             case EntityManager.EntityType.FOOD:

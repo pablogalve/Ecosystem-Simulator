@@ -12,7 +12,7 @@ public class AmountOfTreesPerArea : MonoBehaviour
     private float tileXSize;
     private float tileZSize;
 
-    private void Start()
+    private void Awake()
     {
         map = new int[mapAreas[0], mapAreas[1]];
 

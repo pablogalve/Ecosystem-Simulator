@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AgeController : MonoBehaviour
 {
-    public byte age = 0;
+    public byte age = 1;
     public byte maxAge = 10;
     public float reproductionAge = 0.5f; // 0.0f <> 1.0f // Percentage of age when tree can start to reproduce
     public bool growsInSize = false;
