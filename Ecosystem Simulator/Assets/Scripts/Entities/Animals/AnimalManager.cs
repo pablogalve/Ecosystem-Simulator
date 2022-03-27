@@ -170,7 +170,7 @@ public class AnimalManager : MonoBehaviour
             // Food died before the animal could arrive
             if (foodList[i] == null) continue;
 
-            float distance = Vector3.Distance(foodList[i].transform.position, gameObject.transform.position);
+            float distance = Vector3.Distance(foodList[i].transform.position, animalScript.gameObject.transform.position);
 
             // If food is found at an eatable distance, then animal stops looking for other food
             if (animalScript.canEat(distance))
