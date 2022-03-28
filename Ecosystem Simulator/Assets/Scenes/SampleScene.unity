@@ -638,7 +638,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxTrees: 10000
   maxFood: 5000
-  maxAnimals: 0
+  maxAnimals: 500
 --- !u!114 &1232884837
 MonoBehaviour:
   m_ObjectHideFlags: 0

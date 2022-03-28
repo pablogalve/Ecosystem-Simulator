@@ -9,17 +9,16 @@ public class Animal : MonoBehaviour
 
     // Basic needs for animals
     private byte maxNeed = 10; // Needs go from 
-    private byte reproductionUrge; // Goes from 0 (no reproduction urge) to max
-    private byte hunger; // Goes from 0 (death from starvation) to max
+    public byte reproductionUrge; // Goes from 0 (no reproduction urge) to max
+    public byte hunger; // Goes from 0 (death from starvation) to max
     private float minDistanceToEat = 1f;    
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         state = AnimalManager.States.IDLE;
         reproductionUrge = maxNeed;
-        hunger = maxNeed;
-       
+        hunger = maxNeed;       
     }
 
     public bool isHungry()
@@ -30,7 +29,7 @@ public class Animal : MonoBehaviour
 
     public bool wantsToReproduce()
     {
-        float reproductionUrgePercentage = (float)(reproductionUrge) / (float)(reproductionUrge);
+        float reproductionUrgePercentage = (float)(reproductionUrge) / (float)(maxNeed);
         return reproductionUrgePercentage <= 0.4f;
     }
 
@@ -42,6 +41,11 @@ public class Animal : MonoBehaviour
     public void SetMaxHunger()
     {
         hunger = maxNeed;
+    }
+
+    public void SetMaxReproductionUrge()
+    {
+        reproductionUrge = maxNeed;
     }
 
     public void UpdateAllStats()

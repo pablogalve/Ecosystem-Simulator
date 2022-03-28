@@ -147,7 +147,7 @@ public class EntityManager : MonoBehaviour
         }
 
         AnimalManager animalManager = GetComponent<AnimalManager>();
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 150; i++)
         {
             TryToSpawn(EntityType.ANIMAL, animalManager.animalPrefab, 1000, 1000, 500);
         }

@@ -12,7 +12,7 @@ public class AnimalManager : MonoBehaviour
         FOLLOWING_MUM,
     }
 
-    public GameObject animalPrefab;
+    public GameObject animalPrefab = null;
     EntityManager entityManager = null;
 
     // Start is called before the first frame update
@@ -37,9 +37,11 @@ public class AnimalManager : MonoBehaviour
         for (int i = 0; i < animals.Count; i++)
         {
             Animal animalScript = animals[i].GetComponent<Animal>();
+            Gender myGender = animals[i].GetComponent<Gender>();
             if (animalScript == null) Debug.LogError("animalScript list was null on UpdateStats.cs");
 
             animalScript.UpdateAllStats();
+            if (myGender.gender == 0 && myGender.IsPregnant()) myGender.UpdatePregnancy(animalPrefab);
         }
         
         yield return new WaitForSeconds(15.0f); // Wait before repeating the cycle
@@ -132,7 +134,7 @@ public class AnimalManager : MonoBehaviour
                     break;
 
                 case States.LOOKING_FOR_MATE: // Secondary need
-                    
+                    MoveToClosestMate(animalScript);
 
                     break;
 
@@ -198,5 +200,47 @@ public class AnimalManager : MonoBehaviour
         if (myNavMeshAgent == null) Debug.LogError("myNavMeshAgent was null on AnimalManager.cs on StopMoving()");
 
         myNavMeshAgent.SetDestination(animalScript.gameObject.transform.position);
+    }
+
+    private void MoveToClosestMate(Animal animalScript)
+    {
+        Gender myGender = animalScript.gameObject.GetComponent<Gender>();
+
+        // Create local list because it is not guaranteed that the list will not change while it is being iterated
+        List<GameObject> potentialMates = entityManager.entities[(int)EntityManager.EntityType.ANIMAL];
+
+        int indexOfClosestMate = -1;
+        float smallestDistance = float.MaxValue;
+
+        for (int i = 0; i < potentialMates.Count; i++)
+        {
+            // Mate died before the animal could arrive
+            if (potentialMates[i] == null) continue;
+
+            Gender mateGender = potentialMates[i].GetComponent<Gender>();
+            if (myGender.gender == mateGender.gender) continue;
+
+            float distance = Vector3.Distance(potentialMates[i].transform.position, animalScript.gameObject.transform.position);
+
+            // If mate is found at an close distance, then animal stops looking for other mates
+            if (distance < 1f)
+            {
+                if (myGender.gender == 0) myGender.GetPregnant();
+                animalScript.SetMaxReproductionUrge();
+                break;
+            }
+
+            if (distance < smallestDistance)
+            {
+                indexOfClosestMate = i;
+                smallestDistance = distance;
+            }
+        }
+
+        if (indexOfClosestMate != -1)
+        {
+            NavMeshAgent myNavMeshAgent = animalScript.gameObject.GetComponent<NavMeshAgent>();
+            myNavMeshAgent.SetDestination(potentialMates[indexOfClosestMate].transform.position);
+        }
     }
 }
