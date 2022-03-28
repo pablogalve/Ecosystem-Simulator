@@ -20,6 +20,6 @@ public class AgeController : MonoBehaviour
 
     public bool isBaby()
     {
-        return age >= maxAge * reproductionAge;
+        return age < maxAge * reproductionAge;
     }
 }
