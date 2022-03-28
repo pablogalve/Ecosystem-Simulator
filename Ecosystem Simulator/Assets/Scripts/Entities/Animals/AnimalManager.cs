@@ -37,7 +37,7 @@ public class AnimalManager : MonoBehaviour
         for (int i = 0; i < animals.Count; i++)
         {
             Animal animalScript = animals[i].GetComponent<Animal>();
-            Gender myGender = animals[i].GetComponent<Gender>();
+            Reproduction myGender = animals[i].GetComponent<Reproduction>();
             if (animalScript == null) Debug.LogError("animalScript list was null on UpdateStats.cs");
 
             animalScript.UpdateAllStats();
@@ -179,7 +179,7 @@ public class AnimalManager : MonoBehaviour
             {
                 Entity entityScript = foodList[i].GetComponent<Entity>();
                 entityManager.TryToKill(EntityManager.EntityType.FOOD, entityScript.GetUUID());
-                animalScript.SetMaxHunger();
+                animalScript.Eat();
                 break;
             }
 
@@ -204,7 +204,7 @@ public class AnimalManager : MonoBehaviour
 
     private void MoveToClosestMate(Animal animalScript)
     {
-        Gender myGender = animalScript.gameObject.GetComponent<Gender>();
+        Reproduction myGender = animalScript.gameObject.GetComponent<Reproduction>();
 
         // Create local list because it is not guaranteed that the list will not change while it is being iterated
         List<GameObject> potentialMates = entityManager.entities[(int)EntityManager.EntityType.ANIMAL];
@@ -217,12 +217,17 @@ public class AnimalManager : MonoBehaviour
             // Mate died before the animal could arrive
             if (potentialMates[i] == null) continue;
 
-            Gender mateGender = potentialMates[i].GetComponent<Gender>();
-            if (myGender.gender == mateGender.gender) continue;
+            // Mates can only be of the opposite gender
+            Reproduction mateGender = potentialMates[i].GetComponent<Reproduction>();
+            if (myGender.gender == mateGender.gender) continue; 
+
+            // Babies can't be mates
+            AgeController otherAgeController = potentialMates[i].GetComponent<AgeController>();
+            if (otherAgeController.isBaby()) continue; 
 
             float distance = Vector3.Distance(potentialMates[i].transform.position, animalScript.gameObject.transform.position);
 
-            // If mate is found at an close distance, then animal stops looking for other mates
+            // Mate found at less tha 1f unit of distance
             if (distance < 1f)
             {
                 if (myGender.gender == 0) myGender.GetPregnant();
@@ -237,6 +242,7 @@ public class AnimalManager : MonoBehaviour
             }
         }
 
+        // Move to closest potential mate
         if (indexOfClosestMate != -1)
         {
             NavMeshAgent myNavMeshAgent = animalScript.gameObject.GetComponent<NavMeshAgent>();

@@ -23,8 +23,7 @@ public class Animal : MonoBehaviour
 
     public bool isHungry()
     {
-        float hungerPercentage = (float)(hunger) / (float)(maxNeed);
-        return hungerPercentage <= 0.4f;
+        return hunger <= maxNeed >> 1; // Return true is hunger <= maxNeed/2
     }
 
     public bool wantsToReproduce()
@@ -38,9 +37,10 @@ public class Animal : MonoBehaviour
         return distance <= minDistanceToEat;
     }
 
-    public void SetMaxHunger()
+    public void Eat()
     {
-        hunger = maxNeed;
+        // Eating restores a maximum of 50% of the animal's total hunger. Example: If current hunger is 30% and it eats, hunger becomes 80% (30+50)        
+        hunger += (byte)(maxNeed >> 1); // Bit-shifting. ">> 1" is like dividing by 2
     }
 
     public void SetMaxReproductionUrge()
@@ -52,6 +52,9 @@ public class Animal : MonoBehaviour
     {
         if (hunger == 0) Die();
         else hunger--;
+
+        AgeController ageController = gameObject.GetComponent<AgeController>();
+        if (ageController.isBaby() == true) return; // Babies don't have reproduction urge
 
         // ReproductionUrge can't go below 0. It will stay on 0 until the animal dies
         if (reproductionUrge != 0) reproductionUrge--;

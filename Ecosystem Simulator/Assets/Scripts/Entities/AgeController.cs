@@ -17,7 +17,8 @@ public class AgeController : MonoBehaviour
             transform.localScale = Vector3.one * agePercentage;
         }
     }
-    public bool canReproduce()
+
+    public bool isBaby()
     {
         return age >= maxAge * reproductionAge;
     }

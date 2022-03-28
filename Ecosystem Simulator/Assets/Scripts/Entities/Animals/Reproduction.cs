@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gender : MonoBehaviour
+public class Reproduction : MonoBehaviour
 {
     public byte gender = 0; // 0 = Female, 1 = Male
     public bool isPregnant = false;
