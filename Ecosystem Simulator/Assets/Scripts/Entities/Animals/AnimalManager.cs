@@ -227,8 +227,15 @@ public class AnimalManager : MonoBehaviour
 
             if (distance < 1f) // Mate found, let's reproduce!
             {
-                if (myGender.gender == 0) myGender.GetPregnant();
-                animalScript.SetMaxReproductionUrge();
+                if (myGender.gender == 0) 
+                {
+                    if(myGender.RequestMate(mateGender) == true) // Mate accepted
+                    {
+                        myGender.GetPregnant();
+                        animalScript.SetMaxReproductionUrge();
+                    }
+                }
+                    
                 break;
             }else if (myGender.gender == 0 && distance < 10f) // Females wait at 10f distance for the male. Removing this causes a weird reproduction pattern
             {

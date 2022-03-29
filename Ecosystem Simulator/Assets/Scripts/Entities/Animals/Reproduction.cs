@@ -20,6 +20,18 @@ public class Reproduction : MonoBehaviour
         if (gender == 1) renderer.material.SetColor("_Color", Color.blue);
     }
 
+    public bool RequestMate(Reproduction other)
+    {
+        // This function is called by a female with the male as a function argument
+        // The female(this) has to accept (return true) or reject (return false)
+        if (other.gender == 0) { Debug.LogError("The argument must be a male"); return false; }
+        if (other.gender == this.gender) { Debug.LogError("Animals must be of different gender to mate"); return false; }
+                
+        if (IsPregnant() == false) return true;
+
+        return false;
+    }
+
     public void GetPregnant()
     {
         if (gender == 0 && isPregnant == false) isPregnant = true;
