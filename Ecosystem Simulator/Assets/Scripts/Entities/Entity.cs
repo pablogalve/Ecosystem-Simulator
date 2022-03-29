@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Entity : MonoBehaviour
-{
+{    
     private string uuid;
 
     void Awake()

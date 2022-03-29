@@ -9,15 +9,16 @@ public class Reproduction : MonoBehaviour
     public byte gestationPeriod = 2;
     public byte currPregnancyTime = 0;
 
-    // Start is called before the first frame update
     void Awake()
     {
         int gen = Random.Range(0, 2);
         gender = (byte)gen;
 
+        // Set colors for debugging - Predefined color for males and light version for females //TODO: Remove the colors once fbx are in place
         var renderer = gameObject.GetComponent<Renderer>();
-        if (gender == 0) renderer.material.SetColor("_Color", Color.red);
-        if (gender == 1) renderer.material.SetColor("_Color", Color.blue);
+        Color newColor = renderer.material.color;
+        newColor.g += 0.5f;
+        if (gender == 0) renderer.material.SetColor("_Color", newColor);
     }
 
     public bool RequestMate(Reproduction other)
@@ -52,7 +53,20 @@ public class Reproduction : MonoBehaviour
         {
             EntityManager entityManager = GameObject.Find("GameManager").GetComponent<EntityManager>();
             if(entityManager.isMaxCapReached(EntityManager.EntityType.ANIMAL) == false)
-                entityManager.TryToSpawn(EntityManager.EntityType.ANIMAL, babyPrefab, gameObject.transform.position.x, gameObject.transform.position.z, 1f);
+            {
+                //entityManager.TryToSpawn(EntityManager.EntityType.ANIMAL, babyPrefab, gameObject.transform.position.x, gameObject.transform.position.z, 1f);
+                Animal animalScript = gameObject.GetComponent<Animal>();
+
+                EntityFactory entityFactory = GameObject.Find("GameManager").GetComponent<EntityFactory>();
+                if(animalScript.species == AnimalManager.Species.R) //TODO:Refactor this to make it cleaner
+                {
+                    entityFactory.SpawnAnimalOfRandomGender((int)animalScript.species, gameObject.transform.position.x, gameObject.transform.position.z, 2f);
+                    entityFactory.SpawnAnimalOfRandomGender((int)animalScript.species, gameObject.transform.position.x, gameObject.transform.position.z, 2f);
+                    entityFactory.SpawnAnimalOfRandomGender((int)animalScript.species, gameObject.transform.position.x, gameObject.transform.position.z, 2f);
+                    entityFactory.SpawnAnimalOfRandomGender((int)animalScript.species, gameObject.transform.position.x, gameObject.transform.position.z, 2f);
+                    entityFactory.SpawnAnimalOfRandomGender((int)animalScript.species, gameObject.transform.position.x, gameObject.transform.position.z, 2f);
+                }else entityFactory.SpawnAnimalOfRandomGender((int)animalScript.species, gameObject.transform.position.x, gameObject.transform.position.z, 2f);
+            }
 
             currPregnancyTime = 0;
             isPregnant = false;

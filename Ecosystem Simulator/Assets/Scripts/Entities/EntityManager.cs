@@ -149,7 +149,10 @@ public class EntityManager : MonoBehaviour
         AnimalManager animalManager = GetComponent<AnimalManager>();
         for (int i = 0; i < 150; i++)
         {
-            TryToSpawn(EntityType.ANIMAL, animalManager.animalPrefab, 1000, 1000, 500);
+            EntityFactory entityFactory = gameObject.GetComponent<EntityFactory>();
+            entityFactory.SpawnAnimalOfRandomGender((int)AnimalManager.Species.K, 1000, 1000, 500);
+            entityFactory.SpawnAnimalOfRandomGender((int)AnimalManager.Species.R, 1000, 1000, 500);
+            //TryToSpawn(EntityType.ANIMAL, animalManager.animalPrefab, 1000, 1000, 500);
         }
     }
 

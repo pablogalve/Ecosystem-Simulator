@@ -574,6 +574,7 @@ GameObject:
   - component: {fileID: 1232884837}
   - component: {fileID: 1232884835}
   - component: {fileID: 1232884838}
+  - component: {fileID: 1232884839}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameManager
@@ -652,6 +653,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animalPrefab: {fileID: 1291810309633072332, guid: 4716040c324cb3243bec8ee9b1aebfd1, type: 3}
+  animalPrefabs:
+  - {fileID: 1291810309633072332, guid: a2574e526fba9c24dac71c397c534015, type: 3}
+  - {fileID: 1291810309633072332, guid: 16deedf8f8d163f4fb83a1a3ce63f034, type: 3}
 --- !u!114 &1232884838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -664,6 +668,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caaa324d2310f1343b3dbc873ec60c9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1232884839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232884832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86dd68c8bf8d2974fa3e789905e632b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animals:
+  - {fileID: 1291810309633072332, guid: a2574e526fba9c24dac71c397c534015, type: 3}
+  - {fileID: 1291810309633072332, guid: 16deedf8f8d163f4fb83a1a3ce63f034, type: 3}
 --- !u!1001 &1337333415
 PrefabInstance:
   m_ObjectHideFlags: 0
