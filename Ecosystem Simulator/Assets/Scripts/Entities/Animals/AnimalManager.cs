@@ -124,7 +124,7 @@ public class AnimalManager : MonoBehaviour
             switch (animalScript.state)
             {
                 case States.IDLE: // Default state when there are no other needs
-                    StopMoving(animalScript);
+                    animalScript.StopMoving();
 
                     break;
 
@@ -134,7 +134,7 @@ public class AnimalManager : MonoBehaviour
                     break;
 
                 case States.LOOKING_FOR_MATE: // Secondary need
-                    MoveToClosestMate(animalScript);
+                    MoveToClosestPotentialMate(animalScript);
 
                     break;
 
@@ -200,7 +200,7 @@ public class AnimalManager : MonoBehaviour
         myNavMeshAgent.SetDestination(animalScript.gameObject.transform.position);
     }
 
-    private void MoveToClosestMate(Animal animalScript)
+    private void MoveToClosestPotentialMate(Animal animalScript)
     {
         Reproduction myGender = animalScript.gameObject.GetComponent<Reproduction>();
 
@@ -219,18 +219,20 @@ public class AnimalManager : MonoBehaviour
             Reproduction mateGender = potentialMates[i].GetComponent<Reproduction>();
             if (myGender.gender == mateGender.gender) continue;
 
-            // Babies can't be mates
-            AgeController otherAgeController = potentialMates[i].GetComponent<AgeController>();
-            if (otherAgeController.IsBaby()) continue;
+            // A mate must also be in "LOOKING_FOR_MATE" state
+            Animal otherAnimalScript = potentialMates[i].GetComponent<Animal>();
+            if (otherAnimalScript.state != States.LOOKING_FOR_MATE) continue; // Since babies can't be on this state, this also ensures that babies are not mates
 
             float distance = Vector3.Distance(potentialMates[i].transform.position, animalScript.gameObject.transform.position);
 
-            // Mate found at less tha 1f unit of distance
-            if (distance < 1f)
+            if (distance < 1f) // Mate found, let's reproduce!
             {
                 if (myGender.gender == 0) myGender.GetPregnant();
                 animalScript.SetMaxReproductionUrge();
                 break;
+            }else if (myGender.gender == 0 && distance < 10f) // Females wait at 10f distance for the male. Removing this causes a weird reproduction pattern
+            {
+                animalScript.StopMoving();
             }
 
             if (distance < smallestDistance)

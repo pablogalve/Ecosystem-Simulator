@@ -86,4 +86,12 @@ public class Animal : MonoBehaviour
         if (ageController.IsBaby() || reproduction.IsPregnant()) myNavMeshAgent.speed = speedForBabiesAndPregnants;        
         else myNavMeshAgent.speed = speed;
     }
+
+    public void StopMoving()
+    {
+        NavMeshAgent myNavMeshAgent = gameObject.GetComponent<NavMeshAgent>();
+        if (myNavMeshAgent == null) Debug.LogError("myNavMeshAgent was null on AnimalManager.cs on StopMoving()");
+
+        myNavMeshAgent.SetDestination(gameObject.transform.position);
+    }
 }
