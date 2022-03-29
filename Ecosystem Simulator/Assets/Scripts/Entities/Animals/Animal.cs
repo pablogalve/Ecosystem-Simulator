@@ -8,10 +8,13 @@ public class Animal : MonoBehaviour
     public AnimalManager.States state;
 
     // Basic needs for animals
-    private byte maxNeed = 10; // Needs go from 
-    public byte reproductionUrge; // Goes from 0 (no reproduction urge) to max
-    public byte hunger; // Goes from 0 (death from starvation) to max
-    private float minDistanceToEat = 1f;    
+    public byte maxNeed = 10; // Needs go from 
+    private byte reproductionUrge; // Goes from 0 (no reproduction urge) to max
+    private byte hunger; // Goes from 0 (death from starvation) to max
+    private float minDistanceToEat = 1f;
+
+    public float speed = 4.0f;
+    public float speedForBabiesAndPregnants = 2.0f;
 
     // Start is called before the first frame update
     void Awake()
@@ -54,7 +57,7 @@ public class Animal : MonoBehaviour
         else hunger--;
 
         AgeController ageController = gameObject.GetComponent<AgeController>();
-        if (ageController.isBaby() == true) return; // Babies don't have reproduction urge
+        if (ageController.IsBaby() == true) return; // Babies don't have reproduction urge
 
         // ReproductionUrge can't go below 0. It will stay on 0 until the animal dies
         if (reproductionUrge != 0) reproductionUrge--;
@@ -65,5 +68,22 @@ public class Animal : MonoBehaviour
         EntityManager entityManager = GameObject.Find("GameManager").GetComponent<EntityManager>();
         Entity entityScript = gameObject.GetComponent<Entity>();
         entityManager.TryToKill(EntityManager.EntityType.ANIMAL, entityScript.GetUUID());
+    }
+
+    public void MoveTo(Transform targetPosition)
+    {
+        NavMeshAgent myNavMeshAgent = gameObject.GetComponent<NavMeshAgent>();
+        AgeController ageController = gameObject.GetComponent <AgeController>();
+        Reproduction reproduction = gameObject.GetComponent<Reproduction>();
+
+        if (myNavMeshAgent == null) { Debug.LogError("myNavMeshAgent was null on Animal.cs on MoveTo()"); return; }
+        if (ageController == null) { Debug.LogError("ageController was null on Animal.cs on MoveTo()"); return; }
+        if (reproduction == null) { Debug.LogError("reproduction was null on Animal.cs on MoveTo()"); return; }
+
+        myNavMeshAgent.SetDestination(targetPosition.position);
+
+        // Reduce speed to babies and pregnant females
+        if (ageController.IsBaby() || reproduction.IsPregnant()) myNavMeshAgent.speed = speedForBabiesAndPregnants;        
+        else myNavMeshAgent.speed = speed;
     }
 }

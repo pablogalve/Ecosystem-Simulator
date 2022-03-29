@@ -154,9 +154,7 @@ public class AnimalManager : MonoBehaviour
 
         if (foodPos == null) return; // There are no food GOs in the scene
 
-        NavMeshAgent myNavMeshAgent = animalScript.gameObject.GetComponent<NavMeshAgent>();
-        if (myNavMeshAgent == null) Debug.LogError("myNavMeshAgent was null on AnimalManager.cs on MoveToFood()");
-        myNavMeshAgent.SetDestination(foodPos.position);        
+        animalScript.MoveTo(foodPos);      
     }
 
     private Transform FindClosestFood(Animal animalScript)
@@ -219,11 +217,11 @@ public class AnimalManager : MonoBehaviour
 
             // Mates can only be of the opposite gender
             Reproduction mateGender = potentialMates[i].GetComponent<Reproduction>();
-            if (myGender.gender == mateGender.gender) continue; 
+            if (myGender.gender == mateGender.gender) continue;
 
             // Babies can't be mates
             AgeController otherAgeController = potentialMates[i].GetComponent<AgeController>();
-            if (otherAgeController.isBaby()) continue; 
+            if (otherAgeController.IsBaby()) continue;
 
             float distance = Vector3.Distance(potentialMates[i].transform.position, animalScript.gameObject.transform.position);
 
@@ -245,8 +243,7 @@ public class AnimalManager : MonoBehaviour
         // Move to closest potential mate
         if (indexOfClosestMate != -1)
         {
-            NavMeshAgent myNavMeshAgent = animalScript.gameObject.GetComponent<NavMeshAgent>();
-            myNavMeshAgent.SetDestination(potentialMates[indexOfClosestMate].transform.position);
+            animalScript.MoveTo(potentialMates[indexOfClosestMate].transform);
         }
     }
 }

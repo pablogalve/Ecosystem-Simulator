@@ -71,7 +71,7 @@ public class TreeManager : MonoBehaviour
                 continue;
             }
 
-            if (ageController.isBaby() == false)
+            if (ageController.IsBaby() == false)
             {
                 entityManager.TryToSpawn(EntityManager.EntityType.TREE, 
                                         treePrefab, 

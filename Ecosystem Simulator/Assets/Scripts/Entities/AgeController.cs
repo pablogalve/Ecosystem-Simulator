@@ -18,7 +18,7 @@ public class AgeController : MonoBehaviour
         }
     }
 
-    public bool isBaby()
+    public bool IsBaby()
     {
         return age < maxAge * reproductionAge;
     }
