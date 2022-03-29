@@ -5,93 +5,93 @@ using UnityEngine.AI;
 
 public class Animal : MonoBehaviour
 {
-    // FOOD and HUNGER
-    EntityManager entityManager = null;
-    public float hunger = 180f;
-    public float minDistanceToEat = 1f;
+    public AnimalManager.States state;
 
-    NavMeshAgent myNavMeshAgent;    
+    // Basic needs for animals
+    public byte maxNeed = 10; // Needs go from 
+    private byte reproductionUrge; // Goes from 0 (no reproduction urge) to max
+    private byte hunger; // Goes from 0 (death from starvation) to max
+    private float minDistanceToEat = 1f;
+
+    public float speed = 4.0f;
+    public float speedForBabiesAndPregnants = 2.0f;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        myNavMeshAgent = GetComponent<NavMeshAgent>();
-        GameObject gameManager = GameObject.FindGameObjectWithTag("GameManager");
-        entityManager = gameManager.GetComponent<EntityManager>();
+        state = AnimalManager.States.IDLE;
+        reproductionUrge = maxNeed;
+        hunger = maxNeed;       
     }
 
-    // Update is called once per frame
-    void Update()
+    public bool isHungry()
     {
-        hunger -= Time.deltaTime;
-
-        if(hunger <= 0)
-        {
-            Destroy(gameObject);
-        }
-
-        MoveToFood();
+        return hunger <= maxNeed >> 1; // Return true is hunger <= maxNeed/2
     }
 
-    void MoveToFood()
+    public bool wantsToReproduce()
     {
-        Transform foodPos = FindClosestFood();
-
-        if(foodPos != null)
-        {
-            myNavMeshAgent.SetDestination(foodPos.position);
-        }
+        float reproductionUrgePercentage = (float)(reproductionUrge) / (float)(maxNeed);
+        return reproductionUrgePercentage <= 0.4f;
     }
 
-    void Eat(GameObject food)
+    public bool canEat(float distance)
     {
-        if(food == null)
-        {
-            Debug.LogWarning("food is null on Animal.cs. Eat()");
-            return;
-        }
-
-        Entity entityScript = food.GetComponent<Entity>();
-        if (entityScript == null)
-        {
-            Debug.LogWarning("entityScript is null on Animal.cs. Eat()");
-            return;
-        }
-
-        entityManager.TryToKill(EntityManager.EntityType.FOOD, entityScript.GetUUID());
-        hunger += 30f;        
+        return distance <= minDistanceToEat;
     }
 
-    Transform FindClosestFood()
+    public void Eat()
     {
-        // Create local list because it is not guaranteed that "foodManager.foodList" will not change while it is being iterated
-        List<GameObject> foodList = entityManager.entities[(int)EntityManager.EntityType.FOOD];
+        // Eating restores a maximum of 50% of the animal's total hunger. Example: If current hunger is 30% and it eats, hunger becomes 80% (30+50)        
+        hunger += (byte)(maxNeed >> 1); // Bit-shifting. ">> 1" is like dividing by 2
+    }
 
-        int indexOfClosestFood = -1;
-        float smallestDistance = float.MaxValue;
+    public void SetMaxReproductionUrge()
+    {
+        reproductionUrge = maxNeed;
+    }
 
-        for(int i = 0; i < foodList.Count; i++)
-        {
-            // Food died before we could arrive
-            if (foodList[i] == null) continue;
+    public void UpdateAllStats()
+    {
+        if (hunger == 0) Die();
+        else hunger--;
 
-            float distance = Vector3.Distance(foodList[i].transform.position, gameObject.transform.position);
+        AgeController ageController = gameObject.GetComponent<AgeController>();
+        if (ageController.IsBaby() == true) return; // Babies don't have reproduction urge
 
-            // If food is found at an eatable distance, then animal stops looking for other food
-            if(distance <= minDistanceToEat)
-            {
-                Eat(foodList[i]);
-                break;
-            }
+        // ReproductionUrge can't go below 0. It will stay on 0 until the animal dies
+        if (reproductionUrge != 0) reproductionUrge--;
+    }
 
-            if (distance < smallestDistance)
-            {
-                indexOfClosestFood = i;
-                smallestDistance = distance;
-            }
-        }
+    private void Die()
+    {
+        EntityManager entityManager = GameObject.Find("GameManager").GetComponent<EntityManager>();
+        Entity entityScript = gameObject.GetComponent<Entity>();
+        entityManager.TryToKill(EntityManager.EntityType.ANIMAL, entityScript.GetUUID());
+    }
 
-        if (indexOfClosestFood == -1) return null;
-        else return foodList[indexOfClosestFood].transform;
+    public void MoveTo(Transform targetPosition)
+    {
+        NavMeshAgent myNavMeshAgent = gameObject.GetComponent<NavMeshAgent>();
+        AgeController ageController = gameObject.GetComponent <AgeController>();
+        Reproduction reproduction = gameObject.GetComponent<Reproduction>();
+
+        if (myNavMeshAgent == null) { Debug.LogError("myNavMeshAgent was null on Animal.cs on MoveTo()"); return; }
+        if (ageController == null) { Debug.LogError("ageController was null on Animal.cs on MoveTo()"); return; }
+        if (reproduction == null) { Debug.LogError("reproduction was null on Animal.cs on MoveTo()"); return; }
+
+        myNavMeshAgent.SetDestination(targetPosition.position);
+
+        // Reduce speed to babies and pregnant females
+        if (ageController.IsBaby() || reproduction.IsPregnant()) myNavMeshAgent.speed = speedForBabiesAndPregnants;        
+        else myNavMeshAgent.speed = speed;
+    }
+
+    public void StopMoving()
+    {
+        NavMeshAgent myNavMeshAgent = gameObject.GetComponent<NavMeshAgent>();
+        if (myNavMeshAgent == null) Debug.LogError("myNavMeshAgent was null on AnimalManager.cs on StopMoving()");
+
+        myNavMeshAgent.SetDestination(gameObject.transform.position);
     }
 }

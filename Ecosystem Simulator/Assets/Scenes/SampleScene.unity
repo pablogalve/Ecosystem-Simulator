@@ -623,7 +623,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapAreas: {x: 20, y: 20}
   worldSize: {x: 2200, y: 2200}
-  maxTreesPerArea: 100
+  maxTreesPerArea: 200
 --- !u!114 &1232884836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -638,7 +638,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxTrees: 10000
   maxFood: 5000
-  maxAnimals: 0
+  maxAnimals: 500
 --- !u!114 &1232884837
 MonoBehaviour:
   m_ObjectHideFlags: 0

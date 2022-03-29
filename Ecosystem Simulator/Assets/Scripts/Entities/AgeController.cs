@@ -4,25 +4,22 @@ using UnityEngine;
 
 public class AgeController : MonoBehaviour
 {
-    public byte age = 0;
+    public byte age = 1;
     public byte maxAge = 10;
     public float reproductionAge = 0.5f; // 0.0f <> 1.0f // Percentage of age when tree can start to reproduce
     public bool growsInSize = false;
 
-    private void Start()
+    private void Awake()
     {
-        // Initialize at age 0 and size 0
+        if (growsInSize)
         {
-            age = 1;
-            if (growsInSize) 
-            {
-                float agePercentage = (float)(age) / (float)(maxAge);
-                transform.localScale = Vector3.one * agePercentage;
-            }
+            float agePercentage = (float)(age) / (float)(maxAge);
+            transform.localScale = Vector3.one * agePercentage;
         }
     }
-    public bool canReproduce()
+
+    public bool IsBaby()
     {
-        return age >= maxAge * reproductionAge;
+        return age < maxAge * reproductionAge;
     }
 }

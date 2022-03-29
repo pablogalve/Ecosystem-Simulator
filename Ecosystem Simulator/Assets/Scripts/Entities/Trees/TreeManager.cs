@@ -51,18 +51,18 @@ public class TreeManager : MonoBehaviour
             }
         }
 
-        yield return new WaitForSeconds(10.0f); // Wait before repeating the cycle
+        yield return new WaitForSeconds(35.0f); // Wait before repeating the cycle
         StartCoroutine(GenerateFood());
     }
 
     private IEnumerator AsexualReproduction()
     {        
-        if (entityManager.isMaxCapReached((int)EntityManager.EntityType.TREE)) yield return null; // We can't have infinite entities for performance issues
+        if (entityManager.isMaxCapReached(EntityManager.EntityType.TREE)) yield return null; // We can't have infinite entities for performance issues
 
         // Iterate all the entities of the same type
         for (int j = 0; j < entityManager.entities[(int)EntityManager.EntityType.TREE].Count; j++)
         {
-            if (entityManager.isMaxCapReached((int)EntityManager.EntityType.TREE)) break;
+            if (entityManager.isMaxCapReached(EntityManager.EntityType.TREE)) break;
 
             AgeController ageController = entityManager.entities[(int)EntityManager.EntityType.TREE][j].GetComponent<AgeController>();
             if (ageController == null)
@@ -71,7 +71,7 @@ public class TreeManager : MonoBehaviour
                 continue;
             }
 
-            if (ageController.canReproduce())
+            if (ageController.IsBaby() == false)
             {
                 entityManager.TryToSpawn(EntityManager.EntityType.TREE, 
                                         treePrefab, 

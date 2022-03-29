@@ -20,7 +20,6 @@ public class EntityManager : MonoBehaviour
     // Acess to other scripts
     AnimalManager animalManager = null;
     TreeManager treeManager = null;
-    HeighmapData heightmapData = null;
 
     private void Awake()
     {
@@ -35,8 +34,7 @@ public class EntityManager : MonoBehaviour
     void Start()
     {
         animalManager = GetComponent<AnimalManager>();
-        treeManager = GetComponent<TreeManager>();
-        heightmapData = GetComponent<HeighmapData>();        
+        treeManager = GetComponent<TreeManager>();      
 
         SetInitialScene();
 
@@ -145,33 +143,34 @@ public class EntityManager : MonoBehaviour
     private void SetInitialScene()
     {
         for (int i = 0; i < 50; i++) {
-            TryToSpawn(EntityType.TREE, treeManager.treePrefab, 1000, 1000, 500);
+            TryToSpawn(EntityType.TREE, treeManager.treePrefab, 1000, 1000, 500, 15);
         }
 
         AnimalManager animalManager = GetComponent<AnimalManager>();
-        TryToSpawn(EntityType.ANIMAL, animalManager.animalPrefab, 50f, 50f, 0.0f);
-        TryToSpawn(EntityType.ANIMAL, animalManager.animalPrefab, 300f, 300f, 0.0f);
-        TryToSpawn(EntityType.ANIMAL, animalManager.animalPrefab, 200f, 300f, 0.0f);
-        TryToSpawn(EntityType.ANIMAL, animalManager.animalPrefab, 400f, 300f, 0.0f);
-        TryToSpawn(EntityType.ANIMAL, animalManager.animalPrefab, 50f, 300f, 0.0f);
-        TryToSpawn(EntityType.ANIMAL, animalManager.animalPrefab, 300f, 250f, 0.0f);
-        TryToSpawn(EntityType.ANIMAL, animalManager.animalPrefab, 30f, 30f, 0.0f);
+        for (int i = 0; i < 150; i++)
+        {
+            TryToSpawn(EntityType.ANIMAL, animalManager.animalPrefab, 1000, 1000, 500);
+        }
     }
 
-    public void TryToSpawn(EntityType type, GameObject prefab, float x, float z, float randomVariation)
+    public void TryToSpawn(EntityType type, GameObject prefab, float x, float z, float randomVariation, byte initialAge = 1)
     {
         if (prefab == null) return;
 
         // Generate a spawn position
         Vector3 spawnPos = new Vector3(x, 0f, z);
-        spawnPos.x += heightmapData.GetRandomVariation(-randomVariation, randomVariation);
-        spawnPos.z += heightmapData.GetRandomVariation(-randomVariation, randomVariation);
-        spawnPos = heightmapData.GetTerrainHeight(spawnPos.x, spawnPos.z);
+        spawnPos.x += HeighmapData.Instance.GetRandomVariation(-randomVariation, randomVariation);
+        spawnPos.z += HeighmapData.Instance.GetRandomVariation(-randomVariation, randomVariation);
+        spawnPos = HeighmapData.Instance.GetTerrainHeight(spawnPos.x, spawnPos.z);
 
-        if (!heightmapData.isValidSpawnPoint(type, spawnPos)) return;
+        if (!HeighmapData.Instance.isValidSpawnPoint(type, spawnPos)) return;
 
         // Prefab and position are valid, so it can be instantiated
         GameObject gameObject = Instantiate(prefab, spawnPos, Quaternion.identity);
+
+        //Set age
+        AgeController ageController = gameObject.GetComponent<AgeController>();
+        ageController.age = initialAge;
 
         switch (type)
         {
@@ -222,9 +221,8 @@ public class EntityManager : MonoBehaviour
                     entities[i][j].transform.localScale = Vector3.one * agePercentage;
                 }
             }
-            //yield return null;
         }
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(30f);
         StartCoroutine(GrowOrDie());
     }
 

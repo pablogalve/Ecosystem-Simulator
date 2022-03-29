@@ -95,9 +95,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea7bbffda08c7de4f92bcdb979efa191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  age: 0
-  maxAge: 15
-  reproductionAge: 0.5
+  age: 1
+  maxAge: 30
+  reproductionAge: 0.25
   growsInSize: 1
 --- !u!114 &-7794253981079642969
 MonoBehaviour:

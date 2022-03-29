@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 5574439415668397010}
   - component: {fileID: 5925373776978027833}
   - component: {fileID: 5501823048568499187}
-  - component: {fileID: 2381100159656603023}
   - component: {fileID: -197795183172024547}
   - component: {fileID: -3964415652145999578}
   - component: {fileID: -5274298205901416852}
   - component: {fileID: 114776799410378477}
+  - component: {fileID: 4918109558199072577}
   m_Layer: 0
   m_Name: Animal
   m_TagString: Untagged
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 93ab430e83959894695d59edefc4a5a5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -86,19 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2381100159656603023
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1291810309633072332}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!195 &-197795183172024547
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -133,8 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b21153ecf5ebc1469684ab62be22e06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hunger: 60
-  minDistanceToEat: 1
+  state: 0
 --- !u!114 &-5274298205901416852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,8 +133,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea7bbffda08c7de4f92bcdb979efa191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  age: 0
-  maxAge: 8
+  age: 1
+  maxAge: 15
   reproductionAge: 0.5
   growsInSize: 1
 --- !u!114 &114776799410378477
@@ -163,3 +149,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9206df8ef1e63f44a0714725e2e5f19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4918109558199072577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291810309633072332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e17eb3b508c91d409936e51714071f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gender: 0
+  gestationPeriod: 2
