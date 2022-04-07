@@ -13,7 +13,7 @@ public class Window_Graph : MonoBehaviour
 
     private void Awake()
     {
-        graphContainer = GetComponent<RectTransform>();
+        graphContainer = GameObject.Find("graphContainer").GetComponent<RectTransform>();
         labelTemplateX = GameObject.Find("labelTemplateX").GetComponent<RectTransform>();
         labelTemplateY = GameObject.Find("labelTemplateY").GetComponent<RectTransform>();
 
@@ -59,6 +59,17 @@ public class Window_Graph : MonoBehaviour
             labelX.gameObject.SetActive(true);
             labelX.anchoredPosition = new Vector2(xPosition, -20f);
             labelX.GetComponent<Text>().text = i.ToString();
+        }
+
+        int separatorCount = 10;
+        for(int i = 0; i <= separatorCount; i++)
+        {
+            RectTransform labelY = Instantiate(labelTemplateY);
+            labelY.SetParent(graphContainer, false);
+            labelY.gameObject.SetActive(true);
+            float normalizedValue = i * 1f / separatorCount;
+            labelY.anchoredPosition = new Vector2(-xSize * 1.5f, normalizedValue * graphHeight);
+            labelY.GetComponent<Text>().text = Mathf.RoundToInt(normalizedValue * yMaximum).ToString();
         }
     }
 
