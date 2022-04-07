@@ -1,17 +1,20 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EntityFactory : MonoBehaviour
 {
     [SerializeField] private List<GameObject> animals = new List<GameObject>();
+    [SerializeField] private List<GameObject> trees = new List<GameObject>();
+
     private Dictionary<int, GameObject> _idToAnimal;
+
     private EntityManager entityManager = null;
 
     private void Awake()
     {
         _idToAnimal = new Dictionary<int, GameObject>();
+
         foreach(var animal in animals)
         {
             Animal animalScript = animal.GetComponent<Animal>();
@@ -65,5 +68,15 @@ public class EntityFactory : MonoBehaviour
         AddToEntitiesList(EntityManager.EntityType.ANIMAL, newAnimal);
 
         return newAnimal;
+    }
+
+    public GameObject SpawnRandomTree(float x, float z, float randomVariation = 0)
+    {
+        Vector3 spawnPos = GenerateSpawnPosition(x, z, randomVariation);
+        GameObject newTree = Instantiate(trees[UnityEngine.Random.Range(0, trees.Count - 1)], spawnPos, Quaternion.Euler(0.0f, UnityEngine.Random.Range(0.0f, 360.0f), 0.0f));
+
+        AddToEntitiesList(EntityManager.EntityType.TREE, newTree);
+
+        return newTree;
     }
 }

@@ -54,18 +54,22 @@ public class Reproduction : MonoBehaviour
             EntityManager entityManager = GameObject.Find("GameManager").GetComponent<EntityManager>();
             if(entityManager.isMaxCapReached(EntityManager.EntityType.ANIMAL) == false)
             {
-                //entityManager.TryToSpawn(EntityManager.EntityType.ANIMAL, babyPrefab, gameObject.transform.position.x, gameObject.transform.position.z, 1f);
                 Animal animalScript = gameObject.GetComponent<Animal>();
 
                 EntityFactory entityFactory = GameObject.Find("GameManager").GetComponent<EntityFactory>();
-                if(animalScript.species == AnimalManager.Species.R) //TODO:Refactor this to make it cleaner
+                if (animalScript.species == AnimalManager.Species.R) //TODO:Refactor this to make it cleaner
                 {
                     entityFactory.SpawnAnimalOfRandomGender((int)animalScript.species, gameObject.transform.position.x, gameObject.transform.position.z, 2f);
                     entityFactory.SpawnAnimalOfRandomGender((int)animalScript.species, gameObject.transform.position.x, gameObject.transform.position.z, 2f);
                     entityFactory.SpawnAnimalOfRandomGender((int)animalScript.species, gameObject.transform.position.x, gameObject.transform.position.z, 2f);
                     entityFactory.SpawnAnimalOfRandomGender((int)animalScript.species, gameObject.transform.position.x, gameObject.transform.position.z, 2f);
                     entityFactory.SpawnAnimalOfRandomGender((int)animalScript.species, gameObject.transform.position.x, gameObject.transform.position.z, 2f);
-                }else entityFactory.SpawnAnimalOfRandomGender((int)animalScript.species, gameObject.transform.position.x, gameObject.transform.position.z, 2f);
+                }
+                else 
+                { 
+                    entityFactory.SpawnAnimalOfRandomGender((int)animalScript.species, gameObject.transform.position.x, gameObject.transform.position.z, 2f); 
+                    entityFactory.SpawnAnimalOfRandomGender((int)animalScript.species, gameObject.transform.position.x, gameObject.transform.position.z, 2f);
+                }
             }
 
             currPregnancyTime = 0;

@@ -683,6 +683,8 @@ MonoBehaviour:
   animals:
   - {fileID: 1291810309633072332, guid: a2574e526fba9c24dac71c397c534015, type: 3}
   - {fileID: 1291810309633072332, guid: 16deedf8f8d163f4fb83a1a3ce63f034, type: 3}
+  trees:
+  - {fileID: 1806213140507979633, guid: aaf4cec9501e3fd48a3f8d78d616c663, type: 3}
 --- !u!1001 &1337333415
 PrefabInstance:
   m_ObjectHideFlags: 0

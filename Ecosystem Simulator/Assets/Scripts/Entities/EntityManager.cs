@@ -142,17 +142,15 @@ public class EntityManager : MonoBehaviour
 
     private void SetInitialScene()
     {
+        EntityFactory entityFactory = gameObject.GetComponent<EntityFactory>();
         for (int i = 0; i < 50; i++) {
-            TryToSpawn(EntityType.TREE, treeManager.treePrefab, 1000, 1000, 500, 15);
+            entityFactory.SpawnRandomTree(1000, 1000, 500);
         }
 
-        AnimalManager animalManager = GetComponent<AnimalManager>();
         for (int i = 0; i < 150; i++)
-        {
-            EntityFactory entityFactory = gameObject.GetComponent<EntityFactory>();
+        {            
             entityFactory.SpawnAnimalOfRandomGender((int)AnimalManager.Species.K, 1000, 1000, 500);
             entityFactory.SpawnAnimalOfRandomGender((int)AnimalManager.Species.R, 1000, 1000, 500);
-            //TryToSpawn(EntityType.ANIMAL, animalManager.animalPrefab, 1000, 1000, 500);
         }
     }
 

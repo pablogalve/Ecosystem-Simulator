@@ -123,6 +123,8 @@ MonoBehaviour:
   species: 2
   state: 0
   maxNeed: 12
+  reproductionUrge: 0
+  hunger: 0
   speed: 4
   speedForBabiesAndPregnants: 2
 --- !u!114 &-5274298205901416852
@@ -167,5 +169,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gender: 0
   isPregnant: 0
-  gestationPeriod: 5
+  gestationPeriod: 3
   currPregnancyTime: 0
