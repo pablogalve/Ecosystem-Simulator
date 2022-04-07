@@ -5,12 +5,13 @@ using UnityEngine.AI;
 
 public class Animal : MonoBehaviour
 {
+    public AnimalManager.Species species = AnimalManager.Species.UNDEFINED;
     public AnimalManager.States state;
 
     // Basic needs for animals
     public byte maxNeed = 10; // Needs go from 
-    private byte reproductionUrge; // Goes from 0 (no reproduction urge) to max
-    private byte hunger; // Goes from 0 (death from starvation) to max
+    public byte reproductionUrge; // Goes from 0 (no reproduction urge) to max
+    public byte hunger; // Goes from 0 (death from starvation) to max
     private float minDistanceToEat = 1f;
 
     public float speed = 4.0f;

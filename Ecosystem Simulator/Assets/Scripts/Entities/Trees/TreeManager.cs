@@ -6,6 +6,7 @@ public class TreeManager : MonoBehaviour
 {
     public GameObject treePrefab = null;
     EntityManager entityManager = null;
+    EntityFactory entityFactory = null;
 
     // FOOD
     public GameObject foodPrefab = null;
@@ -13,6 +14,8 @@ public class TreeManager : MonoBehaviour
     void Start()
     {
         entityManager = GetComponent<EntityManager>();
+        entityFactory = GetComponent<EntityFactory>();
+
         StartCoroutine(GenerateFood());
         StartCoroutine(AsexualReproduction());
     }
@@ -46,7 +49,7 @@ public class TreeManager : MonoBehaviour
                 // Check that tree is old enough to produce food
                 if (ageScript.age >= ageScript.reproductionAge * ageScript.maxAge)
                 {
-                    entityManager.TryToSpawn(EntityManager.EntityType.FOOD, foodPrefab, trees[i].transform.position.x, trees[i].transform.position.z, 2f);
+                    entityFactory.SpawnFood(trees[i].transform.position.x, trees[i].transform.position.z, 2f);
                 }
             }
         }
@@ -73,11 +76,10 @@ public class TreeManager : MonoBehaviour
 
             if (ageController.IsBaby() == false)
             {
-                entityManager.TryToSpawn(EntityManager.EntityType.TREE, 
-                                        treePrefab, 
-                                        entityManager.entities[(int)EntityManager.EntityType.TREE][j].transform.position.x, 
-                                        entityManager.entities[(int)EntityManager.EntityType.TREE][j].transform.position.z, 
-                                        50f);
+                entityFactory.SpawnRandomTree(
+                    entityManager.entities[(int)EntityManager.EntityType.TREE][j].transform.position.x, 
+                    entityManager.entities[(int)EntityManager.EntityType.TREE][j].transform.position.z, 
+                    50f);
             }
         }
 

@@ -5,6 +5,13 @@ using UnityEngine.AI;
 
 public class AnimalManager : MonoBehaviour
 {
+    public enum Species
+    {
+        UNDEFINED,
+        R,
+        K,
+    }
+
     public enum States { 
         IDLE,
         LOOKING_FOR_FOOD,
@@ -13,7 +20,9 @@ public class AnimalManager : MonoBehaviour
     }
 
     public GameObject animalPrefab = null;
-    EntityManager entityManager = null;
+    public List<GameObject> animalPrefabs = new List<GameObject>();
+
+    private EntityManager entityManager = null;
 
     // Start is called before the first frame update
     void Start()
@@ -215,13 +224,14 @@ public class AnimalManager : MonoBehaviour
             // Mate died before the animal could arrive
             if (potentialMates[i] == null) continue;
 
-            // Mates can only be of the opposite gender
-            Reproduction mateGender = potentialMates[i].GetComponent<Reproduction>();
-            if (myGender.gender == mateGender.gender) continue;
-
             // A mate must also be in "LOOKING_FOR_MATE" state
             Animal otherAnimalScript = potentialMates[i].GetComponent<Animal>();
             if (otherAnimalScript.state != States.LOOKING_FOR_MATE) continue; // Since babies can't be on this state, this also ensures that babies are not mates
+            if (animalScript.species != otherAnimalScript.species) continue; 
+
+            // Mates can only be of the opposite gender
+            Reproduction mateGender = potentialMates[i].GetComponent<Reproduction>();
+            if (myGender.gender == mateGender.gender) continue;
 
             float distance = Vector3.Distance(potentialMates[i].transform.position, animalScript.gameObject.transform.position);
 
