@@ -144,49 +144,13 @@ public class EntityManager : MonoBehaviour
     {
         EntityFactory entityFactory = gameObject.GetComponent<EntityFactory>();
         for (int i = 0; i < 50; i++) {
-            entityFactory.SpawnRandomTree(1000, 1000, 500);
+            entityFactory.SpawnRandomTree(1000f, 1000f, 500f, 12);
         }
 
         for (int i = 0; i < 150; i++)
         {            
-            entityFactory.SpawnAnimalOfRandomGender((int)AnimalManager.Species.K, 1000, 1000, 500);
-            entityFactory.SpawnAnimalOfRandomGender((int)AnimalManager.Species.R, 1000, 1000, 500);
-        }
-    }
-
-    public void TryToSpawn(EntityType type, GameObject prefab, float x, float z, float randomVariation, byte initialAge = 1)
-    {
-        if (prefab == null) return;
-
-        // Generate a spawn position
-        Vector3 spawnPos = new Vector3(x, 0f, z);
-        spawnPos.x += HeighmapData.Instance.GetRandomVariation(-randomVariation, randomVariation);
-        spawnPos.z += HeighmapData.Instance.GetRandomVariation(-randomVariation, randomVariation);
-        spawnPos = HeighmapData.Instance.GetTerrainHeight(spawnPos.x, spawnPos.z);
-
-        if (!HeighmapData.Instance.isValidSpawnPoint(type, spawnPos)) return;
-
-        // Prefab and position are valid, so it can be instantiated
-        GameObject gameObject = Instantiate(prefab, spawnPos, Quaternion.identity);
-
-        //Set age
-        AgeController ageController = gameObject.GetComponent<AgeController>();
-        ageController.age = initialAge;
-
-        switch (type)
-        {
-            case EntityType.TREE:
-                entities[(int)EntityType.TREE].Add(gameObject);
-                break;
-            case EntityType.FOOD:
-                entities[(int)EntityType.FOOD].Add(gameObject);
-                break;
-            case EntityType.ANIMAL:
-                entities[(int)EntityType.ANIMAL].Add(gameObject);
-                break;
-            default:
-                Debug.LogError("Entered default on TryToSpawn on EntityManager.cs");
-                break;
+            entityFactory.SpawnAnimalOfRandomGender((int)AnimalManager.Species.K, 1000f, 1000f, 500f);
+            entityFactory.SpawnAnimalOfRandomGender((int)AnimalManager.Species.R, 1000f, 1000f, 500f);
         }
     }
 
