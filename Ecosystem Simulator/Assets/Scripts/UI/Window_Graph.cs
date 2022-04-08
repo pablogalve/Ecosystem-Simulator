@@ -11,46 +11,72 @@ public class Window_Graph : MonoBehaviour
     private RectTransform labelTemplateX;
     private RectTransform labelTemplateY;
 
+    private EntityManager entityManager = null;
+    private List<List<int>> entitiesAmountHistory = new List<List<int>>();
+    private List<GameObject> UIelements = new List<GameObject> ();
+
     private void Awake()
     {
         graphContainer = GameObject.Find("graphContainer").GetComponent<RectTransform>();
         labelTemplateX = GameObject.Find("labelTemplateX").GetComponent<RectTransform>();
         labelTemplateY = GameObject.Find("labelTemplateY").GetComponent<RectTransform>();
+        entityManager = GameObject.Find("GameManager").GetComponent<EntityManager>();
 
-        List<int> valueList = new List<int>() { 1,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100};
-        ShowGraph(valueList);
+        StartCoroutine(InitializeCharts());
     }
 
-    private GameObject CreateCircle(Vector2 anchoredPosition)
+    private IEnumerator InitializeCharts()
     {
-        GameObject gameObject = new GameObject("circle", typeof(Image));
-        gameObject.transform.SetParent(graphContainer, false);
-        gameObject.GetComponent<Image>().sprite = circleSprite;
-        RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
-        rectTransform.anchoredPosition = anchoredPosition;
-        rectTransform.sizeDelta = new Vector2(11, 11);
-        rectTransform.anchorMin = new Vector2(0, 0);
-        rectTransform.anchorMax = new Vector2(0, 0);
+        yield return new WaitForSeconds(1f); // Wait for other scripts
 
-        return gameObject;
+        for (int i = 0; i < entityManager.entities.Count; i++)
+        {
+            List<int> listToAdd = new List<int>();
+            entitiesAmountHistory.Add(listToAdd);            
+        }
+
+        StartCoroutine(UpdateCharts());
     }
 
-    private void ShowGraph(List<int> valueList)
+    private IEnumerator UpdateCharts()
+    {
+        // Remove previous UI elements
+        for (int i = 0; i < UIelements.Count; i++) Destroy(UIelements[i]);
+        UIelements.Clear();
+
+        for(int i = 0; i < entitiesAmountHistory.Count; i++)
+        {
+            // Update values
+            int currNum = entityManager.entities[i].Count;
+            entitiesAmountHistory[i].Add(currNum);
+
+            // Update UI
+            float rgbValue = (float)(i * 1.0f / entitiesAmountHistory.Count * 1.0f);
+            ShowGraph(entitiesAmountHistory[i], new Color(rgbValue, rgbValue, rgbValue));
+        }        
+
+        yield return new WaitForSeconds(5f);
+        StartCoroutine(UpdateCharts());
+    }
+
+    private void ShowGraph(List<int> valueList, Color color)
     {
         float graphHeight = graphContainer.sizeDelta.y;
         float xSize = graphContainer.sizeDelta.x / valueList.Count;
         float yMaximum = valueList.Max();
 
         GameObject lastCircleGameObject = null;
-        for(int i = 0; i < valueList.Count; i++)
+        for (int i = 0; i < valueList.Count; i++)
         {
             float xPosition = i * xSize;
             float yPosition = (valueList[i] / yMaximum) * graphHeight;
-            GameObject circleGameObject = CreateCircle(new Vector2(xPosition, yPosition));
-            
+            GameObject circleGameObject = CreateCircle(new Vector2(xPosition, yPosition), color);
+
             if (lastCircleGameObject != null)
             {
-                CreateDotConnection(lastCircleGameObject.GetComponent<RectTransform>().anchoredPosition, circleGameObject.GetComponent<RectTransform>().anchoredPosition);
+                CreateDotConnection(lastCircleGameObject.GetComponent<RectTransform>().anchoredPosition,
+                                    circleGameObject.GetComponent<RectTransform>().anchoredPosition,
+                                    color);
             }
             lastCircleGameObject = circleGameObject;
 
@@ -62,7 +88,7 @@ public class Window_Graph : MonoBehaviour
         }
 
         int separatorCount = 10;
-        for(int i = 0; i <= separatorCount; i++)
+        for (int i = 0; i <= separatorCount; i++)
         {
             RectTransform labelY = Instantiate(labelTemplateY);
             labelY.SetParent(graphContainer, false);
@@ -73,11 +99,29 @@ public class Window_Graph : MonoBehaviour
         }
     }
 
-    private void CreateDotConnection(Vector2 dotPositionA, Vector2 dotPositionB)
+    private GameObject CreateCircle(Vector2 anchoredPosition, Color color)
+    {
+        GameObject gameObject = new GameObject("circle", typeof(Image));
+        gameObject.transform.SetParent(graphContainer, false);
+        gameObject.GetComponent<Image>().sprite = circleSprite;
+        gameObject.GetComponent<Image>().color = color;
+        RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
+        rectTransform.anchoredPosition = anchoredPosition;
+        rectTransform.sizeDelta = new Vector2(11, 11);
+        rectTransform.anchorMin = new Vector2(0, 0);
+        rectTransform.anchorMax = new Vector2(0, 0);
+
+        UIelements.Add(gameObject);
+        return gameObject;
+    }
+
+    private void CreateDotConnection(Vector2 dotPositionA, Vector2 dotPositionB, Color color)
     {
         GameObject gameObject = new GameObject("dotConnection", typeof(Image));
         gameObject.transform.SetParent(graphContainer, false);
-        gameObject.GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
+        gameObject.GetComponent<Image>().color = new Color(color.r, color.g, color.b, 0.5f);
+        UIelements.Add(gameObject);
+
         RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
         Vector2 dir = (dotPositionB - dotPositionA).normalized;
         float distance = Vector2.Distance(dotPositionA, dotPositionB);
