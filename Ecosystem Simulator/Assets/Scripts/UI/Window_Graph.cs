@@ -14,6 +14,7 @@ public class Window_Graph : MonoBehaviour
     private EntityManager entityManager = null;
     private List<List<int>> entitiesAmountHistory = new List<List<int>>();
     private List<GameObject> UIelements = new List<GameObject> ();
+    private float yMaximum = 0;
 
     private void Awake()
     {
@@ -50,6 +51,8 @@ public class Window_Graph : MonoBehaviour
             int currNum = entityManager.entities[i].Count;
             entitiesAmountHistory[i].Add(currNum);
 
+            if (currNum > yMaximum) yMaximum = currNum;
+
             // Update UI
             float rgbValue = (float)(i * 1.0f / entitiesAmountHistory.Count * 1.0f);
             ShowGraph(entitiesAmountHistory[i], new Color(rgbValue, rgbValue, rgbValue));
@@ -63,7 +66,6 @@ public class Window_Graph : MonoBehaviour
     {
         float graphHeight = graphContainer.sizeDelta.y;
         float xSize = graphContainer.sizeDelta.x / valueList.Count;
-        float yMaximum = valueList.Max();
 
         GameObject lastCircleGameObject = null;
         for (int i = 0; i < valueList.Count; i++)
