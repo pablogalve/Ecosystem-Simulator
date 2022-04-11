@@ -14,7 +14,12 @@ public class Window_Graph : MonoBehaviour
     private EntityManager entityManager = null;
     private List<List<int>> entitiesAmountHistory = new List<List<int>>();
     private List<GameObject> UIelements = new List<GameObject> ();
-    private float yMaximum = 0;
+
+    private float yMaximum;
+
+    // Inspector
+    public int maxLabelsX = 5;
+    public int maxLabelsY = 5;
 
     private void Awake()
     {
@@ -42,7 +47,10 @@ public class Window_Graph : MonoBehaviour
     private IEnumerator UpdateCharts()
     {
         // Remove previous UI elements
-        for (int i = 0; i < UIelements.Count; i++) Destroy(UIelements[i]);
+        for (int i = 0; i < UIelements.Count; i++)
+        { 
+            Destroy(UIelements[i]); 
+        }
         UIelements.Clear();
 
         for(int i = 0; i < entitiesAmountHistory.Count; i++)
@@ -66,6 +74,7 @@ public class Window_Graph : MonoBehaviour
     {
         float graphHeight = graphContainer.sizeDelta.y;
         float xSize = graphContainer.sizeDelta.x / valueList.Count;
+        float xLabelStep = Mathf.Ceil((float)valueList.Count / (float)maxLabelsY);
 
         GameObject lastCircleGameObject = null;
         for (int i = 0; i < valueList.Count; i++)
@@ -81,23 +90,29 @@ public class Window_Graph : MonoBehaviour
                                     color);
             }
             lastCircleGameObject = circleGameObject;
+                        
+            if (i % xLabelStep != 0) continue;
 
             RectTransform labelX = Instantiate(labelTemplateX);
             labelX.SetParent(graphContainer);
             labelX.gameObject.SetActive(true);
             labelX.anchoredPosition = new Vector2(xPosition, -20f);
             labelX.GetComponent<Text>().text = i.ToString();
+            UIelements.Add(labelX.gameObject);            
         }
 
-        int separatorCount = 10;
-        for (int i = 0; i <= separatorCount; i++)
+        // Display a maximum of "maxLabelsY" labels on the y-axis
+        for (int i = 0; i <= maxLabelsY; i++)
         {
             RectTransform labelY = Instantiate(labelTemplateY);
             labelY.SetParent(graphContainer, false);
             labelY.gameObject.SetActive(true);
-            float normalizedValue = i * 1f / separatorCount;
-            labelY.anchoredPosition = new Vector2(-xSize * 1.5f, normalizedValue * graphHeight);
+            float normalizedValue = i * 1f / maxLabelsY;
+
+            float xPos = (graphContainer.sizeDelta.x - gameObject.GetComponent<RectTransform>().rect.width) * 0.8f;
+            labelY.anchoredPosition = new Vector2(xPos, normalizedValue * graphHeight);
             labelY.GetComponent<Text>().text = Mathf.RoundToInt(normalizedValue * yMaximum).ToString();
+            UIelements.Add(labelY.gameObject);
         }
     }
 
