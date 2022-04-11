@@ -51,8 +51,7 @@ public class EntityFactory : MonoBehaviour
                 entityManager.entities[(int)EntityManager.EntityType.ANIMAL].Add(entityToAdd);
                 break;
             default:
-                Debug.LogError("Entered default on AddToEntitiesList on EntityFactory.cs");
-                break;
+                throw new Exception("Entered default on AddToEntitiesList on EntityFactory.cs");
         }
     }
 
@@ -96,5 +95,20 @@ public class EntityFactory : MonoBehaviour
         AddToEntitiesList(EntityManager.EntityType.FOOD, newFood);
 
         return newFood;
+    }
+
+    public int GetAmountOfUniqueSpecies(EntityManager.EntityType type)
+    {
+        switch (type)
+        {
+            case EntityManager.EntityType.TREE:
+                return trees.Count;
+            case EntityManager.EntityType.FOOD:
+                return 1;
+            case EntityManager.EntityType.ANIMAL:
+                return animals.Count;
+            default:
+                throw new Exception($"Entity of type '{type}' is not being managed on the switch statement");
+        }
     }
 }
