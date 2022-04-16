@@ -69,13 +69,12 @@ public class EntityManager : MonoBehaviour
             UUIDs.Remove(entity);
             entities.Remove(entity.UUID);
             entitiesByType[(int)entity.type].Remove(entity.UUID);
-
-            entitiesToDelete.Dequeue();
         }
         else
         {
-            throw new Exception($"Couldnt find entity of type '{entitiesToDelete.Peek().type}' with UUID '{entitiesToDelete.Peek().UUID}' on DeleteEntity");
+            Debug.LogWarning($"Couldnt find entity of type '{entitiesToDelete.Peek().type}' with UUID '{entitiesToDelete.Peek().UUID}' on DeleteEntity");
         }
+        entitiesToDelete.Dequeue();
     }
 
     private void DeleteEntities(int maxOfEachTypeToDeleteInThisFrame)
