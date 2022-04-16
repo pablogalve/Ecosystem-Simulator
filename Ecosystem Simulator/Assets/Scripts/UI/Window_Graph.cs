@@ -41,7 +41,7 @@ public class Window_Graph : MonoBehaviour
             entitiesAmountHistory.Add(listToAdd);            
         }
 
-        StartCoroutine(UpdateCharts());
+        //StartCoroutine(UpdateCharts());
     }
 
     private IEnumerator UpdateCharts()
@@ -56,7 +56,7 @@ public class Window_Graph : MonoBehaviour
         for(int i = 0; i < entitiesAmountHistory.Count; i++)
         {
             // Update values
-            int currNum = entityManager.entities[i].Count;
+            int currNum = entityManager.entities.Count;
             entitiesAmountHistory[i].Add(currNum);
 
             if (currNum > yMaximum) yMaximum = currNum;

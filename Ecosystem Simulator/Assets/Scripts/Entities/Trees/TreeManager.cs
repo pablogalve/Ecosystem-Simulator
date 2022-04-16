@@ -27,30 +27,26 @@ public class TreeManager : MonoBehaviour
 
     private IEnumerator GenerateFood()
     {
-        if (entityManager == null) Debug.LogError("entityManager was null on TreeManager.cs on GenerateFood()");
-        List<GameObject> trees = null;
-        if (entityManager.entities.Count > 0)
+        if (entityManager == null) throw new System.Exception("entityManager was null on AnimalManager.cs on GenerateFood()");
+
+        for (int i = 0; i < entityManager.UUIDs.Count; i++)
         {
-            trees = entityManager.entities[(int)EntityManager.EntityType.TREE];
-        }
-        if (trees != null) 
-        {
-            for (int i = 0; i < trees.Count; i++)
+            if (entityManager.UUIDs[i].type != EntityManager.EntityType.TREE) continue;
+            GameObject tree = entityManager.entities[entityManager.UUIDs[i].UUID];
+
+            if (entityManager.isMaxCapReached(EntityManager.EntityType.FOOD)) break;
+
+            AgeController ageScript = tree.GetComponent<AgeController>();
+            if (ageScript == null)
             {
-                if (entityManager.isMaxCapReached(EntityManager.EntityType.FOOD)) break;
+                Debug.LogError("tree " + i + " is null on TreeManager.cs: FoodGeneration");
+                continue;
+            }
 
-                AgeController ageScript = trees[i].GetComponent<AgeController>();
-                if (ageScript == null)
-                {
-                    Debug.LogError("tree " + i + " is null on TreeManager.cs: FoodGeneration");
-                    continue;
-                }
-
-                // Check that tree is old enough to produce food
-                if (ageScript.age >= ageScript.reproductionAge * ageScript.maxAge)
-                {
-                    entityFactory.SpawnFood(trees[i].transform.position.x, trees[i].transform.position.z, 2f);
-                }
+            // Check that tree is old enough to produce food
+            if (ageScript.age >= ageScript.reproductionAge * ageScript.maxAge)
+            {
+                entityFactory.SpawnFood(tree.transform.position.x, tree.transform.position.z, 2f);
             }
         }
 
@@ -59,15 +55,18 @@ public class TreeManager : MonoBehaviour
     }
 
     private IEnumerator AsexualReproduction()
-    {        
-        if (entityManager.isMaxCapReached(EntityManager.EntityType.TREE)) yield return null; // We can't have infinite entities for performance issues
+    {
+        if (entityManager == null) throw new System.Exception("entityManager was null on AnimalManager.cs on GenerateFood()");
 
-        // Iterate all the entities of the same type
-        for (int j = 0; j < entityManager.entities[(int)EntityManager.EntityType.TREE].Count; j++)
+        for (int i = 0; i < entityManager.UUIDs.Count; i++)
         {
+            if (entityManager.UUIDs[i].type != EntityManager.EntityType.TREE) continue;
+            GameObject tree = entityManager.entities[entityManager.UUIDs[i].UUID];
+
+            // Possible bug? Only the trees at the top of the list are being reproduced when they are close to the maximum population
             if (entityManager.isMaxCapReached(EntityManager.EntityType.TREE)) break;
 
-            AgeController ageController = entityManager.entities[(int)EntityManager.EntityType.TREE][j].GetComponent<AgeController>();
+            AgeController ageController = tree.GetComponent<AgeController>();
             if (ageController == null)
             {
                 Debug.LogError("AgeController is null on EntityManager.cs: Reproduce()");
@@ -77,8 +76,8 @@ public class TreeManager : MonoBehaviour
             if (ageController.IsBaby() == false)
             {
                 entityFactory.SpawnRandomTree(
-                    entityManager.entities[(int)EntityManager.EntityType.TREE][j].transform.position.x, 
-                    entityManager.entities[(int)EntityManager.EntityType.TREE][j].transform.position.z, 
+                    tree.transform.position.x,
+                    tree.transform.position.z,
                     50f);
             }
         }

@@ -35,18 +35,15 @@ public class AnimalManager : MonoBehaviour
 
     private IEnumerator UpdateStats()
     {
-        if (entityManager == null) Debug.LogError("entityManager was null on AnimalManager.cs on UpdateStats()");
-        List<GameObject> animals = null;
-        if (entityManager.entities.Count > 0)
-        {
-            animals = entityManager.entities[(int)EntityManager.EntityType.ANIMAL];
-        }
-        if (animals == null)Debug.LogError("animals list was null on AnimalManager.cs");
+        if (entityManager == null) throw new System.Exception("entityManager was null on AnimalManager.cs on UpdateStats()");
 
-        for (int i = 0; i < animals.Count; i++)
+        for (int i = 0; i < entityManager.UUIDs.Count; i++) // O(n)
         {
-            Animal animalScript = animals[i].GetComponent<Animal>();
-            Reproduction myGender = animals[i].GetComponent<Reproduction>();
+            if (entityManager.UUIDs[i].type != EntityManager.EntityType.ANIMAL) continue;
+            GameObject animal = entityManager.entities[entityManager.UUIDs[i].UUID];
+
+            Animal animalScript = animal.GetComponent<Animal>();
+            Reproduction myGender = animal.GetComponent<Reproduction>();
             if (animalScript == null) Debug.LogError("animalScript list was null on UpdateStats.cs");
 
             animalScript.UpdateAllStats();
@@ -59,24 +56,17 @@ public class AnimalManager : MonoBehaviour
 
     private IEnumerator UpdateAnimalsStateMachine()
     {
-        if (entityManager == null) Debug.LogError("entityManager was null on AnimalManager.cs on UpdateAnimalsStateMachine()");
-        List<GameObject> animals = null;
-        if (entityManager.entities.Count > 0)
-        {
-            animals = entityManager.entities[(int)EntityManager.EntityType.ANIMAL];
-        }
-        if (animals == null)
-        {
-            Debug.LogError("animals list was null on AnimalManager.cs");
-            yield return null;
-        }
+        if (entityManager == null) throw new System.Exception("entityManager was null on AnimalManager.cs on UpdateAnimalsStateMachine()");
 
-        for (int i = 0; i < animals.Count; i++) 
+        for (int i = 0; i < entityManager.UUIDs.Count; i++)
         {
-            Animal animalScript = animals[i].GetComponent<Animal>();
-            if(animalScript == null) Debug.LogError("animalScript list was null on AnimalManager.cs");
+            if (entityManager.UUIDs[i].type != EntityManager.EntityType.ANIMAL) continue;
+            GameObject animal = entityManager.entities[entityManager.UUIDs[i].UUID];
 
-            switch (animalScript.state) 
+            Animal animalScript = animal.GetComponent<Animal>();
+            if (animalScript == null) throw new System.Exception("animalScript list was null on AnimalManager.cs");
+
+            switch (animalScript.state)
             {
                 case States.IDLE: // Default state when there are no other needs
                     if (animalScript.isHungry())
@@ -105,7 +95,7 @@ public class AnimalManager : MonoBehaviour
 
                     break;
             }
-        }        
+        }      
 
         yield return new WaitForSeconds(1.0f); // Wait before repeating the cycle
         StartCoroutine(ActionOfTheAnimalsStateMachine());
@@ -113,21 +103,14 @@ public class AnimalManager : MonoBehaviour
 
     private IEnumerator ActionOfTheAnimalsStateMachine()
     {
-        if (entityManager == null) Debug.LogError("entityManager was null on AnimalManager.cs on ActionOfTheAnimalsStateMachine()");
-        List<GameObject> animals = null;
-        if (entityManager.entities.Count > 0)
-        {
-            animals = entityManager.entities[(int)EntityManager.EntityType.ANIMAL];
-        }
-        if (animals == null)
-        {
-            Debug.LogError("animals list was null on AnimalManager.cs");
-            yield return null;
-        }
+        if (entityManager == null) throw new System.Exception("entityManager was null on AnimalManager.cs on ActionOfTheAnimalsStateMachine()");
 
-        for (int i = 0; i < animals.Count; i++)
+        for (int i = 0; i < entityManager.UUIDs.Count; i++)
         {
-            Animal animalScript = animals[i].GetComponent<Animal>();
+            if (entityManager.UUIDs[i].type != EntityManager.EntityType.ANIMAL) continue;
+            GameObject animal = entityManager.entities[entityManager.UUIDs[i].UUID];
+
+            Animal animalScript = animal.GetComponent<Animal>();
             if (animalScript == null) Debug.LogError("animalScript list was null on AnimalManager.cs");
 
             switch (animalScript.state)
@@ -168,24 +151,23 @@ public class AnimalManager : MonoBehaviour
 
     private Transform FindClosestFood(Animal animalScript)
     {
-        // Create local list because it is not guaranteed that "foodManager.foodList" will not change while it is being iterated
-        List<GameObject> foodList = entityManager.entities[(int)EntityManager.EntityType.FOOD];
-
         int indexOfClosestFood = -1;
         float smallestDistance = float.MaxValue;
 
-        for (int i = 0; i < foodList.Count; i++)
+        for (int i = 0; i < entityManager.UUIDs.Count; i++)
         {
-            // Food died before the animal could arrive
-            if (foodList[i] == null) continue;
+            if (entityManager.UUIDs[i].type != EntityManager.EntityType.FOOD) continue;
+            GameObject food = entityManager.entities[entityManager.UUIDs[i].UUID];
 
-            float distance = Vector3.Distance(foodList[i].transform.position, animalScript.gameObject.transform.position);
+            // Food died before the animal could arrive
+            if (food == null) continue;
+
+            float distance = Vector3.Distance(food.transform.position, animalScript.gameObject.transform.position);
 
             // If food is found at an eatable distance, then animal stops looking for other food
             if (animalScript.canEat(distance))
             {
-                Entity entityScript = foodList[i].GetComponent<Entity>();
-                entityManager.TryToKill(EntityManager.EntityType.FOOD, entityScript.GetUUID());
+                entityManager.TryToKill(EntityManager.EntityType.FOOD, entityManager.UUIDs[i].UUID);
                 animalScript.Eat();
                 break;
             }
@@ -198,7 +180,7 @@ public class AnimalManager : MonoBehaviour
         }
 
         if (indexOfClosestFood == -1) return null;
-        else return foodList[indexOfClosestFood].transform;
+        else return entityManager.entities[entityManager.UUIDs[indexOfClosestFood].UUID].transform;
     }
 
     private void StopMoving(Animal animalScript)
@@ -213,41 +195,44 @@ public class AnimalManager : MonoBehaviour
     {
         Reproduction myGender = animalScript.gameObject.GetComponent<Reproduction>();
 
-        // Create local list because it is not guaranteed that the list will not change while it is being iterated
-        List<GameObject> potentialMates = entityManager.entities[(int)EntityManager.EntityType.ANIMAL];
-
         int indexOfClosestMate = -1;
         float smallestDistance = float.MaxValue;
 
-        for (int i = 0; i < potentialMates.Count; i++)
+        if (entityManager == null) throw new System.Exception("entityManager was null on AnimalManager.cs on MoveToClosestPotentialMate()");
+
+        for (int i = 0; i < entityManager.UUIDs.Count; i++)
         {
+            if (entityManager.UUIDs[i].type != EntityManager.EntityType.ANIMAL) continue;
+            GameObject potentialMate = entityManager.entities[entityManager.UUIDs[i].UUID];
+
             // Mate died before the animal could arrive
-            if (potentialMates[i] == null) continue;
+            if (potentialMate == null) continue;
 
             // A mate must also be in "LOOKING_FOR_MATE" state
-            Animal otherAnimalScript = potentialMates[i].GetComponent<Animal>();
+            Animal otherAnimalScript = potentialMate.GetComponent<Animal>();
             if (otherAnimalScript.state != States.LOOKING_FOR_MATE) continue; // Since babies can't be on this state, this also ensures that babies are not mates
-            if (animalScript.species != otherAnimalScript.species) continue; 
+            if (animalScript.species != otherAnimalScript.species) continue;
 
             // Mates can only be of the opposite gender
-            Reproduction mateGender = potentialMates[i].GetComponent<Reproduction>();
+            Reproduction mateGender = potentialMate.GetComponent<Reproduction>();
             if (myGender.gender == mateGender.gender) continue;
 
-            float distance = Vector3.Distance(potentialMates[i].transform.position, animalScript.gameObject.transform.position);
+            float distance = Vector3.Distance(potentialMate.transform.position, animalScript.gameObject.transform.position);
 
             if (distance < 1f) // Mate found, let's reproduce!
             {
-                if (myGender.gender == 0) 
+                if (myGender.gender == 0)
                 {
-                    if(myGender.RequestMate(mateGender) == true) // Mate accepted
+                    if (myGender.RequestMate(mateGender) == true) // Mate accepted
                     {
                         myGender.GetPregnant();
                         animalScript.SetMaxReproductionUrge();
                     }
                 }
-                    
+
                 break;
-            }else if (myGender.gender == 0 && distance < 10f) // Females wait at 10f distance for the male. Removing this causes a weird reproduction pattern
+            }
+            else if (myGender.gender == 0 && distance < 10f) // Females wait at 10f distance for the male. Removing this causes a weird reproduction pattern
             {
                 animalScript.StopMoving();
             }
@@ -262,7 +247,7 @@ public class AnimalManager : MonoBehaviour
         // Move to closest potential mate
         if (indexOfClosestMate != -1)
         {
-            animalScript.MoveTo(potentialMates[indexOfClosestMate].transform);
+            animalScript.MoveTo(entityManager.entities[entityManager.UUIDs[indexOfClosestMate].UUID].transform);
         }
     }
 }

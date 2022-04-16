@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -67,8 +68,8 @@ public class Animal : MonoBehaviour
     private void Die()
     {
         EntityManager entityManager = GameObject.Find("GameManager").GetComponent<EntityManager>();
-        Entity entityScript = gameObject.GetComponent<Entity>();
-        entityManager.TryToKill(EntityManager.EntityType.ANIMAL, entityScript.GetUUID());
+        string myUUID = entityManager.entities.FirstOrDefault(x => x.Value == this).Key;
+        entityManager.TryToKill(EntityManager.EntityType.ANIMAL, myUUID);
     }
 
     public void MoveTo(Transform targetPosition)

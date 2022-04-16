@@ -39,20 +39,13 @@ public class EntityFactory : MonoBehaviour
 
     private void AddToEntitiesList(EntityManager.EntityType type, GameObject entityToAdd)
     {
-        switch (type)
-        {
-            case EntityManager.EntityType.TREE:
-                entityManager.entities[(int)EntityManager.EntityType.TREE].Add(entityToAdd);
-                break;
-            case EntityManager.EntityType.FOOD:
-                entityManager.entities[(int)EntityManager.EntityType.FOOD].Add(entityToAdd);
-                break;
-            case EntityManager.EntityType.ANIMAL:
-                entityManager.entities[(int)EntityManager.EntityType.ANIMAL].Add(entityToAdd);
-                break;
-            default:
-                throw new Exception("Entered default on AddToEntitiesList on EntityFactory.cs");
-        }
+        EntityManager.Entity entity = new EntityManager.Entity();
+        entity.UUID = System.Guid.NewGuid().ToString();
+        entity.type = type;
+
+        entityManager.UUIDs.Add(entity);
+        entityManager.entitiesByType[(int)type].Add(entity.UUID);
+        entityManager.entities[entity.UUID] = entityToAdd;
     }
 
     public GameObject SpawnAnimalOfRandomGender(int speciesID, float x, float z, float randomVariation = 0)

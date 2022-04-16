@@ -1,9 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EntityManager : MonoBehaviour
 {
+    public struct Entity
+    {
+        public EntityType type;
+        public string UUID;
+    }
     public enum EntityType
     {
         TREE,
@@ -11,11 +17,14 @@ public class EntityManager : MonoBehaviour
         ANIMAL
     }
 
-    public List<List<GameObject>> entities = new List<List<GameObject>>(); // This list contains one list for every type of entity
-    public List<List<string>> entitiesToDelete = new List<List<string>>();  // List of UUIDs of GO that have to be removed at the end of the frame
+    public List<Entity> UUIDs = new List<Entity>(); // UUIDs of all existing entities
+    public Dictionary<string, GameObject> entities = new Dictionary<string, GameObject>();
+    public Dictionary<int, List<string>> entitiesByType = new Dictionary<int, List<string>>(); // int = species or type, List<string> All the entities of the given species
+    private Queue<Entity> entitiesToDelete = new Queue<Entity>();
+
     public int maxTrees = 2000;
     public int maxFood = 5000;
-    public int maxAnimals = 100;
+    public int maxAnimals = 100; 
 
     // Acess to other scripts
     AnimalManager animalManager = null;
@@ -23,11 +32,12 @@ public class EntityManager : MonoBehaviour
 
     private void Awake()
     {
+        //entitiesByType[0] = "a";
         // Initialize list. The size of the loop is equivalent to the amount of different EntityTypes
         for (int i = 0; i < 3; ++i)
         {
-            entities.Add(new List<GameObject>());
-            entitiesToDelete.Add(new List<string>());
+            var list = new List<string>();
+            entitiesByType.Add(i, list);
         }
     }
 
@@ -47,97 +57,35 @@ public class EntityManager : MonoBehaviour
         DeleteEntities(1);
     }
 
+    private void DeleteEntity()
+    {
+        Entity entity = entitiesToDelete.Peek();
+
+        if (entities.ContainsKey(entity.UUID)) // O(1)
+        {
+            GameObject go = entities[entity.UUID];
+            Destroy(go);
+
+            UUIDs.Remove(entity);
+            entities.Remove(entity.UUID);
+            entitiesByType[(int)entity.type].Remove(entity.UUID);
+
+            entitiesToDelete.Dequeue();
+        }
+        else
+        {
+            throw new Exception($"Couldnt find entity of type '{entitiesToDelete.Peek().type}' with UUID '{entitiesToDelete.Peek().UUID}' on DeleteEntity");
+        }
+    }
+
     private void DeleteEntities(int maxOfEachTypeToDeleteInThisFrame)
     {
         // Delete all gameObjects waiting to be removed at the end of the frame
-
-        #region Delete Trees
-        int deletedTrees = 0;
-        for (int i = entitiesToDelete[(int)EntityType.TREE].Count - 1; i >= 0; i--)
+        for(int i = 0; i < maxOfEachTypeToDeleteInThisFrame; ++i)
         {
-            if (deletedTrees >= maxOfEachTypeToDeleteInThisFrame) break;
-
-            bool found = false;
-            // Check for the UUIDs in the actual entities list
-            for (int j = entities[(int)EntityType.TREE].Count - 1; j >= 0; --j)
-            {
-                // When there's a match, entity is removed
-                Entity entityScript = entities[(int)EntityType.TREE][j].GetComponent<Entity>();
-                if (entitiesToDelete[(int)EntityType.TREE][i] == entityScript.GetUUID())
-                {
-                    Destroy(entities[(int)EntityType.TREE][j]);
-                    entities[(int)EntityType.TREE].RemoveAt(j);
-                    entitiesToDelete[(int)EntityType.TREE].RemoveAt(i);
-                    deletedTrees++;
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) 
-            { 
-                Debug.LogWarning("Tree with UUID " + entitiesToDelete[(int)EntityType.TREE][i] + " was not found in the entities list");
-                entitiesToDelete[(int)EntityType.TREE].RemoveAt(i);
-            }
+            if (entitiesToDelete.Count < 1) return;
+            DeleteEntity();
         }
-        #endregion        
-
-        #region Delete Food
-        int deletedFoods = 0;
-        for (int i = entitiesToDelete[(int)EntityType.FOOD].Count - 1; i >= 0; i--)
-        {
-            if (deletedFoods >= maxOfEachTypeToDeleteInThisFrame) break;
-
-            bool found = false;
-            // Check for the UUIDs in the actual entities list
-            for (int j = entities[(int)EntityType.FOOD].Count - 1; j >= 0; j--)
-            {
-                // When there's a match, entity is removed
-                Entity entityScript = entities[(int)EntityType.FOOD][j].GetComponent<Entity>();
-                if (entitiesToDelete[(int)EntityType.FOOD][i] == entityScript.GetUUID())
-                {
-                    Destroy(entities[(int)EntityType.FOOD][j]);
-                    entities[(int)EntityType.FOOD].RemoveAt(j);
-                    entitiesToDelete[(int)EntityType.FOOD].RemoveAt(i);
-                    found = true;
-                    break;
-                }
-            }
-            if (!found)
-            {
-                Debug.LogWarning("Food with UUID " + entitiesToDelete[(int)EntityType.FOOD][i] + " was not found in the entities list");
-                entitiesToDelete[(int)EntityType.FOOD].RemoveAt(i);
-            }
-        }
-        #endregion
-
-        #region Delete Animals
-        int deletedAnimals = 0;
-        for (int i = entitiesToDelete[(int)EntityType.ANIMAL].Count - 1; i >= 0; i--)
-        {
-            if (deletedAnimals >= maxOfEachTypeToDeleteInThisFrame) break;
-
-            bool found = false;
-            // Check for the UUIDs in the actual entities list
-            for (int j = entities[(int)EntityType.ANIMAL].Count - 1; j >= 0; j--)
-            {
-                // When there's a match, entity is removed
-                Entity entityScript = entities[(int)EntityType.ANIMAL][j].GetComponent<Entity>();
-                if (entitiesToDelete[(int)EntityType.ANIMAL][i] == entityScript.GetUUID())
-                {
-                    Destroy(entities[(int)EntityType.ANIMAL][j]);
-                    entities[(int)EntityType.ANIMAL].RemoveAt(j);
-                    entitiesToDelete[(int)EntityType.ANIMAL].RemoveAt(i);
-                    found = true;
-                    break;
-                }
-            }
-            if (!found)
-            {
-                Debug.LogWarning("Animal with UUID " + entitiesToDelete[(int)EntityType.ANIMAL][i] + " was not found in the entities list");
-                entitiesToDelete[(int)EntityType.ANIMAL].RemoveAt(i);
-            }
-        }
-        #endregion
     }
 
     private void SetInitialScene()
@@ -156,35 +104,32 @@ public class EntityManager : MonoBehaviour
 
     public void TryToKill(EntityType type, string UUIDtoKill)
     {
-        entitiesToDelete[(int)type].Add(UUIDtoKill);
+        Entity entity = new Entity();
+        entity.type = type;
+        entity.UUID = UUIDtoKill;
+        entitiesToDelete.Enqueue(entity);
     }
       
     // Updates entity's age, grows it in size, and kills if it it's too old
     private IEnumerator GrowOrDie()
     {
-        // Iterate different types of entities
-        for (int i = 0; i < entities.Count; i++)
+        for(int i = 0; i < UUIDs.Count; ++i)
         {
-            // Iterate all the entities of the same type
-            for (int j = 0; j < entities[i].Count; j++)
+            AgeController ageController = entities[UUIDs[i].UUID].GetComponent<AgeController>();
+            if (ageController == null) throw new Exception("AgeController script is null on EntityManager.cs on GrowOrDie");
+
+            // Kill entity if it has reached it's maximum age
+            if (ageController.age + 1 > ageController.maxAge)
             {
-                AgeController ageController = entities[i][j].GetComponent<AgeController>();
-                if(ageController == null) Debug.LogError("AgeController script is null on EntityManager.cs on GrowOrDie");                
+                TryToKill((EntityType)i, UUIDs[i].UUID);
+            }
+            else ageController.age++;
 
-                // Kill tree if it has reached it's maximum age
-                if (ageController.age + 1 > ageController.maxAge)
-                {
-                    Entity entityScript = entities[i][j].GetComponent<Entity>();
-                    TryToKill((EntityType)i, entityScript.GetUUID());
-                }
-                else ageController.age++;
-
-                // Scale the entity in the world according to its age
-                if (ageController.growsInSize) 
-                {
-                    float agePercentage = (float)(ageController.age) / (float)(ageController.maxAge);
-                    entities[i][j].transform.localScale = Vector3.one * agePercentage;
-                }
+            // Scale the entity in the world according to its age
+            if (ageController.growsInSize)
+            {
+                float agePercentage = (float)(ageController.age) / (float)(ageController.maxAge);
+                entities[UUIDs[i].UUID].transform.localScale = Vector3.one * agePercentage;
             }
         }
         yield return new WaitForSeconds(30f);
@@ -194,25 +139,16 @@ public class EntityManager : MonoBehaviour
     public bool isMaxCapReached(EntityType type)
     {
         // If max cap of an entity type is reached, it must be skipped to save performance
-        if (type == EntityType.FOOD)
+        int maxAmount;
+        switch (type)
         {
-            if (entities[(int)type].Count < maxFood) return false;
-            else return true;
+            case EntityType.TREE: maxAmount = maxTrees; break;
+            case EntityType.FOOD: maxAmount = maxFood; break;
+            case EntityType.ANIMAL: maxAmount = maxAnimals; break;
+            default: throw new Exception("type is not being managed on isMaxCapReached()");
         }
 
-        if (type == EntityType.ANIMAL)
-        {
-            if (entities[(int)type].Count < maxAnimals) return false;
-            else return true;
-        }
-
-        if (type == EntityType.TREE)
-        {
-            if (entities[(int)type].Count < maxTrees) return false;
-            else return true;
-        }
-
-        Debug.LogError("An error was detected in EntityManager.cs on isMaxCapReached()");
-        return true;
+        if (entitiesByType[(int)type].Count < maxAmount) return false;
+        else return true;
     }
 }
