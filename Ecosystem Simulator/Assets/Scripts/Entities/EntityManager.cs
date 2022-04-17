@@ -64,11 +64,12 @@ public class EntityManager : MonoBehaviour
         if (entities.ContainsKey(entity.UUID)) // O(1)
         {
             GameObject go = entities[entity.UUID];
-            Destroy(go);
 
             UUIDs.Remove(entity);
             entities.Remove(entity.UUID);
             entitiesByType[(int)entity.type].Remove(entity.UUID);
+            
+            go.SetActive(false);
         }
         else
         {
