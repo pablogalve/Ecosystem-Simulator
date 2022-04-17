@@ -15,7 +15,8 @@ public class Window_Graph : MonoBehaviour
     private List<List<int>> entitiesAmountHistory = new List<List<int>>();
     private List<List<GameObject>> lineElements = new List<List<GameObject>>();
     private List<List<GameObject>> circleElements = new List<List<GameObject>>();
-    private List<List<RectTransform>> rectElements = new List<List<RectTransform>>();
+    private List<RectTransform> labelXElements = new List<RectTransform>();
+    private List<RectTransform> labelYElements = new List<RectTransform>();
 
     private float yMaximum;
 
@@ -47,9 +48,6 @@ public class Window_Graph : MonoBehaviour
 
             List<GameObject> listOfCircles = new List<GameObject>();
             circleElements.Add(listOfCircles);
-
-            List<RectTransform> listOfRects = new List<RectTransform>();
-            rectElements.Add(listOfRects);
         }
 
         StartCoroutine(UpdateCharts());
@@ -67,7 +65,7 @@ public class Window_Graph : MonoBehaviour
         for(int i = 0; i < entitiesAmountHistory.Count; i++)
         {
             // Update values
-            int currNum = entityManager.entities.Count;
+            int currNum = entityManager.entitiesByType[i].Count;
             entitiesAmountHistory[i].Add(currNum);
 
             if (currNum > yMaximum) yMaximum = currNum;
@@ -84,8 +82,7 @@ public class Window_Graph : MonoBehaviour
     private void ShowGraph(List<int> valueList, Color color, int speciesIndex)
     {
         float graphHeight = graphContainer.sizeDelta.y;
-        float xSize = graphContainer.sizeDelta.x / valueList.Count;
-        float xLabelStep = Mathf.Ceil((float)valueList.Count / (float)maxLabelsY);
+        float xSize = graphContainer.sizeDelta.x / valueList.Count;        
 
         GameObject lastCircleGameObject = null;
         for (int i = 0; i < valueList.Count; i++)
@@ -93,7 +90,7 @@ public class Window_Graph : MonoBehaviour
             float xPosition = i * xSize;
             float yPosition = (valueList[i] / yMaximum) * graphHeight;
             GameObject circleGameObject = CreateCircle(new Vector2(xPosition, yPosition), color, i, speciesIndex);
-
+              
             if (lastCircleGameObject != null)
             {
                 CreateDotConnection(lastCircleGameObject.GetComponent<RectTransform>().anchoredPosition,
@@ -103,38 +100,47 @@ public class Window_Graph : MonoBehaviour
                                     speciesIndex);
             }
             lastCircleGameObject = circleGameObject;
-                        
-            if (i % xLabelStep != 0) continue;
+        }
+
+        //float xLabelStep = Mathf.Ceil((float)valueList.Count / (float)maxLabelsX);
+        for (int i = 0; i < maxLabelsX; i++)
+        {
+            //int amountOfXValues = valueList.Count;
+            int xValue = Mathf.FloorToInt(((float)valueList.Count-1.0f) * ((float)i / (float)maxLabelsX));
+            //int xValue = valueList[xLabelStep];
+            //if (i % xLabelStep != 0) continue;
 
             RectTransform labelX;
-            if (rectElements[speciesIndex].Count <= i) // Create new  
+            if (labelXElements.Count <= i) // Create new  
             {
                 labelX = Instantiate(labelTemplateX);
-                rectElements[speciesIndex].Add(labelX);
-            }                
+                labelXElements.Add(labelX);
+            }
             else // Reuse existing  
             {
-                labelX = rectElements[speciesIndex][i];
-            }                
+                labelX = labelXElements[i];
+            }
 
             labelX.SetParent(graphContainer);
             labelX.gameObject.SetActive(true);
-            labelX.anchoredPosition = new Vector2(xPosition, -20f);
-            labelX.GetComponent<Text>().text = i.ToString();                      
+
+            float xPos = (graphContainer.sizeDelta.x * ((float)i / (float)maxLabelsX));
+            labelX.anchoredPosition = new Vector2(xPos, -20.0f);
+            labelX.GetComponent<Text>().text = xValue.ToString();
         }
 
         // Display a maximum of "maxLabelsY" labels on the y-axis
         for (int i = 0; i <= maxLabelsY; i++)
         {
             RectTransform labelY;
-            if (rectElements[speciesIndex].Count <= i) // Create new  
+            if (labelYElements.Count <= i) // Create new  
             {
                 labelY = Instantiate(labelTemplateY);
-                rectElements[speciesIndex].Add(labelY);
+                labelYElements.Add(labelY);
             }
             else // Reuse existing  
             {
-                labelY = rectElements[speciesIndex][i];
+                labelY = labelYElements[i];
             }
 
             labelY.SetParent(graphContainer, false);
