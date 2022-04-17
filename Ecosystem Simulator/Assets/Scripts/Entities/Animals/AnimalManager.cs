@@ -46,7 +46,7 @@ public class AnimalManager : MonoBehaviour
             Reproduction myGender = animal.GetComponent<Reproduction>();
             if (animalScript == null) Debug.LogError("animalScript list was null on UpdateStats.cs");
 
-            animalScript.UpdateAllStats();
+            animalScript.UpdateAllStats(entityManager.UUIDs[i].UUID);
             if (myGender.gender == 0 && myGender.IsPregnant()) myGender.UpdatePregnancy(animalPrefab);
         }
         
