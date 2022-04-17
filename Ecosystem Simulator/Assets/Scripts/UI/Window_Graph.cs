@@ -102,13 +102,9 @@ public class Window_Graph : MonoBehaviour
             lastCircleGameObject = circleGameObject;
         }
 
-        //float xLabelStep = Mathf.Ceil((float)valueList.Count / (float)maxLabelsX);
         for (int i = 0; i < maxLabelsX; i++)
         {
-            //int amountOfXValues = valueList.Count;
-            int xValue = Mathf.FloorToInt(((float)valueList.Count-1.0f) * ((float)i / (float)maxLabelsX));
-            //int xValue = valueList[xLabelStep];
-            //if (i % xLabelStep != 0) continue;
+            int xValue = Mathf.RoundToInt((float)valueList.Count * ((float)i / (float)maxLabelsX));
 
             RectTransform labelX;
             if (labelXElements.Count <= i) // Create new  

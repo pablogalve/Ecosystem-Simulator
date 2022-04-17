@@ -9,7 +9,7 @@ public class AgeController : MonoBehaviour
     public float reproductionAge = 0.5f; // 0.0f <> 1.0f // Percentage of age when tree can start to reproduce
     public bool growsInSize = false;
 
-    private void Awake()
+    public void OnSpawn()
     {
         if (growsInSize)
         {

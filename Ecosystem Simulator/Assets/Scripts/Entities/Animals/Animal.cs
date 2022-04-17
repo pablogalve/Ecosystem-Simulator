@@ -21,9 +21,20 @@ public class Animal : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        OnSpawn();
+    }
+
+    public void OnSpawn()
+    {
         state = AnimalManager.States.IDLE;
         reproductionUrge = maxNeed;
-        hunger = maxNeed;       
+        hunger = maxNeed;
+
+        Reproduction reproduction = gameObject.GetComponent<Reproduction>();
+        reproduction.OnSpawn();
+
+        AgeController age = gameObject.GetComponent<AgeController>();
+        age.OnSpawn();
     }
 
     public bool isHungry()

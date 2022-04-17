@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class Reproduction : MonoBehaviour
 {
-    public byte gender = 0; // 0 = Female, 1 = Male
-    public bool isPregnant = false;
+    public byte gender; // 0 = Female, 1 = Male
+    [SerializeField] private bool isPregnant;
     public byte gestationPeriod = 2;
-    public byte currPregnancyTime = 0;
+    [SerializeField] private byte currPregnancyTime;
 
-    void Awake()
+    public void OnSpawn()
     {
-        int gen = Random.Range(0, 2);
-        gender = (byte)gen;
+        isPregnant = false;
+        currPregnancyTime = 0;
+        gender = (byte)Random.Range(0, 2);
 
         // Set colors for debugging - Predefined color for males and light version for females //TODO: Remove the colors once fbx are in place
         var renderer = gameObject.GetComponent<Renderer>();

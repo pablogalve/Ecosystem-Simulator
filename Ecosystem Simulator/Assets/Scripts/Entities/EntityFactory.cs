@@ -11,6 +11,7 @@ public class EntityFactory : MonoBehaviour
     private Dictionary<int, GameObject> _idToAnimal;
 
     private EntityManager entityManager = null;
+    [SerializeField] private Dictionary<int, Stack<GameObject>> _idToObjectPool = new Dictionary<int, Stack<GameObject>>();
 
     private void Awake()
     {
@@ -20,9 +21,11 @@ public class EntityFactory : MonoBehaviour
         {
             Animal animalScript = animal.GetComponent<Animal>();
             _idToAnimal.Add((int)animalScript.species, animal);
+            Stack<GameObject> newPool = new Stack<GameObject>();
+            _idToObjectPool.Add((int)animalScript.species, newPool);
         }
 
-        entityManager = gameObject.GetComponent<EntityManager>();
+        entityManager = gameObject.GetComponent<EntityManager>();        
     }
 
     private Vector3 GenerateSpawnPosition(float x, float z, float randomVariation) 
@@ -58,7 +61,25 @@ public class EntityFactory : MonoBehaviour
         Vector3 spawnPos = GenerateSpawnPosition(x, z, randomVariation);
         if (!HeighmapData.Instance.isValidSpawnPoint(EntityManager.EntityType.ANIMAL, spawnPos)) return null;
 
-        GameObject newAnimal = Instantiate(animal, spawnPos, Quaternion.identity);
+        GameObject newAnimal;
+        if (!_idToObjectPool.TryGetValue(speciesID, out Stack<GameObject> objectsInPool)) 
+        {
+            throw new Exception($"Pool with speciesID {speciesID} does not exist");
+        }
+
+        if(objectsInPool.Count > 0) // Reuse a GO from pool
+        {
+            newAnimal = objectsInPool.Peek();
+            objectsInPool.Pop();
+
+            Animal animalScript = newAnimal.GetComponent<Animal>();
+            animalScript.OnSpawn();            
+        }
+        else // Instantiate a new GO
+        {
+            newAnimal = Instantiate(animal, spawnPos, Quaternion.identity);
+        }
+        
         AddToEntitiesList(EntityManager.EntityType.ANIMAL, newAnimal);
 
         return newAnimal;

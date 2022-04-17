@@ -32,8 +32,8 @@ public class EntityManager : MonoBehaviour
 
     private void Awake()
     {
-        //entitiesByType[0] = "a";
-        // Initialize list. The size of the loop is equivalent to the amount of different EntityTypes
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
         for (int i = 0; i < 3; ++i)
         {
             var list = new List<string>();
