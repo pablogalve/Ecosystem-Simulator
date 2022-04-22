@@ -162,20 +162,21 @@ public class AnimalManager : MonoBehaviour
             // Food died before the animal could arrive
             if (food == null) continue;
 
-            float distance = Vector3.Distance(food.transform.position, animalScript.gameObject.transform.position);
+            Vector3 directionToTarget = food.transform.position - animalScript.gameObject.transform.position;
+            float distanceSqr = directionToTarget.sqrMagnitude;
 
             // If food is found at an eatable distance, then animal stops looking for other food
-            if (animalScript.canEat(distance))
+            if (animalScript.canEat(distanceSqr))
             {
                 entityManager.TryToKill(EntityManager.EntityType.FOOD, entityManager.UUIDs[i].UUID);
                 animalScript.Eat();
                 break;
             }
 
-            if (distance < smallestDistance)
+            if (distanceSqr < smallestDistance)
             {
                 indexOfClosestFood = i;
-                smallestDistance = distance;
+                smallestDistance = distanceSqr;
             }
         }
 

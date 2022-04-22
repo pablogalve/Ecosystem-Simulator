@@ -29,6 +29,7 @@ public class Animal : MonoBehaviour
         state = AnimalManager.States.IDLE;
         reproductionUrge = maxNeed;
         hunger = maxNeed;
+        minDistanceToEat = Mathf.Pow(minDistanceToEat, 2);
 
         Reproduction reproduction = gameObject.GetComponent<Reproduction>();
         reproduction.OnSpawn();
@@ -48,9 +49,9 @@ public class Animal : MonoBehaviour
         return reproductionUrgePercentage <= 0.4f;
     }
 
-    public bool canEat(float distance)
+    public bool canEat(float distanceSquared)
     {
-        return distance <= minDistanceToEat;
+        return distanceSquared <= minDistanceToEat;
     }
 
     public void Eat()
