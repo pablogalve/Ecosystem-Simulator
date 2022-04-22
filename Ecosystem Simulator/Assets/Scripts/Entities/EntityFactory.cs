@@ -8,21 +8,38 @@ public class EntityFactory : MonoBehaviour
     [SerializeField] private List<GameObject> trees = new List<GameObject>();
     [SerializeField] private GameObject food = null;
 
-    private Dictionary<int, GameObject> _idToAnimal;
+    private Dictionary<int, GameObject> _idToEntity;
 
     private EntityManager entityManager = null;
+    [SerializeField] private Dictionary<int, Stack<GameObject>> _idToObjectPool = new Dictionary<int, Stack<GameObject>>();
 
     private void Awake()
     {
-        _idToAnimal = new Dictionary<int, GameObject>();
+        _idToEntity = new Dictionary<int, GameObject>();
 
         foreach(var animal in animals)
         {
             Animal animalScript = animal.GetComponent<Animal>();
-            _idToAnimal.Add((int)animalScript.species, animal);
+            _idToEntity.Add((int)animalScript.species, animal);
+
+            Stack<GameObject> newPool = new Stack<GameObject>();
+            _idToObjectPool.Add((int)animalScript.species, newPool);
         }
 
-        entityManager = gameObject.GetComponent<EntityManager>();
+        int i = 100; // Random int that is not equal to any animal species. // TODO: This is a bad practice
+        foreach(var tree in trees)
+        {
+            _idToEntity.Add(i, tree);
+            
+            Stack<GameObject> newPool = new Stack<GameObject>();
+            _idToObjectPool.Add(i, newPool);
+
+            if (i > 100) throw new Exception("At the moment this is hardcoded for 1 tree type max. Please refactor this");
+
+            i++;
+        }
+
+        entityManager = gameObject.GetComponent<EntityManager>();        
     }
 
     private Vector3 GenerateSpawnPosition(float x, float z, float randomVariation) 
@@ -39,25 +56,18 @@ public class EntityFactory : MonoBehaviour
 
     private void AddToEntitiesList(EntityManager.EntityType type, GameObject entityToAdd)
     {
-        switch (type)
-        {
-            case EntityManager.EntityType.TREE:
-                entityManager.entities[(int)EntityManager.EntityType.TREE].Add(entityToAdd);
-                break;
-            case EntityManager.EntityType.FOOD:
-                entityManager.entities[(int)EntityManager.EntityType.FOOD].Add(entityToAdd);
-                break;
-            case EntityManager.EntityType.ANIMAL:
-                entityManager.entities[(int)EntityManager.EntityType.ANIMAL].Add(entityToAdd);
-                break;
-            default:
-                throw new Exception("Entered default on AddToEntitiesList on EntityFactory.cs");
-        }
+        EntityManager.Entity entity = new EntityManager.Entity();
+        entity.UUID = System.Guid.NewGuid().ToString();
+        entity.type = type;
+
+        entityManager.UUIDs.Add(entity);
+        entityManager.entitiesByType[(int)type].Add(entity.UUID);
+        entityManager.entities[entity.UUID] = entityToAdd;
     }
 
     public GameObject SpawnAnimalOfRandomGender(int speciesID, float x, float z, float randomVariation = 0)
     {
-        if(!_idToAnimal.TryGetValue(speciesID, out GameObject animal))
+        if(!_idToEntity.TryGetValue(speciesID, out GameObject animal))
         {
             throw new Exception($"Entity with speciesID {speciesID} does not exist");
         }
@@ -65,7 +75,28 @@ public class EntityFactory : MonoBehaviour
         Vector3 spawnPos = GenerateSpawnPosition(x, z, randomVariation);
         if (!HeighmapData.Instance.isValidSpawnPoint(EntityManager.EntityType.ANIMAL, spawnPos)) return null;
 
-        GameObject newAnimal = Instantiate(animal, spawnPos, Quaternion.identity);
+        GameObject newAnimal;
+        if (!_idToObjectPool.TryGetValue(speciesID, out Stack<GameObject> objectsInPool)) 
+        {
+            throw new Exception($"Pool with speciesID {speciesID} does not exist");
+        }
+
+        if(objectsInPool.Count > 0) // Reuse a GO from pool
+        {
+            newAnimal = objectsInPool.Peek();
+            newAnimal.SetActive(true);
+            objectsInPool.Pop();
+
+            Animal animalScript = newAnimal.GetComponent<Animal>();
+            animalScript.OnSpawn();
+
+            newAnimal.transform.position = spawnPos;
+        }
+        else // Instantiate a new GO
+        {
+            newAnimal = Instantiate(animal, spawnPos, Quaternion.identity);
+        }
+        
         AddToEntitiesList(EntityManager.EntityType.ANIMAL, newAnimal);
 
         return newAnimal;
@@ -75,13 +106,32 @@ public class EntityFactory : MonoBehaviour
     {
         Vector3 spawnPos = GenerateSpawnPosition(x, z, randomVariation);
         if (!HeighmapData.Instance.isValidSpawnPoint(EntityManager.EntityType.TREE, spawnPos)) return null;
+           
+        GameObject newTree;
+        if (!_idToObjectPool.TryGetValue(100, out Stack<GameObject> objectsInPool))
+        {
+            throw new Exception($"Pool with speciesID {100} does not exist");
+        }
 
-        GameObject newTree = Instantiate(trees[UnityEngine.Random.Range(0, trees.Count - 1)], spawnPos, Quaternion.Euler(0.0f, UnityEngine.Random.Range(0.0f, 360.0f), 0.0f));
-        AddToEntitiesList(EntityManager.EntityType.TREE, newTree);
+        if (objectsInPool.Count > 0) // Reuse a GO from pool
+        {
+            newTree = objectsInPool.Peek();
+            newTree.SetActive(true);
+            objectsInPool.Pop();
+
+            newTree.transform.position = spawnPos;
+        }
+        else // Instantiate a new GO
+        {
+            newTree = Instantiate(trees[UnityEngine.Random.Range(0, trees.Count - 1)], spawnPos, Quaternion.Euler(0.0f, UnityEngine.Random.Range(0.0f, 360.0f), 0.0f));
+        }
 
         //Set age
         AgeController ageController = newTree.GetComponent<AgeController>();
         ageController.age = initialAge;
+        ageController.OnSpawn();
+
+        AddToEntitiesList(EntityManager.EntityType.TREE, newTree);
 
         return newTree;
     }

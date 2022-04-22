@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -20,9 +21,20 @@ public class Animal : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        OnSpawn();
+    }
+
+    public void OnSpawn()
+    {
         state = AnimalManager.States.IDLE;
         reproductionUrge = maxNeed;
-        hunger = maxNeed;       
+        hunger = maxNeed;
+
+        Reproduction reproduction = gameObject.GetComponent<Reproduction>();
+        reproduction.OnSpawn();
+
+        AgeController age = gameObject.GetComponent<AgeController>();
+        age.OnSpawn();
     }
 
     public bool isHungry()
@@ -52,9 +64,9 @@ public class Animal : MonoBehaviour
         reproductionUrge = maxNeed;
     }
 
-    public void UpdateAllStats()
+    public void UpdateAllStats(string myUUID)
     {
-        if (hunger == 0) Die();
+        if (hunger == 0) Die(myUUID);
         else hunger--;
 
         AgeController ageController = gameObject.GetComponent<AgeController>();
@@ -64,11 +76,10 @@ public class Animal : MonoBehaviour
         if (reproductionUrge != 0) reproductionUrge--;
     }
 
-    private void Die()
+    private void Die(string myUUID)
     {
         EntityManager entityManager = GameObject.Find("GameManager").GetComponent<EntityManager>();
-        Entity entityScript = gameObject.GetComponent<Entity>();
-        entityManager.TryToKill(EntityManager.EntityType.ANIMAL, entityScript.GetUUID());
+        entityManager.TryToKill(EntityManager.EntityType.ANIMAL, myUUID);
     }
 
     public void MoveTo(Transform targetPosition)

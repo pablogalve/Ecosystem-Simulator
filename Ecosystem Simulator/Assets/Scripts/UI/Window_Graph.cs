@@ -13,7 +13,10 @@ public class Window_Graph : MonoBehaviour
 
     private EntityManager entityManager = null;
     private List<List<int>> entitiesAmountHistory = new List<List<int>>();
-    private List<GameObject> UIelements = new List<GameObject> ();
+    private List<List<GameObject>> lineElements = new List<List<GameObject>>();
+    private List<List<GameObject>> circleElements = new List<List<GameObject>>();
+    private List<RectTransform> labelXElements = new List<RectTransform>();
+    private List<RectTransform> labelYElements = new List<RectTransform>();
 
     private float yMaximum;
 
@@ -35,10 +38,16 @@ public class Window_Graph : MonoBehaviour
     {
         yield return new WaitForSeconds(1f); // Wait for other scripts
 
-        for (int i = 0; i < entityManager.entities.Count; i++)
+        for (int i = 0; i < entityManager.entitiesByType.Count; i++)
         {
-            List<int> listToAdd = new List<int>();
-            entitiesAmountHistory.Add(listToAdd);            
+            List<int> listOfInts = new List<int>();
+            entitiesAmountHistory.Add(listOfInts);
+
+            List<GameObject> listOfGO = new List<GameObject>();
+            lineElements.Add(listOfGO);
+
+            List<GameObject> listOfCircles = new List<GameObject>();
+            circleElements.Add(listOfCircles);
         }
 
         StartCoroutine(UpdateCharts());
@@ -47,64 +56,89 @@ public class Window_Graph : MonoBehaviour
     private IEnumerator UpdateCharts()
     {
         // Remove previous UI elements
-        for (int i = 0; i < UIelements.Count; i++)
+        /*for (int i = 0; i < UIelements.Count; i++)
         { 
             Destroy(UIelements[i]); 
         }
-        UIelements.Clear();
+        UIelements.Clear();*/
 
         for(int i = 0; i < entitiesAmountHistory.Count; i++)
         {
             // Update values
-            int currNum = entityManager.entities[i].Count;
+            int currNum = entityManager.entitiesByType[i].Count;
             entitiesAmountHistory[i].Add(currNum);
 
             if (currNum > yMaximum) yMaximum = currNum;
 
             // Update UI
             float rgbValue = (float)(i * 1.0f / entitiesAmountHistory.Count * 1.0f);
-            ShowGraph(entitiesAmountHistory[i], new Color(rgbValue, rgbValue, rgbValue));
+            ShowGraph(entitiesAmountHistory[i], new Color(rgbValue, rgbValue, rgbValue), i);
         }        
 
         yield return new WaitForSeconds(5f);
         StartCoroutine(UpdateCharts());
     }
 
-    private void ShowGraph(List<int> valueList, Color color)
+    private void ShowGraph(List<int> valueList, Color color, int speciesIndex)
     {
         float graphHeight = graphContainer.sizeDelta.y;
-        float xSize = graphContainer.sizeDelta.x / valueList.Count;
-        float xLabelStep = Mathf.Ceil((float)valueList.Count / (float)maxLabelsY);
+        float xSize = graphContainer.sizeDelta.x / valueList.Count;        
 
         GameObject lastCircleGameObject = null;
         for (int i = 0; i < valueList.Count; i++)
         {
             float xPosition = i * xSize;
             float yPosition = (valueList[i] / yMaximum) * graphHeight;
-            GameObject circleGameObject = CreateCircle(new Vector2(xPosition, yPosition), color);
-
+            GameObject circleGameObject = CreateCircle(new Vector2(xPosition, yPosition), color, i, speciesIndex);
+              
             if (lastCircleGameObject != null)
             {
                 CreateDotConnection(lastCircleGameObject.GetComponent<RectTransform>().anchoredPosition,
                                     circleGameObject.GetComponent<RectTransform>().anchoredPosition,
-                                    color);
+                                    color,
+                                    i,
+                                    speciesIndex);
             }
             lastCircleGameObject = circleGameObject;
-                        
-            if (i % xLabelStep != 0) continue;
+        }
 
-            RectTransform labelX = Instantiate(labelTemplateX);
+        for (int i = 0; i < maxLabelsX; i++)
+        {
+            int xValue = Mathf.RoundToInt((float)valueList.Count * ((float)i / (float)maxLabelsX));
+
+            RectTransform labelX;
+            if (labelXElements.Count <= i) // Create new  
+            {
+                labelX = Instantiate(labelTemplateX);
+                labelXElements.Add(labelX);
+            }
+            else // Reuse existing  
+            {
+                labelX = labelXElements[i];
+            }
+
             labelX.SetParent(graphContainer);
             labelX.gameObject.SetActive(true);
-            labelX.anchoredPosition = new Vector2(xPosition, -20f);
-            labelX.GetComponent<Text>().text = i.ToString();
-            UIelements.Add(labelX.gameObject);            
+
+            float xPos = (graphContainer.sizeDelta.x * ((float)i / (float)maxLabelsX));
+            labelX.anchoredPosition = new Vector2(xPos, -20.0f);
+            labelX.GetComponent<Text>().text = xValue.ToString();
         }
 
         // Display a maximum of "maxLabelsY" labels on the y-axis
         for (int i = 0; i <= maxLabelsY; i++)
         {
-            RectTransform labelY = Instantiate(labelTemplateY);
+            RectTransform labelY;
+            if (labelYElements.Count <= i) // Create new  
+            {
+                labelY = Instantiate(labelTemplateY);
+                labelYElements.Add(labelY);
+            }
+            else // Reuse existing  
+            {
+                labelY = labelYElements[i];
+            }
+
             labelY.SetParent(graphContainer, false);
             labelY.gameObject.SetActive(true);
             float normalizedValue = i * 1f / maxLabelsY;
@@ -112,13 +146,22 @@ public class Window_Graph : MonoBehaviour
             float xPos = (graphContainer.sizeDelta.x - gameObject.GetComponent<RectTransform>().rect.width) * 0.8f;
             labelY.anchoredPosition = new Vector2(xPos, normalizedValue * graphHeight);
             labelY.GetComponent<Text>().text = Mathf.RoundToInt(normalizedValue * yMaximum).ToString();
-            UIelements.Add(labelY.gameObject);
         }
     }
 
-    private GameObject CreateCircle(Vector2 anchoredPosition, Color color)
+    private GameObject CreateCircle(Vector2 anchoredPosition, Color color, int i, int speciesIndex)
     {
-        GameObject gameObject = new GameObject("circle", typeof(Image));
+        GameObject gameObject;
+        if (circleElements[speciesIndex].Count <= i) // Create new  
+        {
+            gameObject = new GameObject("circle", typeof(Image));
+            circleElements[speciesIndex].Add(gameObject);
+        }
+        else // Reuse existing  
+        {
+            gameObject = circleElements[speciesIndex][i];
+        }
+
         gameObject.transform.SetParent(graphContainer, false);
         gameObject.GetComponent<Image>().sprite = circleSprite;
         gameObject.GetComponent<Image>().color = color;
@@ -127,17 +170,25 @@ public class Window_Graph : MonoBehaviour
         rectTransform.sizeDelta = new Vector2(11, 11);
         rectTransform.anchorMin = new Vector2(0, 0);
         rectTransform.anchorMax = new Vector2(0, 0);
-
-        UIelements.Add(gameObject);
+        
         return gameObject;
     }
 
-    private void CreateDotConnection(Vector2 dotPositionA, Vector2 dotPositionB, Color color)
+    private void CreateDotConnection(Vector2 dotPositionA, Vector2 dotPositionB, Color color, int i, int speciesIndex)
     {
-        GameObject gameObject = new GameObject("dotConnection", typeof(Image));
+        GameObject gameObject;
+        if (lineElements[speciesIndex].Count <= i) // Create new  
+        {
+            gameObject = gameObject = new GameObject("dotConnection", typeof(Image));
+            lineElements[speciesIndex].Add(gameObject);
+        }
+        else // Reuse existing  
+        {
+            gameObject = lineElements[speciesIndex][i];
+        }
+
         gameObject.transform.SetParent(graphContainer, false);
         gameObject.GetComponent<Image>().color = new Color(color.r, color.g, color.b, 0.5f);
-        UIelements.Add(gameObject);
 
         RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
         Vector2 dir = (dotPositionB - dotPositionA).normalized;
