@@ -47,7 +47,7 @@ public class Reproduction : MonoBehaviour
         return isPregnant;
     }
 
-    public void UpdatePregnancy(GameObject babyPrefab)
+    public void UpdatePregnancy()
     {
         currPregnancyTime++;
         if(currPregnancyTime >= gestationPeriod)
