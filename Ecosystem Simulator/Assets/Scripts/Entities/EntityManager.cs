@@ -29,6 +29,7 @@ public class EntityManager : MonoBehaviour
     // Acess to other scripts
     AnimalManager animalManager = null;
     TreeManager treeManager = null;
+    EntityFactory entityFactory = null;
 
     private void Awake()
     {
@@ -44,7 +45,8 @@ public class EntityManager : MonoBehaviour
     void Start()
     {
         animalManager = GetComponent<AnimalManager>();
-        treeManager = GetComponent<TreeManager>();      
+        treeManager = GetComponent<TreeManager>();
+        entityFactory = GetComponent<EntityFactory>();
 
         SetInitialScene();
 
@@ -68,7 +70,12 @@ public class EntityManager : MonoBehaviour
             UUIDs.Remove(entity);
             entities.Remove(entity.UUID);
             entitiesByType[(int)entity.type].Remove(entity.UUID);
-            
+
+            if(entity.type == EntityType.ANIMAL)
+                entityFactory.AddToPool((int)go.GetComponent<Animal>().species, go);
+            else if(entity.type == EntityType.TREE)
+                entityFactory.AddToPool(100, go);
+            //else if type == food // TODO
             go.SetActive(false);
         }
         else
@@ -91,7 +98,7 @@ public class EntityManager : MonoBehaviour
     private void SetInitialScene()
     {
         EntityFactory entityFactory = gameObject.GetComponent<EntityFactory>();
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 500; i++) {
             entityFactory.SpawnRandomTree(1000f, 1000f, 500f, 12);
         }
 
@@ -99,6 +106,7 @@ public class EntityManager : MonoBehaviour
         {            
             entityFactory.SpawnAnimalOfRandomGender((int)AnimalManager.Species.K, 1000f, 1000f, 500f);
             entityFactory.SpawnAnimalOfRandomGender((int)AnimalManager.Species.R, 1000f, 1000f, 500f);
+            entityFactory.SpawnAnimalOfRandomGender((int)AnimalManager.Species.CARNIVORE, 1000f, 1000f, 500f);
         }
     }
 

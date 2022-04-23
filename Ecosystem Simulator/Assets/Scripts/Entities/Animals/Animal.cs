@@ -13,7 +13,8 @@ public class Animal : MonoBehaviour
     public byte maxNeed = 10; // Needs go from 
     public byte reproductionUrge; // Goes from 0 (no reproduction urge) to max
     public byte hunger; // Goes from 0 (death from starvation) to max
-    private float minDistanceToEat = 1f;
+    public float minDistanceToEat = 1f;
+    public bool isHerbivore = true;
 
     public float speed = 4.0f;
     public float speedForBabiesAndPregnants = 2.0f;

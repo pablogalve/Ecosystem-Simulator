@@ -65,6 +65,11 @@ public class EntityFactory : MonoBehaviour
         entityManager.entities[entity.UUID] = entityToAdd;
     }
 
+    public void AddToPool(int species, GameObject gameObject)
+    {
+        _idToObjectPool[species].Push(gameObject);
+    }
+
     public GameObject SpawnAnimalOfRandomGender(int speciesID, float x, float z, float randomVariation = 0)
     {
         if(!_idToEntity.TryGetValue(speciesID, out GameObject animal))

@@ -10,6 +10,7 @@ public class AnimalManager : MonoBehaviour
         UNDEFINED,
         R,
         K,
+        CARNIVORE
     }
 
     public enum States { 
@@ -18,9 +19,6 @@ public class AnimalManager : MonoBehaviour
         LOOKING_FOR_MATE,
         FOLLOWING_MUM,
     }
-
-    public GameObject animalPrefab = null;
-    public List<GameObject> animalPrefabs = new List<GameObject>();
 
     private EntityManager entityManager = null;
 
@@ -47,7 +45,7 @@ public class AnimalManager : MonoBehaviour
             if (animalScript == null) Debug.LogError("animalScript list was null on UpdateStats.cs");
 
             animalScript.UpdateAllStats(entityManager.UUIDs[i].UUID);
-            if (myGender.gender == 0 && myGender.IsPregnant()) myGender.UpdatePregnancy(animalPrefab);
+            if (myGender.gender == 0 && myGender.IsPregnant()) myGender.UpdatePregnancy();
         }
         
         yield return new WaitForSeconds(15.0f); // Wait before repeating the cycle
@@ -121,7 +119,7 @@ public class AnimalManager : MonoBehaviour
                     break;
 
                 case States.LOOKING_FOR_FOOD: // Primary need
-                    MoveToFood(animalScript);
+                    MoveToFood(animalScript, entityManager.UUIDs[i].UUID);
 
                     break;
 
@@ -140,9 +138,13 @@ public class AnimalManager : MonoBehaviour
         StartCoroutine(UpdateAnimalsStateMachine());
     }
 
-    private void MoveToFood(Animal animalScript)
+    private void MoveToFood(Animal animalScript, string myUUID)
     {
-        Transform foodPos = FindClosestFood(animalScript);
+        // Food is different for herbivores and carnivores
+        Transform foodPos;
+        if (animalScript.isHerbivore)
+            foodPos = FindClosestFood(animalScript);
+        else foodPos = FindClosestAnimalToEat(animalScript, myUUID);
 
         if (foodPos == null) return; // There are no food GOs in the scene
 
@@ -182,6 +184,44 @@ public class AnimalManager : MonoBehaviour
 
         if (indexOfClosestFood == -1) return null;
         else return entityManager.entities[entityManager.UUIDs[indexOfClosestFood].UUID].transform;
+    }
+
+    private Transform FindClosestAnimalToEat(Animal animalScript, string myUUID)
+    {
+        int indexOfClosestVictim = -1;
+        float smallestDistance = float.MaxValue;
+
+        for (int i = 0; i < entityManager.UUIDs.Count; i++)
+        {
+            if (entityManager.UUIDs[i].type != EntityManager.EntityType.ANIMAL) continue;
+            if (myUUID == entityManager.UUIDs[i].UUID) continue;
+            if (entityManager.entities[entityManager.UUIDs[i].UUID].GetComponent<Animal>().isHerbivore == false) continue; // Can't eat other carnivores
+
+            GameObject victim = entityManager.entities[entityManager.UUIDs[i].UUID];
+
+            // Food died before the animal could arrive
+            if (victim == null) continue;
+
+            Vector3 directionToTarget = victim.transform.position - animalScript.gameObject.transform.position;
+            float distanceSqr = directionToTarget.sqrMagnitude;
+
+            // If food is found at an eatable distance, then animal stops looking for other food
+            if (animalScript.canEat(distanceSqr))
+            {
+                entityManager.TryToKill(EntityManager.EntityType.ANIMAL, entityManager.UUIDs[i].UUID);
+                animalScript.Eat();
+                break;
+            }
+
+            if (distanceSqr < smallestDistance)
+            {
+                indexOfClosestVictim = i;
+                smallestDistance = distanceSqr;
+            }
+        }
+
+        if (indexOfClosestVictim == -1) return null;
+        else return entityManager.entities[entityManager.UUIDs[indexOfClosestVictim].UUID].transform;
     }
 
     private void StopMoving(Animal animalScript)
