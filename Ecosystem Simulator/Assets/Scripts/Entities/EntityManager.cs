@@ -121,7 +121,7 @@ public class EntityManager : MonoBehaviour
             // Kill entity if it has reached it's maximum age
             if (ageController.age + 1 > ageController.maxAge)
             {
-                TryToKill((EntityType)i, UUIDs[i].UUID);
+                TryToKill(UUIDs[i].type, UUIDs[i].UUID);
             }
             else ageController.age++;
 
