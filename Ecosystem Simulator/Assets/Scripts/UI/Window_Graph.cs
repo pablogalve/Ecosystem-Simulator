@@ -55,13 +55,6 @@ public class Window_Graph : MonoBehaviour
 
     private IEnumerator UpdateCharts()
     {
-        // Remove previous UI elements
-        /*for (int i = 0; i < UIelements.Count; i++)
-        { 
-            Destroy(UIelements[i]); 
-        }
-        UIelements.Clear();*/
-
         for(int i = 0; i < entitiesAmountHistory.Count; i++)
         {
             // Update values
@@ -96,7 +89,7 @@ public class Window_Graph : MonoBehaviour
                 CreateDotConnection(lastCircleGameObject.GetComponent<RectTransform>().anchoredPosition,
                                     circleGameObject.GetComponent<RectTransform>().anchoredPosition,
                                     color,
-                                    i,
+                                    i - 1,
                                     speciesIndex);
             }
             lastCircleGameObject = circleGameObject;
