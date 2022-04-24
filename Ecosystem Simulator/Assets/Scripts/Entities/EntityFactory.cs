@@ -39,6 +39,9 @@ public class EntityFactory : MonoBehaviour
             i++;
         }
 
+        Stack<GameObject> newFoodPool = new Stack<GameObject>();
+        _idToObjectPool.Add(200, newFoodPool); // TODO: Don't hardcode the food key if there are more than one type of food
+
         entityManager = gameObject.GetComponent<EntityManager>();        
     }
 
@@ -146,7 +149,25 @@ public class EntityFactory : MonoBehaviour
         Vector3 spawnPos = GenerateSpawnPosition(x, z, randomVariation);
         if (!HeighmapData.Instance.isValidSpawnPoint(EntityManager.EntityType.TREE, spawnPos)) return null;
 
-        GameObject newFood = Instantiate(food, spawnPos, Quaternion.identity);
+        GameObject newFood;
+        if (!_idToObjectPool.TryGetValue(200, out Stack<GameObject> objectsInPool))
+        {
+            throw new Exception($"Pool with speciesID {200} does not exist");
+        }
+
+        if (objectsInPool.Count > 0) // Reuse a GO from pool
+        {
+            newFood = objectsInPool.Peek();
+            newFood.SetActive(true);
+            objectsInPool.Pop();
+
+            newFood.transform.position = spawnPos;
+        }
+        else // Instantiate a new GO
+        {
+            newFood = Instantiate(food, spawnPos, Quaternion.identity);
+        }
+
         AddToEntitiesList(EntityManager.EntityType.FOOD, newFood);
 
         return newFood;
