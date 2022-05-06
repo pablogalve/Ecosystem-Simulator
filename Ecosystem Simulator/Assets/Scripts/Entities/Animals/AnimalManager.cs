@@ -60,9 +60,6 @@ public class AnimalManager : MonoBehaviour
 
         for (int i = 0; i < entityManager.entitiesByType[(int)EntityManager.EntityType.ANIMAL].Count; i++)
         {
-            if(i != 0 && i % maxAnimalsToUpdatePerFrame == 0) 
-                yield return null;
-
             GameObject animal = entityManager.entities[entityManager.entitiesByType[(int)EntityManager.EntityType.ANIMAL][i]];
 
             Animal animalScript = animal.GetComponent<Animal>();
@@ -97,7 +94,11 @@ public class AnimalManager : MonoBehaviour
 
                     break;
             }
-        }      
+
+            // Divide the workload in multiple frames
+            if (i != 0 && i % maxAnimalsToUpdatePerFrame == 0)
+                yield return null;
+        }
 
         yield return new WaitForSeconds(1.0f); // Wait before repeating the cycle
         StartCoroutine(ActionOfTheAnimalsStateMachine());
