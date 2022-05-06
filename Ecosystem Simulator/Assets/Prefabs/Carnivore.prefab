@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 2190395191296532967}
   m_Layer: 0
   m_Name: Carnivore
-  m_TagString: Untagged
+  m_TagString: Carnivore
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -142,6 +142,7 @@ MonoBehaviour:
   isHerbivore: 0
   speed: 7
   speedForBabiesAndPregnants: 3
+  fieldOfView: 50
 --- !u!114 &2190395191296532966
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -100,7 +100,7 @@ public class AnimalManager : MonoBehaviour
                 yield return null;
         }
 
-        yield return new WaitForSeconds(1.0f); // Wait before repeating the cycle
+        yield return new WaitForSeconds(1.0f);
         StartCoroutine(ActionOfTheAnimalsStateMachine());
     }
 
@@ -146,25 +146,41 @@ public class AnimalManager : MonoBehaviour
     private void MoveToFood(Animal animalScript, string myUUID)
     {
         // Food is different for herbivores and carnivores
-        Transform foodPos;
         if (animalScript.isHerbivore)
-            foodPos = FindClosestFood(animalScript);
-        else foodPos = FindClosestAnimalToEat(animalScript, myUUID);
+        {
+            var ret = FindClosestFood(animalScript);
+            if(ret.Item1 == true) // If there's food nearby, move there
+            {
+                animalScript.MoveTo(ret.Item2);
+            }
+            else
+            {
+                // Move to random position looking for food
+                Vector3 newTarget = animalScript.gameObject.transform.position;
 
-        if (foodPos == null) return; // There are no food GOs in the scene
+                newTarget.x += HeighmapData.Instance.GetRandomVariation(-20f, 20f);
+                newTarget.z += HeighmapData.Instance.GetRandomVariation(-20f, 20f);
+                newTarget = HeighmapData.Instance.GetTerrainHeight(newTarget.x, newTarget.z);
 
-        animalScript.MoveTo(foodPos);      
+                animalScript.MoveTo(newTarget);
+            }
+        }
+        //else foodPos = FindClosestAnimalToEat(animalScript, myUUID); // TODO: Add functionality for carnivores
     }
 
-    private Transform FindClosestFood(Animal animalScript)
+    private (bool, Vector3) FindClosestFood(Animal animalScript)
     {
-        string UUIDOfClosestFood = "";
+        Vector3 closestFood = new Vector3(0f, 0f, 0f);
         float smallestDistance = float.MaxValue;
+        bool foundAtLeastOne = false;
 
-        for (LinkedListNode<EntityManager.Entity> entity = entityManager.UUIDs.First; entity != null; entity = entity.Next)
+        Collider[] hitColliders = Physics.OverlapSphere(animalScript.transform.position, animalScript.fieldOfView);
+        for(int i = 0; i < hitColliders.Length; i++)
         {
-            if (entity.Value.type != EntityManager.EntityType.FOOD) continue;
-            GameObject food = entityManager.entities[entity.Value.UUID];
+            GameObject food = hitColliders[i].gameObject;
+            if (!food.CompareTag("Food")) continue;
+
+            foundAtLeastOne = true;
 
             // Food died before the animal could arrive
             if (food == null) continue;
@@ -175,20 +191,21 @@ public class AnimalManager : MonoBehaviour
             // If food is found at an eatable distance, then animal stops looking for other food
             if (animalScript.canEat(distanceSqr))
             {
-                entityManager.TryToKill(entity);
+                AgeController foodAge = food.GetComponent<AgeController>(); // TODO: Ugly way to kill the food in a retarded way, since I can't access the UUID from here
+                foodAge.age = foodAge.maxAge;
                 animalScript.Eat();
                 break;
             }
 
             if (distanceSqr < smallestDistance)
             {
-                UUIDOfClosestFood = entity.Value.UUID;
+                closestFood = food.transform.position;
                 smallestDistance = distanceSqr;
             }
         }
 
-        if (UUIDOfClosestFood.Length == 0) return null;
-        else return entityManager.entities[UUIDOfClosestFood].transform;
+        if (foundAtLeastOne) return (true, closestFood);
+        else                 return (false, closestFood);
     }
 
     private Transform FindClosestAnimalToEat(Animal animalScript, string myUUID)
@@ -293,7 +310,7 @@ public class AnimalManager : MonoBehaviour
         // Move to closest potential mate
         if (UUIDOfClosestMate.Length != 0)
         {
-            animalScript.MoveTo(entityManager.entities[UUIDOfClosestMate].transform);
+            animalScript.MoveTo(entityManager.entities[UUIDOfClosestMate].transform.position);
         }
     }
 }
