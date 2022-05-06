@@ -63,7 +63,7 @@ public class EntityFactory : MonoBehaviour
         entity.UUID = System.Guid.NewGuid().ToString();
         entity.type = type;
 
-        entityManager.UUIDs.Add(entity);
+        entityManager.UUIDs.AddFirst(entity); // O(1)
         entityManager.entitiesByType[(int)type].Add(entity.UUID);
         entityManager.entities[entity.UUID] = entityToAdd;
     }

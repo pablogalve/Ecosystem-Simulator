@@ -1049,7 +1049,7 @@ MonoBehaviour:
   maxTrees: 10000
   maxFood: 5000
   maxAnimals: 500
-  maxEntitiesToDeletePerFrame: 5
+  maxEntitiesToDeletePerFrame: 1000
 --- !u!114 &1232884837
 MonoBehaviour:
   m_ObjectHideFlags: 0

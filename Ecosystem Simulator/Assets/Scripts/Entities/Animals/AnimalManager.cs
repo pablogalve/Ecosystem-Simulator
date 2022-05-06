@@ -37,16 +37,16 @@ public class AnimalManager : MonoBehaviour
     {
         if (entityManager == null) throw new System.Exception("entityManager was null on AnimalManager.cs on UpdateStats()");
 
-        for (int i = 0; i < entityManager.UUIDs.Count; i++) // O(n)
+        for (LinkedListNode<EntityManager.Entity> entity = entityManager.UUIDs.First; entity != null; entity = entity.Next)
         {
-            if (entityManager.UUIDs[i].type != EntityManager.EntityType.ANIMAL) continue;
-            GameObject animal = entityManager.entities[entityManager.UUIDs[i].UUID];
+            if (entity.Value.type != EntityManager.EntityType.ANIMAL) continue;
+            GameObject animal = entityManager.entities[entity.Value.UUID];
 
             Animal animalScript = animal.GetComponent<Animal>();
             Reproduction myGender = animal.GetComponent<Reproduction>();
             if (animalScript == null) Debug.LogError("animalScript list was null on UpdateStats.cs");
 
-            animalScript.UpdateAllStats(entityManager.UUIDs[i].UUID);
+            animalScript.UpdateAllStats(entity);
             if (myGender.gender == 0 && myGender.IsPregnant()) myGender.UpdatePregnancy();
         }
         
@@ -62,8 +62,6 @@ public class AnimalManager : MonoBehaviour
         {
             if(i != 0 && i % maxAnimalsToUpdatePerFrame == 0) 
                 yield return null;
-
-            Debug.Log("i " + i + " on frame " + Time.frameCount);
 
             GameObject animal = entityManager.entities[entityManager.entitiesByType[(int)EntityManager.EntityType.ANIMAL][i]];
 
@@ -109,10 +107,10 @@ public class AnimalManager : MonoBehaviour
     {
         if (entityManager == null) throw new System.Exception("entityManager was null on AnimalManager.cs on ActionOfTheAnimalsStateMachine()");
 
-        for (int i = 0; i < entityManager.UUIDs.Count; i++)
+        for (LinkedListNode<EntityManager.Entity> entity = entityManager.UUIDs.First; entity != null; entity = entity.Next)
         {
-            if (entityManager.UUIDs[i].type != EntityManager.EntityType.ANIMAL) continue;
-            GameObject animal = entityManager.entities[entityManager.UUIDs[i].UUID];
+            if (entity.Value.type != EntityManager.EntityType.ANIMAL) continue;
+            GameObject animal = entityManager.entities[entity.Value.UUID];
 
             Animal animalScript = animal.GetComponent<Animal>();
             if (animalScript == null) Debug.LogError("animalScript list was null on AnimalManager.cs");
@@ -125,7 +123,7 @@ public class AnimalManager : MonoBehaviour
                     break;
 
                 case States.LOOKING_FOR_FOOD: // Primary need
-                    MoveToFood(animalScript, entityManager.UUIDs[i].UUID);
+                    MoveToFood(animalScript, entity.Value.UUID);
 
                     break;
 
@@ -159,13 +157,13 @@ public class AnimalManager : MonoBehaviour
 
     private Transform FindClosestFood(Animal animalScript)
     {
-        int indexOfClosestFood = -1;
+        string UUIDOfClosestFood = "";
         float smallestDistance = float.MaxValue;
 
-        for (int i = 0; i < entityManager.UUIDs.Count; i++)
+        for (LinkedListNode<EntityManager.Entity> entity = entityManager.UUIDs.First; entity != null; entity = entity.Next)
         {
-            if (entityManager.UUIDs[i].type != EntityManager.EntityType.FOOD) continue;
-            GameObject food = entityManager.entities[entityManager.UUIDs[i].UUID];
+            if (entity.Value.type != EntityManager.EntityType.FOOD) continue;
+            GameObject food = entityManager.entities[entity.Value.UUID];
 
             // Food died before the animal could arrive
             if (food == null) continue;
@@ -176,34 +174,34 @@ public class AnimalManager : MonoBehaviour
             // If food is found at an eatable distance, then animal stops looking for other food
             if (animalScript.canEat(distanceSqr))
             {
-                entityManager.TryToKill(EntityManager.EntityType.FOOD, entityManager.UUIDs[i].UUID);
+                entityManager.TryToKill(entity);
                 animalScript.Eat();
                 break;
             }
 
             if (distanceSqr < smallestDistance)
             {
-                indexOfClosestFood = i;
+                UUIDOfClosestFood = entity.Value.UUID;
                 smallestDistance = distanceSqr;
             }
         }
 
-        if (indexOfClosestFood == -1) return null;
-        else return entityManager.entities[entityManager.UUIDs[indexOfClosestFood].UUID].transform;
+        if (UUIDOfClosestFood.Length == 0) return null;
+        else return entityManager.entities[UUIDOfClosestFood].transform;
     }
 
     private Transform FindClosestAnimalToEat(Animal animalScript, string myUUID)
     {
-        int indexOfClosestVictim = -1;
+        string UUIDOfClosestVictim = "";
         float smallestDistance = float.MaxValue;
 
-        for (int i = 0; i < entityManager.UUIDs.Count; i++)
+        for (LinkedListNode<EntityManager.Entity> entity = entityManager.UUIDs.First; entity != null; entity = entity.Next)
         {
-            if (entityManager.UUIDs[i].type != EntityManager.EntityType.ANIMAL) continue;
-            if (myUUID == entityManager.UUIDs[i].UUID) continue;
-            if (entityManager.entities[entityManager.UUIDs[i].UUID].GetComponent<Animal>().isHerbivore == false) continue; // Can't eat other carnivores
+            if (entity.Value.type != EntityManager.EntityType.ANIMAL) continue;
+            if (myUUID == entity.Value.UUID) continue;
+            if (entityManager.entities[entity.Value.UUID].GetComponent<Animal>().isHerbivore == false) continue; // Can't eat other carnivores
 
-            GameObject victim = entityManager.entities[entityManager.UUIDs[i].UUID];
+            GameObject victim = entityManager.entities[entity.Value.UUID];
 
             // Food died before the animal could arrive
             if (victim == null) continue;
@@ -214,20 +212,20 @@ public class AnimalManager : MonoBehaviour
             // If food is found at an eatable distance, then animal stops looking for other food
             if (animalScript.canEat(distanceSqr))
             {
-                entityManager.TryToKill(EntityManager.EntityType.ANIMAL, entityManager.UUIDs[i].UUID);
+                entityManager.TryToKill(entity);
                 animalScript.Eat();
                 break;
             }
 
             if (distanceSqr < smallestDistance)
             {
-                indexOfClosestVictim = i;
+                UUIDOfClosestVictim = entity.Value.UUID;
                 smallestDistance = distanceSqr;
             }
         }
 
-        if (indexOfClosestVictim == -1) return null;
-        else return entityManager.entities[entityManager.UUIDs[indexOfClosestVictim].UUID].transform;
+        if (UUIDOfClosestVictim.Length == 0) return null;
+        else return entityManager.entities[UUIDOfClosestVictim].transform;
     }
 
     private void StopMoving(Animal animalScript)
@@ -242,15 +240,15 @@ public class AnimalManager : MonoBehaviour
     {
         Reproduction myGender = animalScript.gameObject.GetComponent<Reproduction>();
 
-        int indexOfClosestMate = -1;
+        string UUIDOfClosestMate = "";
         float smallestDistance = float.MaxValue;
 
         if (entityManager == null) throw new System.Exception("entityManager was null on AnimalManager.cs on MoveToClosestPotentialMate()");
 
-        for (int i = 0; i < entityManager.UUIDs.Count; i++)
+        for (LinkedListNode<EntityManager.Entity> entity = entityManager.UUIDs.First; entity != null; entity = entity.Next)
         {
-            if (entityManager.UUIDs[i].type != EntityManager.EntityType.ANIMAL) continue;
-            GameObject potentialMate = entityManager.entities[entityManager.UUIDs[i].UUID];
+            if (entity.Value.type != EntityManager.EntityType.ANIMAL) continue;
+            GameObject potentialMate = entityManager.entities[entity.Value.UUID];
 
             // Mate died before the animal could arrive
             if (potentialMate == null) continue;
@@ -286,15 +284,15 @@ public class AnimalManager : MonoBehaviour
 
             if (distance < smallestDistance)
             {
-                indexOfClosestMate = i;
+                UUIDOfClosestMate = entity.Value.UUID;
                 smallestDistance = distance;
             }
         }
 
         // Move to closest potential mate
-        if (indexOfClosestMate != -1)
+        if (UUIDOfClosestMate.Length != 0)
         {
-            animalScript.MoveTo(entityManager.entities[entityManager.UUIDs[indexOfClosestMate].UUID].transform);
+            animalScript.MoveTo(entityManager.entities[UUIDOfClosestMate].transform);
         }
     }
 }

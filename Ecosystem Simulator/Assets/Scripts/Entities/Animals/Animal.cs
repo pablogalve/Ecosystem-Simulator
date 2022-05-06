@@ -66,9 +66,9 @@ public class Animal : MonoBehaviour
         reproductionUrge = maxNeed;
     }
 
-    public void UpdateAllStats(string myUUID)
+    public void UpdateAllStats(LinkedListNode<EntityManager.Entity> entityNode)
     {
-        if (hunger == 0) Die(myUUID);
+        if (hunger == 0) Die(entityNode);
         else hunger--;
 
         AgeController ageController = gameObject.GetComponent<AgeController>();
@@ -78,10 +78,10 @@ public class Animal : MonoBehaviour
         if (reproductionUrge != 0) reproductionUrge--;
     }
 
-    private void Die(string myUUID)
+    private void Die(LinkedListNode<EntityManager.Entity> entityNode)
     {
         EntityManager entityManager = GameObject.Find("GameManager").GetComponent<EntityManager>();
-        entityManager.TryToKill(EntityManager.EntityType.ANIMAL, myUUID);
+        entityManager.TryToKill(entityNode);
     }
 
     public void MoveTo(Transform targetPosition)
