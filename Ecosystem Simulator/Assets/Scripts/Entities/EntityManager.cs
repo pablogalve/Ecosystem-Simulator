@@ -24,12 +24,14 @@ public class EntityManager : MonoBehaviour
 
     public int maxTrees = 2000;
     public int maxFood = 5000;
-    public int maxAnimals = 100; 
+    public int maxAnimals = 100;
+
+    public int maxEntitiesToDeletePerFrame = 10;
 
     // Acess to other scripts
-    AnimalManager animalManager = null;
-    TreeManager treeManager = null;
-    EntityFactory entityFactory = null;
+    private AnimalManager animalManager = null;
+    private TreeManager treeManager = null;
+    private EntityFactory entityFactory = null;
 
     private void Awake()
     {
@@ -56,7 +58,7 @@ public class EntityManager : MonoBehaviour
     // LateUpdate is called after all Update functions have been called. It should be used to delete gameObjects
     private void LateUpdate()
     {
-        DeleteEntities(1);
+        DeleteEntities(maxEntitiesToDeletePerFrame);
     }
 
     private void DeleteEntity()
@@ -71,11 +73,13 @@ public class EntityManager : MonoBehaviour
             entities.Remove(entity.UUID);
             entitiesByType[(int)entity.type].Remove(entity.UUID);
 
-            if(entity.type == EntityType.ANIMAL)
+            if (entity.type == EntityType.ANIMAL)
                 entityFactory.AddToPool((int)go.GetComponent<Animal>().species, go);
-            else if(entity.type == EntityType.TREE)
+            else if (entity.type == EntityType.TREE)
                 entityFactory.AddToPool(100, go);
-            //else if type == food // TODO
+            else if (entity.type == EntityType.FOOD)
+                entityFactory.AddToPool(200, go);
+
             go.SetActive(false);
         }
         else

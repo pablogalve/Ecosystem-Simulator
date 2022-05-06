@@ -20,6 +20,8 @@ public class AnimalManager : MonoBehaviour
         FOLLOWING_MUM,
     }
 
+    public int maxAnimalsToUpdatePerFrame = 50;
+
     private EntityManager entityManager = null;
 
     // Start is called before the first frame update
@@ -56,10 +58,14 @@ public class AnimalManager : MonoBehaviour
     {
         if (entityManager == null) throw new System.Exception("entityManager was null on AnimalManager.cs on UpdateAnimalsStateMachine()");
 
-        for (int i = 0; i < entityManager.UUIDs.Count; i++)
+        for (int i = 0; i < entityManager.entitiesByType[(int)EntityManager.EntityType.ANIMAL].Count; i++)
         {
-            if (entityManager.UUIDs[i].type != EntityManager.EntityType.ANIMAL) continue;
-            GameObject animal = entityManager.entities[entityManager.UUIDs[i].UUID];
+            if(i != 0 && i % maxAnimalsToUpdatePerFrame == 0) 
+                yield return null;
+
+            Debug.Log("i " + i + " on frame " + Time.frameCount);
+
+            GameObject animal = entityManager.entities[entityManager.entitiesByType[(int)EntityManager.EntityType.ANIMAL][i]];
 
             Animal animalScript = animal.GetComponent<Animal>();
             if (animalScript == null) throw new System.Exception("animalScript list was null on AnimalManager.cs");

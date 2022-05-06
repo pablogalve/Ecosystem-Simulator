@@ -1003,6 +1003,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   treePrefab: {fileID: 1806213140507979633, guid: aaf4cec9501e3fd48a3f8d78d616c663, type: 3}
+  maxUpdatesPerFrame: 50
   foodPrefab: {fileID: 448354350997442831, guid: 2065a54d0538eec4c8d6138bf03f9591, type: 3}
 --- !u!4 &1232884834
 Transform:
@@ -1048,6 +1049,7 @@ MonoBehaviour:
   maxTrees: 10000
   maxFood: 5000
   maxAnimals: 500
+  maxEntitiesToDeletePerFrame: 5
 --- !u!114 &1232884837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1060,6 +1062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2445dbd7b4635f54c9bacff724111a77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxAnimalsToUpdatePerFrame: 25
 --- !u!114 &1232884838
 MonoBehaviour:
   m_ObjectHideFlags: 0
