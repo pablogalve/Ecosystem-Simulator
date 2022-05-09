@@ -93,9 +93,9 @@ public class Animal : MonoBehaviour
         AgeController ageController = gameObject.GetComponent <AgeController>();
         Reproduction reproduction = gameObject.GetComponent<Reproduction>();
 
-        if (myNavMeshAgent == null) { Debug.LogError("myNavMeshAgent was null on Animal.cs on MoveTo()"); return; }
-        if (ageController == null) { Debug.LogError("ageController was null on Animal.cs on MoveTo()"); return; }
-        if (reproduction == null) { Debug.LogError("reproduction was null on Animal.cs on MoveTo()"); return; }
+        if (myNavMeshAgent == null) { throw new System.Exception("myNavMeshAgent was null on Animal.cs on MoveTo()"); }
+        if (ageController == null) { throw new System.Exception("ageController was null on Animal.cs on MoveTo()"); }
+        if (reproduction == null) { throw new System.Exception("reproduction was null on Animal.cs on MoveTo()"); }
 
         myNavMeshAgent.SetDestination(targetPosition);
 

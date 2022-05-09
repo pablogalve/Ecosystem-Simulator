@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HeighmapData : MonoBehaviour
 {
-    public Vector3 GetTerrainHeight(float x, float z)
+    public float GetTerrainHeight(float x, float z)
     {
         //Create object to store raycast data
         RaycastHit hit;
@@ -15,10 +15,10 @@ public class HeighmapData : MonoBehaviour
         //Send the raycast.
         Physics.Raycast(origin, Vector3.down, out hit, Mathf.Infinity);
 
-        return hit.point;
+        return hit.point.y;
     }
 
-    public bool isValidSpawnPoint(EntityManager.EntityType type, Vector3 position)
+    public bool IsValidPosition(EntityManager.EntityType type, Vector3 position)
     {
         if (position == null) return false;
 
@@ -48,6 +48,27 @@ public class HeighmapData : MonoBehaviour
         return Random.Range(min, max);
     }
 
+    public Vector3 LevyWalk(Vector3 currPos, float shortDistance, float largeDistance, float mu)
+    {
+        Vector3 target = currPos;
+        do
+        {
+            float u = GetRandomVariation(0.0f, 1.0f);
+            float range = Mathf.Pow(largeDistance, 1 - mu) - Mathf.Pow(shortDistance, 1 - mu);
+            float baseVal = range * u + Mathf.Pow(shortDistance, 1 - mu);
+            float distanceToMove = Mathf.Pow(baseVal, 1 / (1 - mu));
+
+            float angle = GetRandomVariation(0f, 359f);
+
+            target.x += distanceToMove * Mathf.Cos(angle * Mathf.Deg2Rad);            
+            target.z += distanceToMove * Mathf.Sin(angle * Mathf.Deg2Rad);
+            target.y = GetTerrainHeight(target.x, target.z);
+        }
+        while (!IsValidPosition(EntityManager.EntityType.ANIMAL, target));
+
+        return target;
+    }
+
     #region SINGLETON PATTERN
     public static HeighmapData _instance;
     public static HeighmapData Instance
@@ -56,7 +77,7 @@ public class HeighmapData : MonoBehaviour
         {
             if (_instance == null)
             {
-                _instance = GameObject.FindObjectOfType<HeighmapData>();
+                _instance = FindObjectOfType<HeighmapData>();
 
                 if (_instance == null)
                 {

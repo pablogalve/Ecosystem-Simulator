@@ -155,13 +155,14 @@ public class AnimalManager : MonoBehaviour
             }
             else
             {
+                // If animal is not already moving, set new direction using Levy walk
+                NavMeshAgent myNavMeshAgent = animalScript.gameObject.GetComponent<NavMeshAgent>();
+                if (myNavMeshAgent.hasPath) return;
+
                 // Move to random position looking for food
-                Vector3 newTarget = animalScript.gameObject.transform.position;
-
-                newTarget.x += HeighmapData.Instance.GetRandomVariation(-20f, 20f);
-                newTarget.z += HeighmapData.Instance.GetRandomVariation(-20f, 20f);
-                newTarget = HeighmapData.Instance.GetTerrainHeight(newTarget.x, newTarget.z);
-
+                //Vector3 newTarget = animalScript.gameObject.transform.position;
+                Vector3 newTarget = HeighmapData.Instance.LevyWalk(animalScript.gameObject.transform.position, 10f, 1000f, 2.0f);
+                               
                 animalScript.MoveTo(newTarget);
             }
         }
