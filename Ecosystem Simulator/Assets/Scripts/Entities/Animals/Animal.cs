@@ -19,6 +19,8 @@ public class Animal : MonoBehaviour
     public float speed = 4.0f;
     public float speedForBabiesAndPregnants = 2.0f;
 
+    public float fieldOfView = 50.0f;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -59,6 +61,7 @@ public class Animal : MonoBehaviour
     {
         // Eating restores a maximum of 50% of the animal's total hunger. Example: If current hunger is 30% and it eats, hunger becomes 80% (30+50)        
         hunger += (byte)(maxNeed >> 1); // Bit-shifting. ">> 1" is like dividing by 2
+        if(hunger > maxNeed) hunger = maxNeed;
     }
 
     public void SetMaxReproductionUrge()
@@ -84,17 +87,17 @@ public class Animal : MonoBehaviour
         entityManager.TryToKill(entityNode);
     }
 
-    public void MoveTo(Transform targetPosition)
+    public void MoveTo(Vector3 targetPosition)
     {
         NavMeshAgent myNavMeshAgent = gameObject.GetComponent<NavMeshAgent>();
         AgeController ageController = gameObject.GetComponent <AgeController>();
         Reproduction reproduction = gameObject.GetComponent<Reproduction>();
 
-        if (myNavMeshAgent == null) { Debug.LogError("myNavMeshAgent was null on Animal.cs on MoveTo()"); return; }
-        if (ageController == null) { Debug.LogError("ageController was null on Animal.cs on MoveTo()"); return; }
-        if (reproduction == null) { Debug.LogError("reproduction was null on Animal.cs on MoveTo()"); return; }
+        if (myNavMeshAgent == null) { throw new System.Exception("myNavMeshAgent was null on Animal.cs on MoveTo()"); }
+        if (ageController == null) { throw new System.Exception("ageController was null on Animal.cs on MoveTo()"); }
+        if (reproduction == null) { throw new System.Exception("reproduction was null on Animal.cs on MoveTo()"); }
 
-        myNavMeshAgent.SetDestination(targetPosition.position);
+        myNavMeshAgent.SetDestination(targetPosition);
 
         // Reduce speed to babies and pregnant females
         if (ageController.IsBaby() || reproduction.IsPregnant()) myNavMeshAgent.speed = speedForBabiesAndPregnants;        
