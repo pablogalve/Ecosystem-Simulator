@@ -26,8 +26,8 @@ public class Reproduction : MonoBehaviour
     {
         // This function is called by a female with the male as a function argument
         // The female(this) has to accept (return true) or reject (return false)
-        if (other.gender == 0) { Debug.LogError("The argument must be a male"); return false; }
-        if (other.gender == this.gender) { Debug.LogError("Animals must be of different gender to mate"); return false; }
+        if (other.gender == 0) { throw new System.Exception("The argument must be a male"); }
+        if (other.gender == this.gender) { throw new System.Exception("Animals must be of different gender to mate"); }
                 
         if (IsPregnant() == false) return true;
 

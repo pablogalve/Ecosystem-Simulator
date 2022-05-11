@@ -5,8 +5,10 @@ using UnityEngine;
 public class TreeManager : MonoBehaviour
 {
     public GameObject treePrefab = null;
-    EntityManager entityManager = null;
-    EntityFactory entityFactory = null;
+    private EntityManager entityManager = null;
+    private EntityFactory entityFactory = null;
+
+    public int maxUpdatesPerFrame = 50;
 
     // FOOD
     public GameObject foodPrefab = null;
@@ -20,19 +22,16 @@ public class TreeManager : MonoBehaviour
         StartCoroutine(AsexualReproduction());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
     private IEnumerator GenerateFood()
     {
         if (entityManager == null) throw new System.Exception("entityManager was null on AnimalManager.cs on GenerateFood()");
 
-        for (int i = 0; i < entityManager.UUIDs.Count; i++)
+        for (int i = 0; i < entityManager.entitiesByType[(int)EntityManager.EntityType.TREE].Count; i++)
         {
-            if (entityManager.UUIDs[i].type != EntityManager.EntityType.TREE) continue;
-            GameObject tree = entityManager.entities[entityManager.UUIDs[i].UUID];
+            if (i != 0 && i % maxUpdatesPerFrame == 0)
+                yield return null;
+
+            GameObject tree = entityManager.entities[entityManager.entitiesByType[(int)EntityManager.EntityType.TREE][i]];
 
             if (entityManager.isMaxCapReached(EntityManager.EntityType.FOOD)) break;
 
@@ -58,10 +57,12 @@ public class TreeManager : MonoBehaviour
     {
         if (entityManager == null) throw new System.Exception("entityManager was null on AnimalManager.cs on GenerateFood()");
 
-        for (int i = 0; i < entityManager.UUIDs.Count; i++)
+        for (int i = 0; i < entityManager.entitiesByType[(int)EntityManager.EntityType.TREE].Count; i++)
         {
-            if (entityManager.UUIDs[i].type != EntityManager.EntityType.TREE) continue;
-            GameObject tree = entityManager.entities[entityManager.UUIDs[i].UUID];
+            if (i != 0 && i % maxUpdatesPerFrame == 0)
+                yield return null;
+
+            GameObject tree = entityManager.entities[entityManager.entitiesByType[(int)EntityManager.EntityType.TREE][i]];
 
             // Possible bug? Only the trees at the top of the list are being reproduced when they are close to the maximum population
             if (entityManager.isMaxCapReached(EntityManager.EntityType.TREE)) break;

@@ -66,6 +66,8 @@ public class Window_Graph : MonoBehaviour
             // Update UI
             float rgbValue = (float)(i * 1.0f / entitiesAmountHistory.Count * 1.0f);
             ShowGraph(entitiesAmountHistory[i], new Color(rgbValue, rgbValue, rgbValue), i);
+
+            yield return null;
         }        
 
         yield return new WaitForSeconds(5f);

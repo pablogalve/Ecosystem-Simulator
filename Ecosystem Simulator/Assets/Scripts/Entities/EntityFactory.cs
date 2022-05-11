@@ -51,7 +51,7 @@ public class EntityFactory : MonoBehaviour
         Vector3 spawnPos = new Vector3(x, 0f, z);
         spawnPos.x += HeighmapData.Instance.GetRandomVariation(-randomVariation, randomVariation);
         spawnPos.z += HeighmapData.Instance.GetRandomVariation(-randomVariation, randomVariation);
-        spawnPos = HeighmapData.Instance.GetTerrainHeight(spawnPos.x, spawnPos.z);
+        spawnPos.y = HeighmapData.Instance.GetTerrainHeight(spawnPos.x, spawnPos.z);
 
         //if (!HeighmapData.Instance.isValidSpawnPoint(type, spawnPos)) return; //TODO
         return spawnPos;
@@ -63,7 +63,7 @@ public class EntityFactory : MonoBehaviour
         entity.UUID = System.Guid.NewGuid().ToString();
         entity.type = type;
 
-        entityManager.UUIDs.Add(entity);
+        entityManager.UUIDs.AddFirst(entity); // O(1)
         entityManager.entitiesByType[(int)type].Add(entity.UUID);
         entityManager.entities[entity.UUID] = entityToAdd;
     }
@@ -81,7 +81,7 @@ public class EntityFactory : MonoBehaviour
         }
 
         Vector3 spawnPos = GenerateSpawnPosition(x, z, randomVariation);
-        if (!HeighmapData.Instance.isValidSpawnPoint(EntityManager.EntityType.ANIMAL, spawnPos)) return null;
+        if (!HeighmapData.Instance.IsValidPosition(EntityManager.EntityType.ANIMAL, spawnPos)) return null;
 
         GameObject newAnimal;
         if (!_idToObjectPool.TryGetValue(speciesID, out Stack<GameObject> objectsInPool)) 
@@ -113,7 +113,7 @@ public class EntityFactory : MonoBehaviour
     public GameObject SpawnRandomTree(float x, float z, float randomVariation = 0, byte initialAge = 1)
     {
         Vector3 spawnPos = GenerateSpawnPosition(x, z, randomVariation);
-        if (!HeighmapData.Instance.isValidSpawnPoint(EntityManager.EntityType.TREE, spawnPos)) return null;
+        if (!HeighmapData.Instance.IsValidPosition(EntityManager.EntityType.TREE, spawnPos)) return null;
            
         GameObject newTree;
         if (!_idToObjectPool.TryGetValue(100, out Stack<GameObject> objectsInPool))
@@ -147,7 +147,7 @@ public class EntityFactory : MonoBehaviour
     public GameObject SpawnFood(float x, float z, float randomVariation = 0)
     {
         Vector3 spawnPos = GenerateSpawnPosition(x, z, randomVariation);
-        if (!HeighmapData.Instance.isValidSpawnPoint(EntityManager.EntityType.TREE, spawnPos)) return null;
+        if (!HeighmapData.Instance.IsValidPosition(EntityManager.EntityType.TREE, spawnPos)) return null;
 
         GameObject newFood;
         if (!_idToObjectPool.TryGetValue(200, out Stack<GameObject> objectsInPool))

@@ -17,19 +17,21 @@ public class EntityManager : MonoBehaviour
         ANIMAL
     }
 
-    public List<Entity> UUIDs = new List<Entity>(); // UUIDs of all existing entities
+    public LinkedList<Entity> UUIDs = new LinkedList<Entity>(); // UUIDs of all existing entities
     public Dictionary<string, GameObject> entities = new Dictionary<string, GameObject>();
     public Dictionary<int, List<string>> entitiesByType = new Dictionary<int, List<string>>(); // int = species or type, List<string> All the entities of the given species
-    private Queue<Entity> entitiesToDelete = new Queue<Entity>();
+    private Queue<LinkedListNode<Entity>> entitiesToDelete = new Queue<LinkedListNode<Entity>>();
 
     public int maxTrees = 2000;
     public int maxFood = 5000;
-    public int maxAnimals = 100; 
+    public int maxAnimals = 100;
+
+    public int maxEntitiesToDeletePerFrame = 10;
 
     // Acess to other scripts
-    AnimalManager animalManager = null;
-    TreeManager treeManager = null;
-    EntityFactory entityFactory = null;
+    private AnimalManager animalManager = null;
+    private TreeManager treeManager = null;
+    private EntityFactory entityFactory = null;
 
     private void Awake()
     {
@@ -56,31 +58,34 @@ public class EntityManager : MonoBehaviour
     // LateUpdate is called after all Update functions have been called. It should be used to delete gameObjects
     private void LateUpdate()
     {
-        DeleteEntities(1);
+        DeleteEntities(maxEntitiesToDeletePerFrame);
     }
 
     private void DeleteEntity()
     {
-        Entity entity = entitiesToDelete.Peek();
+        LinkedListNode<Entity> entityNode = entitiesToDelete.Peek();
 
-        if (entities.ContainsKey(entity.UUID)) // O(1)
+        if (entities.ContainsKey(entityNode.Value.UUID)) // O(1)
         {
-            GameObject go = entities[entity.UUID];
+            GameObject go = entities[entityNode.Value.UUID];
 
-            UUIDs.Remove(entity);
-            entities.Remove(entity.UUID);
-            entitiesByType[(int)entity.type].Remove(entity.UUID);
+            UUIDs.Remove(entityNode); // O(1) when removing a 'LinkedListNode' instead of 'T' https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.linkedlist-1.remove?view=netframework-4.7.2
+            entities.Remove(entityNode.Value.UUID); // O(1)
+            entitiesByType[(int)entityNode.Value.type].Remove(entityNode.Value.UUID); // O(1)
 
-            if(entity.type == EntityType.ANIMAL)
+            // Add to object pooling
+            if (entityNode.Value.type == EntityType.ANIMAL)
                 entityFactory.AddToPool((int)go.GetComponent<Animal>().species, go);
-            else if(entity.type == EntityType.TREE)
+            else if (entityNode.Value.type == EntityType.TREE)
                 entityFactory.AddToPool(100, go);
-            //else if type == food // TODO
+            else if (entityNode.Value.type == EntityType.FOOD)
+                entityFactory.AddToPool(200, go);
+
             go.SetActive(false);
         }
         else
         {
-            Debug.LogWarning($"Couldnt find entity of type '{entitiesToDelete.Peek().type}' with UUID '{entitiesToDelete.Peek().UUID}' on DeleteEntity");
+            Debug.LogWarning($"Couldnt find entity of type '{entityNode.Value.type}' with UUID '{entityNode.Value.UUID}' on DeleteEntity");
         }
         entitiesToDelete.Dequeue();
     }
@@ -110,26 +115,23 @@ public class EntityManager : MonoBehaviour
         }
     }
 
-    public void TryToKill(EntityType type, string UUIDtoKill)
+    public void TryToKill(LinkedListNode<Entity> entityNode)
     {
-        Entity entity = new Entity();
-        entity.type = type;
-        entity.UUID = UUIDtoKill;
-        entitiesToDelete.Enqueue(entity);
+        entitiesToDelete.Enqueue(entityNode);
     }
       
     // Updates entity's age, grows it in size, and kills if it it's too old
     private IEnumerator GrowOrDie()
     {
-        for(int i = 0; i < UUIDs.Count; ++i)
+        for(LinkedListNode<Entity> entity = UUIDs.First; entity != null; entity = entity.Next)
         {
-            AgeController ageController = entities[UUIDs[i].UUID].GetComponent<AgeController>();
+            AgeController ageController = entities[entity.Value.UUID].GetComponent<AgeController>();
             if (ageController == null) throw new Exception("AgeController script is null on EntityManager.cs on GrowOrDie");
 
             // Kill entity if it has reached it's maximum age
             if (ageController.age + 1 > ageController.maxAge)
             {
-                TryToKill(UUIDs[i].type, UUIDs[i].UUID);
+                TryToKill(entity);
             }
             else ageController.age++;
 
@@ -137,7 +139,7 @@ public class EntityManager : MonoBehaviour
             if (ageController.growsInSize)
             {
                 float agePercentage = (float)(ageController.age) / (float)(ageController.maxAge);
-                entities[UUIDs[i].UUID].transform.localScale = Vector3.one * agePercentage;
+                entities[entity.Value.UUID].transform.localScale = Vector3.one * agePercentage;
             }
         }
         yield return new WaitForSeconds(30f);
