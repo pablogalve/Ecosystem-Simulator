@@ -107,7 +107,7 @@ public class Animal : MonoBehaviour
     public void StopMoving()
     {
         NavMeshAgent myNavMeshAgent = gameObject.GetComponent<NavMeshAgent>();
-        if (myNavMeshAgent == null) Debug.LogError("myNavMeshAgent was null on AnimalManager.cs on StopMoving()");
+        if (myNavMeshAgent == null) throw new System.Exception("myNavMeshAgent was null on AnimalManager.cs on StopMoving()");
 
         myNavMeshAgent.SetDestination(gameObject.transform.position);
     }

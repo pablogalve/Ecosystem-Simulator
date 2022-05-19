@@ -44,7 +44,7 @@ public class AnimalManager : MonoBehaviour
 
             Animal animalScript = animal.GetComponent<Animal>();
             Reproduction myGender = animal.GetComponent<Reproduction>();
-            if (animalScript == null) Debug.LogError("animalScript list was null on UpdateStats.cs");
+            if (animalScript == null) throw new System.Exception("animalScript list was null on UpdateStats.cs");
 
             animalScript.UpdateAllStats(entity);
             if (myGender.gender == 0 && myGender.IsPregnant()) myGender.UpdatePregnancy();
@@ -114,7 +114,7 @@ public class AnimalManager : MonoBehaviour
             GameObject animal = entityManager.entities[entity.Value.UUID];
 
             Animal animalScript = animal.GetComponent<Animal>();
-            if (animalScript == null) Debug.LogError("animalScript list was null on AnimalManager.cs");
+            if (animalScript == null) throw new System.Exception("animalScript list was null on AnimalManager.cs");
 
             switch (animalScript.state)
             {

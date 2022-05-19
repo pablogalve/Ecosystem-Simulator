@@ -37,9 +37,9 @@ public class Reproduction : MonoBehaviour
     public void GetPregnant()
     {
         if (gender == 0 && isPregnant == false) isPregnant = true;
-        else if (gender == 1) Debug.LogWarning("You used the function GetPregnant() with a male. That's illegal");
+        else if (gender == 1) throw new System.Exception("You used the function GetPregnant() with a male. That's illegal");
         else if (isPregnant == true) Debug.LogWarning("This female was already pregnant");
-        else Debug.LogWarning("Code should never execute this line. If you read this, come to Gender.cs on GetPregnant() to see what happened");
+        else throw new System.Exception("Code should never execute this line. If you read this, come to Gender.cs on GetPregnant() to see what happened");
     }
 
     public bool IsPregnant()

@@ -36,11 +36,7 @@ public class TreeManager : MonoBehaviour
             if (entityManager.isMaxCapReached(EntityManager.EntityType.FOOD)) break;
 
             AgeController ageScript = tree.GetComponent<AgeController>();
-            if (ageScript == null)
-            {
-                Debug.LogError("tree " + i + " is null on TreeManager.cs: FoodGeneration");
-                continue;
-            }
+            if (ageScript == null) throw new System.Exception("tree " + i + " is null on TreeManager.cs: FoodGeneration");               
 
             // Check that tree is old enough to produce food
             if (ageScript.age >= ageScript.reproductionAge * ageScript.maxAge)
@@ -68,11 +64,8 @@ public class TreeManager : MonoBehaviour
             if (entityManager.isMaxCapReached(EntityManager.EntityType.TREE)) break;
 
             AgeController ageController = tree.GetComponent<AgeController>();
-            if (ageController == null)
-            {
-                Debug.LogError("AgeController is null on EntityManager.cs: Reproduce()");
-                continue;
-            }
+            if (ageController == null) throw new System.Exception("AgeController is null on EntityManager.cs: Reproduce()");
+            
 
             if (ageController.IsBaby() == false)
             {
