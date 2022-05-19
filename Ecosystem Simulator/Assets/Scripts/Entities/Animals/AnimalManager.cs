@@ -170,7 +170,7 @@ public class AnimalManager : MonoBehaviour
             if (myNavMeshAgent.hasPath) return;
 
             // Move to random position looking for food
-            Vector3 newTarget = HeighmapData.Instance.LevyWalk(animalScript.gameObject.transform.position, 10f, 1000f, 2.0f);
+            Vector3 newTarget = HeightmapData.Instance.LevyWalk(animalScript.gameObject.transform.position, 10f, 1000f, 2.0f);
                                
             animalScript.MoveTo(newTarget);
         }
@@ -321,7 +321,7 @@ public class AnimalManager : MonoBehaviour
             if (myNavMeshAgent.hasPath) return;
 
             // Move to random position looking for mate
-            Vector3 newTarget = HeighmapData.Instance.LevyWalk(animalScript.gameObject.transform.position, 10f, 1000f, 2.0f);
+            Vector3 newTarget = HeightmapData.Instance.LevyWalk(animalScript.gameObject.transform.position, 10f, 1000f, 2.0f);
 
             animalScript.MoveTo(newTarget);
         }

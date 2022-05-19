@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeighmapData : MonoBehaviour
+public class HeightmapData : MonoBehaviour
 {
     public float GetTerrainHeight(float x, float z)
     {
@@ -70,19 +70,19 @@ public class HeighmapData : MonoBehaviour
     }
 
     #region SINGLETON PATTERN
-    public static HeighmapData _instance;
-    public static HeighmapData Instance
+    public static HeightmapData _instance;
+    public static HeightmapData Instance
     {
         get
         {
             if (_instance == null)
             {
-                _instance = FindObjectOfType<HeighmapData>();
+                _instance = FindObjectOfType<HeightmapData>();
 
                 if (_instance == null)
                 {
-                    GameObject container = new GameObject("AmountOfTreesPerArea");
-                    _instance = container.AddComponent<HeighmapData>();
+                    GameObject container = new GameObject("HeighmapData");
+                    _instance = container.AddComponent<HeightmapData>();
                 }
             }
 
