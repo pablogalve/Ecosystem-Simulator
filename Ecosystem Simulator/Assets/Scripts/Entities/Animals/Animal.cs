@@ -21,6 +21,8 @@ public class Animal : MonoBehaviour
 
     public float fieldOfView = 50.0f;
 
+    public List<GameObject> UIimageToDisplayState = new List<GameObject>();
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -107,8 +109,16 @@ public class Animal : MonoBehaviour
     public void StopMoving()
     {
         NavMeshAgent myNavMeshAgent = gameObject.GetComponent<NavMeshAgent>();
-        if (myNavMeshAgent == null) Debug.LogError("myNavMeshAgent was null on AnimalManager.cs on StopMoving()");
+        if (myNavMeshAgent == null) throw new System.Exception("myNavMeshAgent was null on AnimalManager.cs on StopMoving()");
 
         myNavMeshAgent.SetDestination(gameObject.transform.position);
+    }
+
+    public GameObject GetCurrentUIimage()
+    {
+        if ((int)state >= UIimageToDisplayState.Count)
+            throw new System.Exception("The UI image was not set in an animal for the state: " + state.ToString());
+
+        return UIimageToDisplayState[(int)state];
     }
 }

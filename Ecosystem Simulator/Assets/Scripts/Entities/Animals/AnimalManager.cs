@@ -44,7 +44,7 @@ public class AnimalManager : MonoBehaviour
 
             Animal animalScript = animal.GetComponent<Animal>();
             Reproduction myGender = animal.GetComponent<Reproduction>();
-            if (animalScript == null) Debug.LogError("animalScript list was null on UpdateStats.cs");
+            if (animalScript == null) throw new System.Exception("animalScript list was null on UpdateStats.cs");
 
             animalScript.UpdateAllStats(entity);
             if (myGender.gender == 0 && myGender.IsPregnant()) myGender.UpdatePregnancy();
@@ -69,25 +69,51 @@ public class AnimalManager : MonoBehaviour
             {
                 case States.IDLE: // Default state when there are no other needs
                     if (animalScript.isHungry())
+                    {
+                        animalScript.GetCurrentUIimage().SetActive(false);
                         animalScript.state = States.LOOKING_FOR_FOOD;
+                        animalScript.GetCurrentUIimage().SetActive(true);
+                    }                        
                     else if (animalScript.wantsToReproduce())
+                    {
+                        animalScript.GetCurrentUIimage().SetActive(false);
                         animalScript.state = States.LOOKING_FOR_MATE;
+                        animalScript.GetCurrentUIimage().SetActive(true);
+                    }
                     break;
 
                 case States.LOOKING_FOR_FOOD: // Primary need
                     if (animalScript.isHungry() == false)
                     {
                         if (animalScript.wantsToReproduce())
+                        {
+                            animalScript.GetCurrentUIimage().SetActive(false);
                             animalScript.state = States.LOOKING_FOR_MATE;
-                        else animalScript.state = States.IDLE;
+                            animalScript.GetCurrentUIimage().SetActive(true);
+                        }                            
+                        else
+                        {
+                            animalScript.GetCurrentUIimage().SetActive(false);
+                            animalScript.state = States.IDLE;
+                            animalScript.GetCurrentUIimage().SetActive(true);
+                        }                                                    
                     }
                     break;
 
                 case States.LOOKING_FOR_MATE: // Secondary need
                     if (animalScript.isHungry())
+                    {
+                        animalScript.GetCurrentUIimage().SetActive(false);
                         animalScript.state = States.LOOKING_FOR_FOOD;
+                        animalScript.GetCurrentUIimage().SetActive(true);
+                    }                        
                     else if (animalScript.wantsToReproduce() == false)
+                    {
+                        animalScript.GetCurrentUIimage().SetActive(false);
                         animalScript.state = States.IDLE;
+                        animalScript.GetCurrentUIimage().SetActive(true);
+                    }
+                        
                     break;
 
                 case States.FOLLOWING_MUM: // Default state for babies when there are no other needs
@@ -114,7 +140,7 @@ public class AnimalManager : MonoBehaviour
             GameObject animal = entityManager.entities[entity.Value.UUID];
 
             Animal animalScript = animal.GetComponent<Animal>();
-            if (animalScript == null) Debug.LogError("animalScript list was null on AnimalManager.cs");
+            if (animalScript == null) throw new System.Exception("animalScript list was null on AnimalManager.cs");
 
             switch (animalScript.state)
             {
@@ -170,7 +196,7 @@ public class AnimalManager : MonoBehaviour
             if (myNavMeshAgent.hasPath) return;
 
             // Move to random position looking for food
-            Vector3 newTarget = HeighmapData.Instance.LevyWalk(animalScript.gameObject.transform.position, 10f, 1000f, 2.0f);
+            Vector3 newTarget = HeightmapData.Instance.LevyWalk(animalScript.gameObject.transform.position, 10f, 1000f, 2.0f);
                                
             animalScript.MoveTo(newTarget);
         }
@@ -321,7 +347,7 @@ public class AnimalManager : MonoBehaviour
             if (myNavMeshAgent.hasPath) return;
 
             // Move to random position looking for mate
-            Vector3 newTarget = HeighmapData.Instance.LevyWalk(animalScript.gameObject.transform.position, 10f, 1000f, 2.0f);
+            Vector3 newTarget = HeightmapData.Instance.LevyWalk(animalScript.gameObject.transform.position, 10f, 1000f, 2.0f);
 
             animalScript.MoveTo(newTarget);
         }

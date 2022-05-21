@@ -4,17 +4,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EntityManager : MonoBehaviour
-{
-    public struct Entity
-    {
-        public EntityType type;
-        public string UUID;
-    }
+{    
     public enum EntityType
     {
         TREE,
         FOOD,
         ANIMAL
+    }
+
+    public struct Entity
+    {
+        public EntityType type;
+        public string UUID;
     }
 
     public LinkedList<Entity> UUIDs = new LinkedList<Entity>(); // UUIDs of all existing entities
@@ -65,7 +66,7 @@ public class EntityManager : MonoBehaviour
     {
         LinkedListNode<Entity> entityNode = entitiesToDelete.Peek();
 
-        if (entities.ContainsKey(entityNode.Value.UUID)) // O(1)
+        if (entities.ContainsKey(entityNode.Value.UUID)) // O(n) // TODO: Should I avoid this to optimize?
         {
             GameObject go = entities[entityNode.Value.UUID];
 
