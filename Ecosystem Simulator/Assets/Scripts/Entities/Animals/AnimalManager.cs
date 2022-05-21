@@ -69,25 +69,51 @@ public class AnimalManager : MonoBehaviour
             {
                 case States.IDLE: // Default state when there are no other needs
                     if (animalScript.isHungry())
+                    {
+                        animalScript.GetCurrentUIimage().SetActive(false);
                         animalScript.state = States.LOOKING_FOR_FOOD;
+                        animalScript.GetCurrentUIimage().SetActive(true);
+                    }                        
                     else if (animalScript.wantsToReproduce())
+                    {
+                        animalScript.GetCurrentUIimage().SetActive(false);
                         animalScript.state = States.LOOKING_FOR_MATE;
+                        animalScript.GetCurrentUIimage().SetActive(true);
+                    }
                     break;
 
                 case States.LOOKING_FOR_FOOD: // Primary need
                     if (animalScript.isHungry() == false)
                     {
                         if (animalScript.wantsToReproduce())
+                        {
+                            animalScript.GetCurrentUIimage().SetActive(false);
                             animalScript.state = States.LOOKING_FOR_MATE;
-                        else animalScript.state = States.IDLE;
+                            animalScript.GetCurrentUIimage().SetActive(true);
+                        }                            
+                        else
+                        {
+                            animalScript.GetCurrentUIimage().SetActive(false);
+                            animalScript.state = States.IDLE;
+                            animalScript.GetCurrentUIimage().SetActive(true);
+                        }                                                    
                     }
                     break;
 
                 case States.LOOKING_FOR_MATE: // Secondary need
                     if (animalScript.isHungry())
+                    {
+                        animalScript.GetCurrentUIimage().SetActive(false);
                         animalScript.state = States.LOOKING_FOR_FOOD;
+                        animalScript.GetCurrentUIimage().SetActive(true);
+                    }                        
                     else if (animalScript.wantsToReproduce() == false)
+                    {
+                        animalScript.GetCurrentUIimage().SetActive(false);
                         animalScript.state = States.IDLE;
+                        animalScript.GetCurrentUIimage().SetActive(true);
+                    }
+                        
                     break;
 
                 case States.FOLLOWING_MUM: // Default state for babies when there are no other needs
