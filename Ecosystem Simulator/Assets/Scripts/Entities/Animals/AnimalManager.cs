@@ -229,6 +229,9 @@ public class AnimalManager : MonoBehaviour
                 AgeController foodAge = food.GetComponent<AgeController>(); // TODO: Ugly way to kill the food in a retarded way, since I can't access the UUID from here
                 foodAge.age = foodAge.maxAge;
                 animalScript.Eat();
+
+                entityManager.TryToKill(food.GetComponent<UUID>().GetMyUUIDInfo());
+
                 break;
             }
 
@@ -245,43 +248,45 @@ public class AnimalManager : MonoBehaviour
 
     private (bool, Vector3) FindClosestHerbivoreToEat(Animal animalScript, string myUUID)
     {
-        Vector3 closestFood = new Vector3(0f, 0f, 0f);
+        Vector3 closestHerbivore = new Vector3(0f, 0f, 0f);
         float smallestDistance = float.MaxValue;
         bool foundAtLeastOne = false;
 
         Collider[] hitColliders = Physics.OverlapSphere(animalScript.transform.position, animalScript.fieldOfView);
         for (int i = 0; i < hitColliders.Length; i++)
         {
-            GameObject food = hitColliders[i].gameObject;
-            if (!food.CompareTag("Herbivore")) continue;
+            GameObject herbivore = hitColliders[i].gameObject;
+            if (!herbivore.CompareTag("Herbivore")) continue;
 
             foundAtLeastOne = true;
 
             // Food died before the animal could arrive
-            if (food == null) continue;
+            if (herbivore == null) continue;
 
-            Vector3 directionToTarget = food.transform.position - animalScript.gameObject.transform.position;
+            Vector3 directionToTarget = herbivore.transform.position - animalScript.gameObject.transform.position;
             float distanceSqr = directionToTarget.sqrMagnitude;
 
             // If food is found at an eatable distance, then animal stops looking for other food
             if (animalScript.canEat(distanceSqr))
             {
-                AgeController foodAge = food.GetComponent<AgeController>(); // TODO: Ugly way to kill the food in a retarded way, since I can't access the UUID from here
+                AgeController foodAge = herbivore.GetComponent<AgeController>(); // TODO: Ugly way to kill the food in a retarded way, since I can't access the UUID from here
                 foodAge.age = foodAge.maxAge;
                 animalScript.Eat();
 
+                entityManager.TryToKill(herbivore.GetComponent<UUID>().GetMyUUIDInfo());
+                
                 break;
             }
 
             if (distanceSqr < smallestDistance)
             {
-                closestFood = food.transform.position;
+                closestHerbivore = herbivore.transform.position;
                 smallestDistance = distanceSqr;
             }
         }
 
-        if (foundAtLeastOne) return (true, closestFood);
-        else return (false, closestFood);
+        if (foundAtLeastOne) return (true, closestHerbivore);
+        else return (false, closestHerbivore);
     }
 
     private void MoveToClosestPotentialMate(Animal animalScript)

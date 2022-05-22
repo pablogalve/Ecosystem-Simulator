@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: -5274298205901416852}
   - component: {fileID: 4918109558199072577}
   - component: {fileID: -309532257411188910}
+  - component: {fileID: 6125868273936490866}
   m_Layer: 0
   m_Name: Animal_K
   m_TagString: Herbivore
@@ -252,6 +253,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6125868273936490866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291810309633072332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6e2893eb8c49d44084ba14dfeb82dbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _UUID: 
 --- !u!1 &3006957478143495667
 GameObject:
   m_ObjectHideFlags: 0

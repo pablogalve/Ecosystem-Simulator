@@ -66,6 +66,9 @@ public class EntityFactory : MonoBehaviour
         entityManager.UUIDs.AddFirst(entity); // O(1)
         entityManager.entitiesByType[(int)type].Add(entity.UUID);
         entityManager.entities[entity.UUID] = entityToAdd;
+
+        UUID uuid = entityToAdd.GetComponent<UUID>();
+        uuid.SetMyUUIDInfo(entityManager.UUIDs.First);
     }
 
     public void AddToPool(int species, GameObject gameObject)

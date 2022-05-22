@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1806213140509066535}
   - component: {fileID: 1806213140510096765}
   - component: {fileID: -2578752542214686193}
+  - component: {fileID: 3013336055892318034}
   m_Layer: 0
   m_Name: Tree Type3 03
   m_TagString: Tree
@@ -98,3 +99,16 @@ MonoBehaviour:
   maxAge: 50
   reproductionAge: 0.25
   growsInSize: 1
+--- !u!114 &3013336055892318034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1806213140507979633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6e2893eb8c49d44084ba14dfeb82dbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _UUID: 
