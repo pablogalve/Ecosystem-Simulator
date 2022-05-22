@@ -321,12 +321,14 @@ public class AnimalManager : MonoBehaviour
                         myGender.GetPregnant();
                         animalScript.SetMaxReproductionUrge();
                         otherAnimal.SetMaxReproductionUrge();
+                        break;
                     }
                     else continue; // Mate denied. Let's look for another one
                 }
                 else if (distanceSqr < 100f) // Females wait at 10f distance (distanceSqr is squared) for the male. Removing this causes a weird reproduction pattern
                 {
                     animalScript.StopMoving();
+                    break;
                 }
             }
 
@@ -337,10 +339,12 @@ public class AnimalManager : MonoBehaviour
             }
         }
 
-        if (foundAtLeastOne)
+        // --- All potential mates have been checked, now let's act
+
+        if (foundAtLeastOne && myGender.gender == 1)
         {
             animalScript.MoveTo(closestMate);
-        }else 
+        }else if(!foundAtLeastOne)
         {
             // If animal is not already moving, set new direction using Levy walk
             NavMeshAgent myNavMeshAgent = animalScript.gameObject.GetComponent<NavMeshAgent>();
