@@ -93,10 +93,7 @@ public class EntityFactory : MonoBehaviour
         {
             newAnimal = objectsInPool.Peek();
             newAnimal.SetActive(true);
-            objectsInPool.Pop();
-
-            Animal animalScript = newAnimal.GetComponent<Animal>();
-            animalScript.OnSpawn();
+            objectsInPool.Pop();            
 
             newAnimal.transform.position = spawnPos;
         }
@@ -104,7 +101,10 @@ public class EntityFactory : MonoBehaviour
         {
             newAnimal = Instantiate(animal, spawnPos, Quaternion.identity);
         }
-        
+
+        Animal animalScript = newAnimal.GetComponent<Animal>();
+        animalScript.OnSpawn();
+
         AddToEntitiesList(EntityManager.EntityType.ANIMAL, newAnimal);
 
         return newAnimal;
