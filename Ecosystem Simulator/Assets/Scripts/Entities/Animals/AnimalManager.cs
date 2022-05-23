@@ -181,7 +181,7 @@ public class AnimalManager : MonoBehaviour
         }
         else
         {
-            ret = FindClosestHerbivoreToEat(animalScript, myUUID); // TODO: Add functionality for carnivores
+            ret = FindClosestHerbivoreToEat(animalScript, myUUID);
         }
         
         // Step 2: If food was found, move there. Otherwise, find in random location using LevyWalk
@@ -199,12 +199,13 @@ public class AnimalManager : MonoBehaviour
             Vector3 newTarget = HeightmapData.Instance.LevyWalk(animalScript.gameObject.transform.position, 10f, 1000f, 2.0f);
                                
             animalScript.MoveTo(newTarget);
-        }
-        
+        }        
     }
 
     private (bool, Vector3) FindClosestFood(Animal animalScript)
     {
+        // Herbivores can eat both food and baby trees
+
         Vector3 closestFood = new Vector3(0f, 0f, 0f);
         float smallestDistance = float.MaxValue;
         bool foundAtLeastOne = false;
@@ -213,7 +214,15 @@ public class AnimalManager : MonoBehaviour
         for(int i = 0; i < hitColliders.Length; i++)
         {
             GameObject food = hitColliders[i].gameObject;
-            if (!food.CompareTag("Food")) continue;
+            if (food.CompareTag("Herbivore")) continue;
+            if (food.CompareTag("Carnivore")) continue;
+
+            if(food.CompareTag("Tree"))
+            {
+                AgeController treeAge = food.GetComponent<AgeController>();
+                if (!treeAge.IsBaby())
+                    continue;
+            }
 
             foundAtLeastOne = true;
 
@@ -226,13 +235,11 @@ public class AnimalManager : MonoBehaviour
             // If food is found at an eatable distance, then animal stops looking for other food
             if (animalScript.canEat(distanceSqr))
             {
-                AgeController foodAge = food.GetComponent<AgeController>(); // TODO: Ugly way to kill the food in a retarded way, since I can't access the UUID from here
-                foodAge.age = foodAge.maxAge;
                 animalScript.Eat();
 
                 entityManager.TryToKill(food.GetComponent<UUID>().GetMyUUIDInfo());
 
-                break;
+                return (false, closestFood);
             }
 
             if (distanceSqr < smallestDistance)
@@ -257,11 +264,11 @@ public class AnimalManager : MonoBehaviour
         {
             GameObject herbivore = hitColliders[i].gameObject;
             if (!herbivore.CompareTag("Herbivore")) continue;
-
-            foundAtLeastOne = true;
-
+            
             // Food died before the animal could arrive
             if (herbivore == null) continue;
+
+            foundAtLeastOne = true;
 
             Vector3 directionToTarget = herbivore.transform.position - animalScript.gameObject.transform.position;
             float distanceSqr = directionToTarget.sqrMagnitude;
@@ -269,13 +276,11 @@ public class AnimalManager : MonoBehaviour
             // If food is found at an eatable distance, then animal stops looking for other food
             if (animalScript.canEat(distanceSqr))
             {
-                AgeController foodAge = herbivore.GetComponent<AgeController>(); // TODO: Ugly way to kill the food in a retarded way, since I can't access the UUID from here
-                foodAge.age = foodAge.maxAge;
                 animalScript.Eat();
 
                 entityManager.TryToKill(herbivore.GetComponent<UUID>().GetMyUUIDInfo());
-                
-                break;
+
+                return (false, closestHerbivore);
             }
 
             if (distanceSqr < smallestDistance)
