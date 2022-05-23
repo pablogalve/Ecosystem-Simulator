@@ -15,11 +15,16 @@ public class Reproduction : MonoBehaviour
         currPregnancyTime = 0;
         gender = (byte)Random.Range(0, 2);
 
-        // Set colors for debugging - Predefined color for males and light version for females //TODO: Remove the colors once fbx are in place
+        // Set colors for debugging - Predefined color for males and light version for females 
+        //TODO: Remove the colors once fbx are in place
         var renderer = gameObject.GetComponent<Renderer>();
-        Color newColor = renderer.material.color;
-        newColor.g += 0.5f;
-        if (gender == 0) renderer.material.SetColor("_Color", newColor);
+        if(renderer != null)
+        {
+            Color newColor = renderer.material.color;
+            newColor.g += 0.5f;        
+        
+            if (gender == 0) renderer.material.SetColor("_Color", newColor);
+        }
     }
 
     public bool RequestMate(Reproduction other)
