@@ -65,19 +65,19 @@ public class AnimalManager : MonoBehaviour
             Animal animalScript = animal.GetComponent<Animal>();
             if (animalScript == null) throw new System.Exception("animalScript list was null on AnimalManager.cs");
 
-            switch (animalScript.state)
+            switch (animalScript.GetState())
             {
                 case States.IDLE: // Default state when there are no other needs
                     if (animalScript.isHungry())
                     {
                         animalScript.GetCurrentUIimage().SetActive(false);
-                        animalScript.state = States.LOOKING_FOR_FOOD;
+                        animalScript.SetState(States.LOOKING_FOR_FOOD);
                         animalScript.GetCurrentUIimage().SetActive(true);
                     }                        
                     else if (animalScript.wantsToReproduce())
                     {
                         animalScript.GetCurrentUIimage().SetActive(false);
-                        animalScript.state = States.LOOKING_FOR_MATE;
+                        animalScript.SetState(States.LOOKING_FOR_MATE);
                         animalScript.GetCurrentUIimage().SetActive(true);
                     }
                     break;
@@ -88,13 +88,13 @@ public class AnimalManager : MonoBehaviour
                         if (animalScript.wantsToReproduce())
                         {
                             animalScript.GetCurrentUIimage().SetActive(false);
-                            animalScript.state = States.LOOKING_FOR_MATE;
+                            animalScript.SetState(States.LOOKING_FOR_MATE);
                             animalScript.GetCurrentUIimage().SetActive(true);
                         }                            
                         else
                         {
                             animalScript.GetCurrentUIimage().SetActive(false);
-                            animalScript.state = States.IDLE;
+                            animalScript.SetState(States.IDLE);
                             animalScript.GetCurrentUIimage().SetActive(true);
                         }                                                    
                     }
@@ -104,13 +104,13 @@ public class AnimalManager : MonoBehaviour
                     if (animalScript.isHungry())
                     {
                         animalScript.GetCurrentUIimage().SetActive(false);
-                        animalScript.state = States.LOOKING_FOR_FOOD;
+                        animalScript.SetState(States.LOOKING_FOR_FOOD);
                         animalScript.GetCurrentUIimage().SetActive(true);
                     }                        
                     else if (animalScript.wantsToReproduce() == false)
                     {
                         animalScript.GetCurrentUIimage().SetActive(false);
-                        animalScript.state = States.IDLE;
+                        animalScript.SetState(States.IDLE);
                         animalScript.GetCurrentUIimage().SetActive(true);
                     }
                         
@@ -142,7 +142,7 @@ public class AnimalManager : MonoBehaviour
             Animal animalScript = animal.GetComponent<Animal>();
             if (animalScript == null) throw new System.Exception("animalScript list was null on AnimalManager.cs");
 
-            switch (animalScript.state)
+            switch (animalScript.GetState())
             {
                 case States.IDLE: // Default state when there are no other needs
                     animalScript.StopMoving();
@@ -310,7 +310,7 @@ public class AnimalManager : MonoBehaviour
             if (animalScript.species != otherAnimal.species) continue; // Must be of the same species to reproduce
 
             // A mate must also be in "LOOKING_FOR_MATE" state
-            if (otherAnimal.state != States.LOOKING_FOR_MATE) continue; // Since babies can't be on this state, this also ensures that babies are not mates
+            if (otherAnimal.GetState() != States.LOOKING_FOR_MATE) continue; // Since babies can't be on this state, this also ensures that babies are not mates
             if (animalScript.species != otherAnimal.species) continue;
 
             // Mates can only be of the opposite gender
