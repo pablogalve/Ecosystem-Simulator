@@ -1004,7 +1004,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   treePrefab: {fileID: 1806213140507979633, guid: aaf4cec9501e3fd48a3f8d78d616c663, type: 3}
   maxUpdatesPerFrame: 50
-  foodPrefab: {fileID: 448354350997442831, guid: 2065a54d0538eec4c8d6138bf03f9591, type: 3}
 --- !u!4 &1232884834
 Transform:
   m_ObjectHideFlags: 0
@@ -1093,7 +1092,7 @@ MonoBehaviour:
   - {fileID: 2190395191296532960, guid: cd37241d482cc4b4b823cfe014b004bb, type: 3}
   trees:
   - {fileID: 1806213140507979633, guid: aaf4cec9501e3fd48a3f8d78d616c663, type: 3}
-  food: {fileID: 448354350997442831, guid: 2065a54d0538eec4c8d6138bf03f9591, type: 3}
+  food: {fileID: 5103743513954984830, guid: 587baaf085921bc418d7bae31a7e6613, type: 3}
 --- !u!1001 &1337333415
 PrefabInstance:
   m_ObjectHideFlags: 0

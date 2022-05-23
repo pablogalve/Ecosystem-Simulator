@@ -10,9 +10,6 @@ public class TreeManager : MonoBehaviour
 
     public int maxUpdatesPerFrame = 50;
 
-    // FOOD
-    public GameObject foodPrefab = null;
-
     void Start()
     {
         entityManager = GetComponent<EntityManager>();
