@@ -2357,14 +2357,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   species: 3
   state: 0
-  animator: {fileID: 0}
   maxNeed: 10
   reproductionUrge: 0
   hunger: 0
   minDistanceToEat: 1
   isHerbivore: 0
-  speed: 7
-  speedForBabiesAndPregnants: 3
+  speed: 5.5
+  speedForBabiesAndPregnants: 1
   fieldOfView: 50
   UIimageToDisplayState:
   - {fileID: 4805855035371127776}

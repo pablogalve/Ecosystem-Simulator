@@ -135,9 +135,17 @@ public class Animal : MonoBehaviour
     {
         state = newState;
 
-        if(animator != null) // TODO: Remove after the fbx models are introduced because they all have to have animator
+        HandleAnimatorController();
+    }
+
+    private void HandleAnimatorController()
+    {
+        if (animator != null) // TODO: Remove after the fbx models are introduced because they all have to have animator
         {
             animator.SetInteger("state", (int)state);
-        }        
+
+            NavMeshAgent myNavMeshAgent = gameObject.GetComponent<NavMeshAgent>();
+            animator.SetFloat("speed", myNavMeshAgent.speed);
+        }
     }
 }
