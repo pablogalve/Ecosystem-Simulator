@@ -10,7 +10,8 @@ public class AnimalManager : MonoBehaviour
         UNDEFINED,
         R,
         K,
-        CARNIVORE
+        WOLF,
+        SHEEP
     }
 
     public enum States { 

@@ -112,7 +112,8 @@ public class EntityManager : MonoBehaviour
         {            
             entityFactory.SpawnAnimalOfRandomGender((int)AnimalManager.Species.K, 1000f, 1000f, 500f);
             entityFactory.SpawnAnimalOfRandomGender((int)AnimalManager.Species.R, 1000f, 1000f, 500f);
-            entityFactory.SpawnAnimalOfRandomGender((int)AnimalManager.Species.CARNIVORE, 1000f, 1000f, 500f);
+            entityFactory.SpawnAnimalOfRandomGender((int)AnimalManager.Species.WOLF, 1000f, 1000f, 500f);
+            entityFactory.SpawnAnimalOfRandomGender((int)AnimalManager.Species.SHEEP, 1000f, 1000f, 500f);
         }
     }
 
