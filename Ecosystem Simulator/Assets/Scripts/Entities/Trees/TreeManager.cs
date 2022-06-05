@@ -23,11 +23,13 @@ public class TreeManager : MonoBehaviour
     {
         if (entityManager == null) throw new System.Exception("entityManager was null on AnimalManager.cs on GenerateFood()");
 
-        for (int i = 0; i < entityManager.entitiesByType[(int)EntityManager.EntityType.TREE].Count; i++)
+        for (int i = 0; i < entityManager.entitiesByType[(int)EntityManager.EntityType.TREE].Count - 1; i++)
         {
             if (i != 0 && i % maxUpdatesPerFrame == 0)
+            {
                 yield return null;
-
+            }
+            
             GameObject tree = entityManager.entities[entityManager.entitiesByType[(int)EntityManager.EntityType.TREE][i]];
 
             if (entityManager.isMaxCapReached(EntityManager.EntityType.FOOD)) break;
@@ -50,13 +52,15 @@ public class TreeManager : MonoBehaviour
     {
         if (entityManager == null) throw new System.Exception("entityManager was null on AnimalManager.cs on GenerateFood()");
 
-        for (int i = 0; i < entityManager.entitiesByType[(int)EntityManager.EntityType.TREE].Count; i++)
+        for (int i = 0; i < entityManager.entitiesByType[(int)EntityManager.EntityType.TREE].Count - 1; i++)
         {
             if (i != 0 && i % maxUpdatesPerFrame == 0)
+            {
                 yield return null;
-
+            }
+                        
             GameObject tree = entityManager.entities[entityManager.entitiesByType[(int)EntityManager.EntityType.TREE][i]];
-
+            
             // Possible bug? Only the trees at the top of the list are being reproduced when they are close to the maximum population
             if (entityManager.isMaxCapReached(EntityManager.EntityType.TREE)) break;
 
