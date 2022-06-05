@@ -5,26 +5,44 @@ using UnityEngine.AI;
 
 public class EntityFactory : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> animals = new List<GameObject>();
+    [SerializeField] private List<GameObject> maleAnimals = new List<GameObject>();
+    [SerializeField] private List<GameObject> femaleAnimals = new List<GameObject>();
     [SerializeField] private List<GameObject> trees = new List<GameObject>();
     [SerializeField] private GameObject food = null;
 
+    // Key used to encode the key in the dictionaries
+    private int maleKey = 1000;
+    private int femaleKey = 0;
+
     private Dictionary<int, GameObject> _idToEntity;
+    private Dictionary<int, Stack<GameObject>> _idToObjectPool = new Dictionary<int, Stack<GameObject>>();
 
     private EntityManager entityManager = null;
-    [SerializeField] private Dictionary<int, Stack<GameObject>> _idToObjectPool = new Dictionary<int, Stack<GameObject>>();
 
     private void Awake()
     {
         _idToEntity = new Dictionary<int, GameObject>();
 
-        foreach(var animal in animals)
+        foreach(var animal in maleAnimals)
         {
             Animal animalScript = animal.GetComponent<Animal>();
-            _idToEntity.Add((int)animalScript.species, animal);
-
             Stack<GameObject> newPool = new Stack<GameObject>();
-            _idToObjectPool.Add((int)animalScript.species, newPool);
+
+            int key = (int)animalScript.species + maleKey;
+
+            _idToEntity.Add(key, animal);
+            _idToObjectPool.Add(key, newPool);
+        }
+
+        foreach (var animal in femaleAnimals)
+        {
+            Animal animalScript = animal.GetComponent<Animal>();
+            Stack<GameObject> newPool = new Stack<GameObject>();
+
+            int key = (int)animalScript.species + femaleKey;
+
+            _idToEntity.Add(key, animal);
+            _idToObjectPool.Add(key, newPool);
         }
 
         int i = 100; // Random int that is not equal to any animal species. // TODO: This is a bad practice
@@ -79,13 +97,12 @@ public class EntityFactory : MonoBehaviour
 
     public GameObject SpawnAnimalOfRandomGender(int speciesID, float x, float z, float randomVariation = 0)
     {
-        if(!_idToEntity.TryGetValue(speciesID, out GameObject animal))
-        {
-            throw new Exception($"Entity with speciesID {speciesID} does not exist");
-        }
-
         Vector3 spawnPos = GenerateSpawnPosition(x, z, randomVariation);
         if (!HeightmapData.Instance.IsValidPosition(EntityManager.EntityType.ANIMAL, spawnPos)) return null;
+
+        byte gender = (byte)UnityEngine.Random.Range(0, 2);
+        if (gender == 0) speciesID += femaleKey;
+        else if (gender == 1) speciesID += maleKey;
 
         GameObject newAnimal;
         if (!_idToObjectPool.TryGetValue(speciesID, out Stack<GameObject> objectsInPool)) 
@@ -105,11 +122,18 @@ public class EntityFactory : MonoBehaviour
         }
         else // Instantiate a new GO
         {
+            if (!_idToEntity.TryGetValue(speciesID, out GameObject animal))
+            {
+                throw new Exception($"Entity with speciesID {speciesID} does not exist");
+            }
+
             newAnimal = Instantiate(animal, spawnPos, Quaternion.identity);
         }
 
         Animal animalScript = newAnimal.GetComponent<Animal>();
         animalScript.OnSpawn();
+        Reproduction reproduction = newAnimal.GetComponent<Reproduction>();
+        reproduction.gender = gender;
 
         AddToEntitiesList(EntityManager.EntityType.ANIMAL, newAnimal);
 
@@ -188,7 +212,7 @@ public class EntityFactory : MonoBehaviour
             case EntityManager.EntityType.FOOD:
                 return 1;
             case EntityManager.EntityType.ANIMAL:
-                return animals.Count;
+                return (maleAnimals.Count + femaleAnimals.Count);
             default:
                 throw new Exception($"Entity of type '{type}' is not being managed on the switch statement");
         }

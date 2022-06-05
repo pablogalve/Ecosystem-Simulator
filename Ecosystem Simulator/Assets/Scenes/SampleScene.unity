@@ -1086,11 +1086,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86dd68c8bf8d2974fa3e789905e632b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animals:
-  - {fileID: 1291810309633072332, guid: a2574e526fba9c24dac71c397c534015, type: 3}
-  - {fileID: 1291810309633072332, guid: 16deedf8f8d163f4fb83a1a3ce63f034, type: 3}
-  - {fileID: 177940, guid: 0bff5de0452ee2b4ab4d0603fe171d7b, type: 3}
+  maleAnimals:
+  - {fileID: 1276782084699662, guid: 5d8b36d14f0c61149920244e8a681311, type: 3}
   - {fileID: 1588765982522956, guid: 7f3a093d1f6934b419ad9871984825f8, type: 3}
+  - {fileID: 177940, guid: 0bff5de0452ee2b4ab4d0603fe171d7b, type: 3}
+  femaleAnimals:
+  - {fileID: 1282120724148400, guid: 4fb8203326a886b4ea19390b2d91c4ea, type: 3}
+  - {fileID: 1588765982522956, guid: 7f3a093d1f6934b419ad9871984825f8, type: 3}
+  - {fileID: 177940, guid: 0bff5de0452ee2b4ab4d0603fe171d7b, type: 3}
   trees:
   - {fileID: 1806213140507979633, guid: aaf4cec9501e3fd48a3f8d78d616c663, type: 3}
   food: {fileID: 5103743513954984830, guid: 587baaf085921bc418d7bae31a7e6613, type: 3}

@@ -8,10 +8,9 @@ public class AnimalManager : MonoBehaviour
     public enum Species
     {
         UNDEFINED,
-        R,
-        K,
+        LONGHORN,
+        SHEEP,
         WOLF,
-        SHEEP
     }
 
     public enum States { 
