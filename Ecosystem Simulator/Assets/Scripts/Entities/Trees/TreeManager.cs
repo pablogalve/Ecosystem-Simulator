@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class TreeManager : MonoBehaviour
 {
-    public GameObject treePrefab = null;
     private EntityManager entityManager = null;
     private EntityFactory entityFactory = null;
 
