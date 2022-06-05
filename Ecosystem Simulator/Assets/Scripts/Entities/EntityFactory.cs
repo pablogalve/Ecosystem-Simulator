@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EntityFactory : MonoBehaviour
 {
@@ -96,9 +97,11 @@ public class EntityFactory : MonoBehaviour
         {
             newAnimal = objectsInPool.Peek();
             newAnimal.SetActive(true);
-            objectsInPool.Pop();            
+            objectsInPool.Pop();
 
-            newAnimal.transform.position = spawnPos;
+            NavMeshAgent agent = newAnimal.GetComponent<NavMeshAgent>();
+            bool succeed = agent.Warp(spawnPos);
+            if (succeed!) Debug.LogError("Warp failed on animal spawn");
         }
         else // Instantiate a new GO
         {
