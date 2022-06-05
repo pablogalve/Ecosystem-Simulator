@@ -150,7 +150,7 @@ public class EntityFactory : MonoBehaviour
     public GameObject SpawnFood(float x, float z, float randomVariation = 0)
     {
         Vector3 spawnPos = GenerateSpawnPosition(x, z, randomVariation);
-        if (!HeightmapData.Instance.IsValidPosition(EntityManager.EntityType.TREE, spawnPos)) return null;
+        if (!HeightmapData.Instance.IsValidPosition(EntityManager.EntityType.FOOD, spawnPos)) return null;
 
         GameObject newFood;
         if (!_idToObjectPool.TryGetValue(200, out Stack<GameObject> objectsInPool))
