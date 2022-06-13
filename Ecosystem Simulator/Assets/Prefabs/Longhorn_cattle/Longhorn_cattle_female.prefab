@@ -597,7 +597,7 @@ MonoBehaviour:
   age: 1
   maxAge: 10
   reproductionAge: 0.5
-  growsInSize: 0
+  growsInSize: 1
 --- !u!114 &3123980432088527121
 MonoBehaviour:
   m_ObjectHideFlags: 0
