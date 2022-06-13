@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Reproduction : MonoBehaviour
@@ -8,18 +6,12 @@ public class Reproduction : MonoBehaviour
     [SerializeField] private bool isPregnant;
     public byte gestationPeriod = 2;
     [SerializeField] private byte currPregnancyTime;
+    public int amountOfBabies = 1;
 
     public void OnSpawn()
     {
         isPregnant = false;
         currPregnancyTime = 0;
-        gender = (byte)Random.Range(0, 2);
-
-        // Set colors for debugging - Predefined color for males and light version for females //TODO: Remove the colors once fbx are in place
-        var renderer = gameObject.GetComponent<Renderer>();
-        Color newColor = renderer.material.color;
-        newColor.g += 0.5f;
-        if (gender == 0) renderer.material.SetColor("_Color", newColor);
     }
 
     public bool RequestMate(Reproduction other)
@@ -58,17 +50,8 @@ public class Reproduction : MonoBehaviour
                 Animal animalScript = gameObject.GetComponent<Animal>();
 
                 EntityFactory entityFactory = GameObject.Find("GameManager").GetComponent<EntityFactory>();
-                if (animalScript.species == AnimalManager.Species.R) //TODO:Refactor this to make it cleaner
+                for(int i = 0; i < amountOfBabies; i++)
                 {
-                    entityFactory.SpawnAnimalOfRandomGender((int)animalScript.species, gameObject.transform.position.x, gameObject.transform.position.z, 2f);
-                    entityFactory.SpawnAnimalOfRandomGender((int)animalScript.species, gameObject.transform.position.x, gameObject.transform.position.z, 2f);
-                    entityFactory.SpawnAnimalOfRandomGender((int)animalScript.species, gameObject.transform.position.x, gameObject.transform.position.z, 2f);
-                    entityFactory.SpawnAnimalOfRandomGender((int)animalScript.species, gameObject.transform.position.x, gameObject.transform.position.z, 2f);
-                    entityFactory.SpawnAnimalOfRandomGender((int)animalScript.species, gameObject.transform.position.x, gameObject.transform.position.z, 2f);
-                }
-                else 
-                { 
-                    entityFactory.SpawnAnimalOfRandomGender((int)animalScript.species, gameObject.transform.position.x, gameObject.transform.position.z, 2f); 
                     entityFactory.SpawnAnimalOfRandomGender((int)animalScript.species, gameObject.transform.position.x, gameObject.transform.position.z, 2f);
                 }
             }

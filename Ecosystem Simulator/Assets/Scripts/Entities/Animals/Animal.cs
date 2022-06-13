@@ -7,7 +7,9 @@ using UnityEngine.AI;
 public class Animal : MonoBehaviour
 {
     public AnimalManager.Species species = AnimalManager.Species.UNDEFINED;
-    public AnimalManager.States state;
+    [SerializeField] private AnimalManager.States state;
+
+    private Animator animator;
 
     // Basic needs for animals
     public byte maxNeed = 10; // Needs go from 
@@ -26,6 +28,8 @@ public class Animal : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        animator = GetComponent<Animator>();
+
         OnSpawn();
     }
 
@@ -120,5 +124,28 @@ public class Animal : MonoBehaviour
             throw new System.Exception("The UI image was not set in an animal for the state: " + state.ToString());
 
         return UIimageToDisplayState[(int)state];
+    }
+
+    public AnimalManager.States GetState()
+    {
+        return state;
+    }
+
+    public void SetState(AnimalManager.States newState)
+    {
+        state = newState;
+
+        HandleAnimatorController();
+    }
+
+    private void HandleAnimatorController()
+    {
+        if (animator != null) // TODO: Remove after the fbx models are introduced because they all have to have animator
+        {
+            animator.SetInteger("state", (int)state);
+
+            NavMeshAgent myNavMeshAgent = gameObject.GetComponent<NavMeshAgent>();
+            animator.SetFloat("speed", myNavMeshAgent.speed);
+        }
     }
 }
