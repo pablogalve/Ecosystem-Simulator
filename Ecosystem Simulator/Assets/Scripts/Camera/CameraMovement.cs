@@ -9,12 +9,12 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] private float fastMoveSpeed = 5f;
 
     [SerializeField] private float rotateAroundEntitySpeed = 5f;
-    GameObject selectedGO = null;
-    [SerializeField] private float displacementFromSelectedEntity = 5f;
+    public GameObject selectedGO = null;
+    private bool moving = false;
 
     private float yaw = 0f;
     private float pitch = 0f;
-
+        
     private void Start()
     {
         // Initialize the correct initial rotation
@@ -33,6 +33,8 @@ public class CameraMovement : MonoBehaviour
         else
         {
             RotateAroundSelectedEntity();
+
+            if(moving) MoveToTarget();
         }
     }
 
@@ -60,31 +62,8 @@ public class CameraMovement : MonoBehaviour
 
     private void RotateAroundSelectedEntity()
     {
-        /*Vector3 displacement = new Vector3(0, 0, displacementFromSelectedEntity);
-        transform.position = selectedGO.transform.position + displacement;*/
-
         transform.RotateAround(selectedGO.transform.position, transform.right, -Input.GetAxis("Mouse Y") * rotateAroundEntitySpeed * 0.5f);
-        transform.RotateAround(selectedGO.transform.position, Vector3.up, -Input.GetAxis("Mouse X") * rotateAroundEntitySpeed);
-
-        float distance = Vector3.Distance(selectedGO.transform.position, transform.position);
-        /*if(distance > 3.0f)
-        {
-            transform.Translate(0, 0, Input.GetAxis("Vertical") * moveSpeed, Space.Self);
-            if (Input.GetKey(KeyCode.W)) displacementFromSelectedEntity -= moveSpeed;
-            else if (Input.GetKey(KeyCode.S)) displacementFromSelectedEntity += moveSpeed;
-        }
-        else
-        {
-            // Keep the camera from being too close to the entity
-            transform.Translate(0, 0, -moveSpeed, Space.Self);
-        }*/
-                
-        Vector3 displacement = new Vector3(0, 0.0f, 0);
-
-        if(distance > 3.0f)
-        {
-            transform.position = Vector3.Lerp(transform.position, selectedGO.transform.position + displacement, 0.1f);
-        }        
+        transform.RotateAround(selectedGO.transform.position, Vector3.up, -Input.GetAxis("Mouse X") * rotateAroundEntitySpeed);        
     }
 
     private void SelectGameObjectByClicking()
@@ -99,6 +78,9 @@ public class CameraMovement : MonoBehaviour
                 if (hitInfo.transform.gameObject.tag == "Herbivore" || hitInfo.transform.gameObject.tag == "Carnivore")
                 {
                     selectedGO = hitInfo.transform.gameObject;
+                    transform.SetParent(selectedGO.transform);
+
+                    moving = true;                    
                 }
                 else // There is a hit with an object that can't be selected
                 {
@@ -109,6 +91,19 @@ public class CameraMovement : MonoBehaviour
             {
                 selectedGO = null;
             }
+        }
+    }
+
+    private void MoveToTarget()
+    {
+        float distance = Vector3.Distance(selectedGO.transform.position, transform.position);
+        if (distance > 3.0f)
+        {
+            transform.position = Vector3.Lerp(transform.position, selectedGO.transform.position, 0.1f);
+        }
+        else
+        {
+            moving = false;
         }
     }
 }
