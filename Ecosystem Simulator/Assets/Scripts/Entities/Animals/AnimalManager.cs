@@ -17,7 +17,8 @@ public class AnimalManager : MonoBehaviour
         IDLE,
         LOOKING_FOR_FOOD,
         LOOKING_FOR_MATE,
-        FOLLOWING_MUM,
+        EATING,
+        DYING
     }
 
     public int maxAnimalsToUpdatePerFrame = 50;
@@ -70,15 +71,11 @@ public class AnimalManager : MonoBehaviour
                 case States.IDLE: // Default state when there are no other needs
                     if (animalScript.isHungry())
                     {
-                        animalScript.GetCurrentUIimage().SetActive(false);
                         animalScript.SetState(States.LOOKING_FOR_FOOD);
-                        animalScript.GetCurrentUIimage().SetActive(true);
                     }                        
                     else if (animalScript.wantsToReproduce())
                     {
-                        animalScript.GetCurrentUIimage().SetActive(false);
                         animalScript.SetState(States.LOOKING_FOR_MATE);
-                        animalScript.GetCurrentUIimage().SetActive(true);
                     }
                     break;
 
@@ -87,15 +84,11 @@ public class AnimalManager : MonoBehaviour
                     {
                         if (animalScript.wantsToReproduce())
                         {
-                            animalScript.GetCurrentUIimage().SetActive(false);
                             animalScript.SetState(States.LOOKING_FOR_MATE);
-                            animalScript.GetCurrentUIimage().SetActive(true);
                         }                            
                         else
                         {
-                            animalScript.GetCurrentUIimage().SetActive(false);
                             animalScript.SetState(States.IDLE);
-                            animalScript.GetCurrentUIimage().SetActive(true);
                         }                                                    
                     }
                     break;
@@ -103,20 +96,20 @@ public class AnimalManager : MonoBehaviour
                 case States.LOOKING_FOR_MATE: // Secondary need
                     if (animalScript.isHungry())
                     {
-                        animalScript.GetCurrentUIimage().SetActive(false);
                         animalScript.SetState(States.LOOKING_FOR_FOOD);
-                        animalScript.GetCurrentUIimage().SetActive(true);
                     }                        
                     else if (animalScript.wantsToReproduce() == false)
                     {
-                        animalScript.GetCurrentUIimage().SetActive(false);
                         animalScript.SetState(States.IDLE);
-                        animalScript.GetCurrentUIimage().SetActive(true);
                     }
                         
                     break;
 
-                case States.FOLLOWING_MUM: // Default state for babies when there are no other needs
+                case States.EATING: 
+
+                    break;
+
+                case States.DYING:
 
                     break;
             }
@@ -159,7 +152,11 @@ public class AnimalManager : MonoBehaviour
 
                     break;
 
-                case States.FOLLOWING_MUM: // Default state for babies when there are no other needs
+                case States.EATING: 
+
+                    break;
+
+                case States.DYING:
 
                     break;
             }
@@ -235,6 +232,8 @@ public class AnimalManager : MonoBehaviour
             // If food is found at an eatable distance, then animal stops looking for other food
             if (animalScript.canEat(distanceSqr))
             {
+                animalScript.SetState(States.EATING);
+
                 animalScript.Eat();
 
                 entityManager.TryToKill(food.GetComponent<UUID>().GetMyUUIDInfo());
@@ -276,6 +275,7 @@ public class AnimalManager : MonoBehaviour
             // If food is found at an eatable distance, then animal stops looking for other food
             if (animalScript.canEat(distanceSqr))
             {
+                animalScript.SetState(States.EATING);
                 animalScript.Eat();
 
                 entityManager.TryToKill(herbivore.GetComponent<UUID>().GetMyUUIDInfo());
