@@ -146,10 +146,14 @@ public class EntityManager : MonoBehaviour
             else ageController.age++;
 
             // Scale the entity in the world according to its age
-            if (ageController.growsInSize)
+            if (ageController.growsInSize && ageController.IsBaby())
             {
                 float agePercentage = (float)(ageController.age) / (float)(ageController.maxAge);
-                entities[entity.Value.UUID].transform.localScale = Vector3.one * agePercentage;
+                entities[entity.Value.UUID].transform.localScale = Vector3.one * agePercentage * ageController.scaleFactor;
+            }
+            else
+            {
+                entities[entity.Value.UUID].transform.localScale = Vector3.one * ageController.scaleFactor;
             }
         }
         yield return new WaitForSeconds(30f);

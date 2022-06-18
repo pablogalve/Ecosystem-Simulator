@@ -23,6 +23,9 @@ public class Animal : MonoBehaviour
 
     public float fieldOfView = 50.0f;
 
+    public float eatingTime = 10.0f;
+    public float eatingTimer = 0.0f;
+
     public List<GameObject> UIimageToDisplayState = new List<GameObject>();
 
     // Start is called before the first frame update
@@ -31,6 +34,19 @@ public class Animal : MonoBehaviour
         animator = GetComponent<Animator>();
 
         OnSpawn();
+    }
+
+    private void Update()
+    {
+        if(state == AnimalManager.States.EATING)
+        {
+            eatingTimer -= Time.deltaTime;
+
+            if(eatingTimer <= 0.0f)
+            {
+                SetState(AnimalManager.States.IDLE);             
+            }
+        }
     }
 
     public void OnSpawn()
@@ -65,6 +81,10 @@ public class Animal : MonoBehaviour
 
     public void Eat()
     {
+        SetState(AnimalManager.States.EATING);
+        eatingTimer = eatingTime;
+        StopMoving();
+
         // Eating restores a maximum of 50% of the animal's total hunger. Example: If current hunger is 30% and it eats, hunger becomes 80% (30+50)        
         hunger += (byte)(maxNeed >> 1); // Bit-shifting. ">> 1" is like dividing by 2
         if(hunger > maxNeed) hunger = maxNeed;
@@ -89,12 +109,17 @@ public class Animal : MonoBehaviour
 
     private void Die(LinkedListNode<EntityManager.Entity> entityNode)
     {
+        StopMoving();
         EntityManager entityManager = GameObject.Find("GameManager").GetComponent<EntityManager>();
         entityManager.TryToKill(entityNode);
     }
 
     public void MoveTo(Vector3 targetPosition)
     {
+        if (state == AnimalManager.States.IDLE) return;
+        if (state == AnimalManager.States.EATING) return;
+        if (state == AnimalManager.States.DYING) return;
+
         NavMeshAgent myNavMeshAgent = gameObject.GetComponent<NavMeshAgent>();
         AgeController ageController = gameObject.GetComponent <AgeController>();
         Reproduction reproduction = gameObject.GetComponent<Reproduction>();
@@ -120,6 +145,9 @@ public class Animal : MonoBehaviour
 
     public GameObject GetCurrentUIimage()
     {
+        // The UI Image is the same for states EATING and LOOKING_FOR_FOOD, so it is stored only once to save memory
+        if(state == AnimalManager.States.EATING) return UIimageToDisplayState[(int)AnimalManager.States.LOOKING_FOR_FOOD];
+
         if ((int)state >= UIimageToDisplayState.Count)
             throw new System.Exception("The UI image was not set in an animal for the state: " + state.ToString());
 
@@ -133,19 +161,20 @@ public class Animal : MonoBehaviour
 
     public void SetState(AnimalManager.States newState)
     {
+        GetCurrentUIimage().SetActive(false);
         state = newState;
+        GetCurrentUIimage().SetActive(true);        
 
         HandleAnimatorController();
     }
 
     private void HandleAnimatorController()
     {
-        if (animator != null) // TODO: Remove after the fbx models are introduced because they all have to have animator
-        {
-            animator.SetInteger("state", (int)state);
+        if (animator == null) { throw new System.Exception("This animal does not have an animator controller, but all animals must have one."); }
+        
+        animator.SetInteger("state", (int)state);
 
-            NavMeshAgent myNavMeshAgent = gameObject.GetComponent<NavMeshAgent>();
-            animator.SetFloat("speed", myNavMeshAgent.speed);
-        }
+        NavMeshAgent myNavMeshAgent = gameObject.GetComponent<NavMeshAgent>();
+        animator.SetFloat("speed", myNavMeshAgent.speed);        
     }
 }
