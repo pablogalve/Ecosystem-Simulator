@@ -109,12 +109,17 @@ public class Animal : MonoBehaviour
 
     private void Die(LinkedListNode<EntityManager.Entity> entityNode)
     {
+        StopMoving();
         EntityManager entityManager = GameObject.Find("GameManager").GetComponent<EntityManager>();
         entityManager.TryToKill(entityNode);
     }
 
     public void MoveTo(Vector3 targetPosition)
     {
+        if (state == AnimalManager.States.IDLE) return;
+        if (state == AnimalManager.States.EATING) return;
+        if (state == AnimalManager.States.DYING) return;
+
         NavMeshAgent myNavMeshAgent = gameObject.GetComponent<NavMeshAgent>();
         AgeController ageController = gameObject.GetComponent <AgeController>();
         Reproduction reproduction = gameObject.GetComponent<Reproduction>();
