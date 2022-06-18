@@ -848,10 +848,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 449d75c4c7607534d8f5d35acd4af329, type: 3}
+  m_Script: {fileID: 11500000, guid: 05049567c077dcc4f8393c00a64e7871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedGO: {fileID: 0}
+  visibleCanvas: []
 --- !u!1 &967732099
 GameObject:
   m_ObjectHideFlags: 0
