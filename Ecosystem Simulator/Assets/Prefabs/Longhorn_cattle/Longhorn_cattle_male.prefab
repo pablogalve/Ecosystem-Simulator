@@ -29,7 +29,7 @@ Transform:
   m_Children:
   - {fileID: 4230641551559608}
   m_Father: {fileID: 4324866619016650}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1027102785209454
 GameObject:
@@ -527,9 +527,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 174687013472942595}
   - {fileID: 4622537535886914}
   - {fileID: 4800900719406356}
-  - {fileID: 174687013472942595}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -574,6 +574,8 @@ MonoBehaviour:
   speed: 4
   speedForBabiesAndPregnants: 2
   fieldOfView: 50
+  eatingTime: 10
+  eatingTimer: 0
   UIimageToDisplayState:
   - {fileID: 4529246283149959776}
   - {fileID: 3151637984709229744}
@@ -594,6 +596,7 @@ MonoBehaviour:
   maxAge: 10
   reproductionAge: 0.5
   growsInSize: 1
+  scaleFactor: 1
 --- !u!114 &-4199632034766764582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1058,7 +1061,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4324866619016650}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &137279498846116766
 SkinnedMeshRenderer:
@@ -2068,7 +2071,7 @@ RectTransform:
   - {fileID: 6195981862211631003}
   - {fileID: 665637630810286786}
   m_Father: {fileID: 4324866619016650}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
