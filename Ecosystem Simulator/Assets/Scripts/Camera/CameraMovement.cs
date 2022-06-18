@@ -84,12 +84,12 @@ public class CameraMovement : MonoBehaviour
                 }
                 else // There is a hit with an object that can't be selected
                 {
-                    selectedGO = null;
+                    DeselectGO();
                 }
             }
             else // There is no hit
             {
-                selectedGO = null;
+                DeselectGO();
             }
         }
     }
@@ -105,5 +105,11 @@ public class CameraMovement : MonoBehaviour
         {
             moving = false;
         }
+    }
+
+    private void DeselectGO()
+    {
+        selectedGO = null;
+        gameObject.transform.parent = null;
     }
 }
