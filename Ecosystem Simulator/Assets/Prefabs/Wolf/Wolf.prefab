@@ -2366,6 +2366,8 @@ MonoBehaviour:
   speed: 5.5
   speedForBabiesAndPregnants: 1
   fieldOfView: 50
+  eatingTime: 10
+  eatingTimer: 0
   UIimageToDisplayState:
   - {fileID: 4805855035371127776}
   - {fileID: 7932597202267928929}
@@ -2386,6 +2388,7 @@ MonoBehaviour:
   maxAge: 10
   reproductionAge: 0.4
   growsInSize: 1
+  scaleFactor: 1.7
 --- !u!114 &-5637515802721215022
 MonoBehaviour:
   m_ObjectHideFlags: 0
