@@ -30,8 +30,6 @@ public class EntityManager : MonoBehaviour
     public int maxEntitiesToDeletePerFrame = 10;
 
     // Acess to other scripts
-    private AnimalManager animalManager = null;
-    private TreeManager treeManager = null;
     private EntityFactory entityFactory = null;
 
     private void Awake()
@@ -45,8 +43,6 @@ public class EntityManager : MonoBehaviour
 
     void Start()
     {
-        animalManager = GetComponent<AnimalManager>();
-        treeManager = GetComponent<TreeManager>();
         entityFactory = GetComponent<EntityFactory>();
 
         SetInitialScene();
