@@ -66,11 +66,15 @@ public class EntityManager : MonoBehaviour
 
             UUIDs.Remove(entityNode); // O(1) when removing a 'LinkedListNode' instead of 'T' https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.linkedlist-1.remove?view=netframework-4.7.2
             entities.Remove(entityNode.Value.UUID); // O(1)
-            entitiesByType[(int)entityNode.Value.type].Remove(entityNode.Value.UUID); // O(1)
+            entitiesByType[(int)entityNode.Value.type].Remove(entityNode.Value.UUID); // O(1)            
 
             // Add to object pooling
             if (entityNode.Value.type == EntityType.ANIMAL)
+            {
+                entityFactory.animalSpeciesAmount[(int)go.GetComponent<Animal>().species - 1]--;
                 entityFactory.AddToPool((int)go.GetComponent<Animal>().species, go);
+            }
+                
             else if (entityNode.Value.type == EntityType.TREE)
                 entityFactory.AddToPool(100, go);
             else if (entityNode.Value.type == EntityType.FOOD)
@@ -108,7 +112,7 @@ public class EntityManager : MonoBehaviour
             {
                 entityFactory.SpawnAnimalOfRandomGender((int)AnimalManager.Species.LONGHORN, 1000f, 1000f, 500f);
             }
-            for (int i = 0; i < 300; i++)
+            for (int i = 0; i < 450; i++)
             {
                 entityFactory.SpawnAnimalOfRandomGender((int)AnimalManager.Species.SHEEP, 1000f, 500f, 50f);
             }

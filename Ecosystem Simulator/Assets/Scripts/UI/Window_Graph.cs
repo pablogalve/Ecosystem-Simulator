@@ -24,12 +24,15 @@ public class Window_Graph : MonoBehaviour
     public int maxLabelsX = 5;
     public int maxLabelsY = 5;
 
+    private EntityFactory entityFactory = null;
+
     private void Awake()
     {
         graphContainer = GameObject.Find("graphContainer").GetComponent<RectTransform>();
         labelTemplateX = GameObject.Find("labelTemplateX").GetComponent<RectTransform>();
         labelTemplateY = GameObject.Find("labelTemplateY").GetComponent<RectTransform>();
         entityManager = GameObject.Find("GameManager").GetComponent<EntityManager>();
+        entityFactory = GameObject.Find("GameManager").GetComponent<EntityFactory>();
 
         StartCoroutine(InitializeCharts());
     }
@@ -38,7 +41,12 @@ public class Window_Graph : MonoBehaviour
     {
         yield return new WaitForSeconds(1f); // Wait for other scripts
 
-        for (int i = 0; i < entityManager.entitiesByType.Count; i++)
+        int nrOfTreeSpecies = entityFactory.GetAmountOfUniqueSpecies(EntityManager.EntityType.TREE);
+        int nrOfFoodSpecies = entityFactory.GetAmountOfUniqueSpecies(EntityManager.EntityType.FOOD);
+        int nrOfAnimalSpecies = entityFactory.GetAmountOfUniqueSpecies(EntityManager.EntityType.ANIMAL);        
+        int nrDifferentSpecies = nrOfTreeSpecies + nrOfFoodSpecies + nrOfAnimalSpecies;
+
+        for (int i = 0; i < nrDifferentSpecies; i++)
         {
             List<int> listOfInts = new List<int>();
             entitiesAmountHistory.Add(listOfInts);
@@ -58,7 +66,9 @@ public class Window_Graph : MonoBehaviour
         for(int i = 0; i < entitiesAmountHistory.Count; i++)
         {
             // Update values
-            int currNum = entityManager.entitiesByType[i].Count;
+            int currNum;
+            if (i < 2) currNum = entityManager.entitiesByType[i].Count;
+            else currNum = entityFactory.GetCurrentAmountOfAnimal((AnimalManager.Species)i - 1);
             entitiesAmountHistory[i].Add(currNum);
 
             if (currNum > yMaximum) yMaximum = currNum;
