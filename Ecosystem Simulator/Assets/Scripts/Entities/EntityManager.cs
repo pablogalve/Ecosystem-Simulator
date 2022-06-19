@@ -35,9 +35,7 @@ public class EntityManager : MonoBehaviour
     private EntityFactory entityFactory = null;
 
     private void Awake()
-    {
-        QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = 30;
+    {        
         for (int i = 0; i < 3; ++i)
         {
             var list = new List<string>();
