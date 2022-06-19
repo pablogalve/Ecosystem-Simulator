@@ -8,7 +8,7 @@ public class EntityFactory : MonoBehaviour
     [SerializeField] private List<GameObject> maleAnimals = new List<GameObject>();
     [SerializeField] private List<GameObject> femaleAnimals = new List<GameObject>();
     [SerializeField] private List<GameObject> trees = new List<GameObject>();
-    [SerializeField] private GameObject food = null;
+    [SerializeField] private GameObject food = null;    
 
     // Key used to encode the key in the dictionaries
     private int maleKey = 1000;
@@ -17,13 +17,15 @@ public class EntityFactory : MonoBehaviour
     private Dictionary<int, GameObject> _idToEntity;
     private Dictionary<int, Stack<GameObject>> _idToObjectPool = new Dictionary<int, Stack<GameObject>>();
 
+    public Dictionary<int, int> animalSpeciesAmount = new Dictionary<int, int>();
+
     private EntityManager entityManager = null;
 
     private void Awake()
     {
         _idToEntity = new Dictionary<int, GameObject>();
 
-        foreach(var animal in maleAnimals)
+        foreach (var animal in maleAnimals)
         {
             Animal animalScript = animal.GetComponent<Animal>();
             Stack<GameObject> newPool = new Stack<GameObject>();
@@ -62,6 +64,11 @@ public class EntityFactory : MonoBehaviour
         _idToObjectPool.Add(200, newFoodPool); // TODO: Don't hardcode the food key if there are more than one type of food
 
         entityManager = gameObject.GetComponent<EntityManager>();        
+
+        for(int j = 0; j < GetAmountOfUniqueSpecies(EntityManager.EntityType.ANIMAL); j++)
+        {
+            animalSpeciesAmount[j] = 0;
+        }
     }
 
     private Vector3 GenerateSpawnPosition(float x, float z, float randomVariation) 
@@ -100,6 +107,8 @@ public class EntityFactory : MonoBehaviour
         Vector3 spawnPos = GenerateSpawnPosition(x, z, randomVariation);
         if (!HeightmapData.Instance.IsValidPosition(EntityManager.EntityType.ANIMAL, spawnPos)) return null;
 
+        animalSpeciesAmount[speciesID - 1]++;
+
         byte gender = (byte)UnityEngine.Random.Range(0, 2);
         if (gender == 0) speciesID += femaleKey;
         else if (gender == 1) speciesID += maleKey;
@@ -135,7 +144,7 @@ public class EntityFactory : MonoBehaviour
         Reproduction reproduction = newAnimal.GetComponent<Reproduction>();
         reproduction.gender = gender;
 
-        AddToEntitiesList(EntityManager.EntityType.ANIMAL, newAnimal);
+        AddToEntitiesList(EntityManager.EntityType.ANIMAL, newAnimal);              
 
         return newAnimal;
     }
@@ -212,9 +221,14 @@ public class EntityFactory : MonoBehaviour
             case EntityManager.EntityType.FOOD:
                 return 1;
             case EntityManager.EntityType.ANIMAL:
-                return (maleAnimals.Count + femaleAnimals.Count);
+                return maleAnimals.Count;
             default:
                 throw new Exception($"Entity of type '{type}' is not being managed on the switch statement");
         }
+    }
+
+    public int GetCurrentAmountOfAnimal(AnimalManager.Species species)
+    {
+        return animalSpeciesAmount[(int)species - 1];
     }
 }
