@@ -1,0 +1,148 @@
+fileFormatVersion: 2
+guid: db71014b76418cf48b3ab20ac46c0b81
+ModelImporter:
+  serializedVersion: 20200
+  internalIDToNameTable:
+  - first:
+      74: 2903432750398771653
+    second: Wolf_Skeleton|Wolf_Skeleton|Wolf_Skeleton|000|Wolf_Skeleton|000
+  - first:
+      74: -4925072879831192657
+    second: Wolf_Skeleton|Wolf_Skeleton|Wolf_Skeleton|000|Wolf_Skeleton|000.001
+  - first:
+      74: 2758378420534239363
+    second: Wolf_Skeleton|Wolf_Skeleton|Wolf_Skeleton|Wolf_creep_cycle|Wolf_Skeleton|
+  - first:
+      74: 9153303479194546174
+    second: Wolf_Skeleton|Wolf_Skeleton|Wolf_Skeleton|Wolf_creep_cycle|Wolf_Skeleton|Wolf
+  - first:
+      74: -3571156332566441705
+    second: Wolf_Skeleton|Wolf_Skeleton|Wolf_Skeleton|Wolf_Idle_|Wolf_Skeleton|Wolf_I
+  - first:
+      74: 4239855219456193110
+    second: Wolf_Skeleton|Wolf_Skeleton|Wolf_Skeleton|Wolf_Idle_|Wolf_Skeleton|Wolf_Idle_
+  - first:
+      74: -672025462790667478
+    second: Wolf_Skeleton|Wolf_Skeleton|Wolf_Skeleton|Wolf_Run_Cycle_|Wolf_Skeleton|W
+  - first:
+      74: -3908895569800072559
+    second: Wolf_Skeleton|Wolf_Skeleton|Wolf_Skeleton|Wolf_Run_Cycle_|Wolf_Skeleton|Wolf_
+  - first:
+      74: 9040819453843686714
+    second: Wolf_Skeleton|Wolf_Skeleton|Wolf_Skeleton|Wolf_seat_|Wolf_Skeleton|Wolf_s
+  - first:
+      74: 1429943482617355730
+    second: Wolf_Skeleton|Wolf_Skeleton|Wolf_Skeleton|Wolf_seat_|Wolf_Skeleton|Wolf_seat_
+  - first:
+      74: 3312249540226276142
+    second: Wolf_Skeleton|Wolf_Skeleton|Wolf_Skeleton|Wolf_Walk_cycle_|Wolf_Skeleton|
+  - first:
+      74: 7999471320751425602
+    second: Wolf_Skeleton|Wolf_Skeleton|Wolf_Skeleton|Wolf_Walk_cycle_|Wolf_Skeleton|Wolf
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wolf_Body.001
+    second: {fileID: 2100000, guid: 3368e7fd425f8344c94c27d0872d81c7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wolf_Fur.001
+    second: {fileID: 2100000, guid: 5999478dd14f7de4f85529364fb055e1, type: 2}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
