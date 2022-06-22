@@ -1063,7 +1063,7 @@ MonoBehaviour:
   age: 1
   maxAge: 10
   reproductionAge: 0.5
-  growsInSize: 0
+  growsInSize: 1
   scaleFactor: 0.8
 --- !u!114 &876396728699692953
 MonoBehaviour:
