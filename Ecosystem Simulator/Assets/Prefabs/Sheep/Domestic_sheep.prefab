@@ -444,7 +444,7 @@ GameObject:
   - component: {fileID: 4250573840000314}
   - component: {fileID: 137678946342586494}
   m_Layer: 0
-  m_Name: sheep_test001
+  m_Name: sheep_mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1129,7 +1129,7 @@ LODGroup:
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 4700987352320651457}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!1 &1602045007366120
 GameObject:
   m_ObjectHideFlags: 0
@@ -2181,6 +2181,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 076620280762da14fa535493b5157d6d, type: 3}
       propertyPath: m_Name
       value: Domestic_sheep_rig_LOD2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 076620280762da14fa535493b5157d6d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 076620280762da14fa535493b5157d6d, type: 3}

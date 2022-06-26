@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &5039465522555570332
 Transform:
@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3000846378788527790, guid: facdc69ad6356b74caa23e8a5936a046, type: 3}
+  - {fileID: 2100000, guid: 255153bb4065fda4d84b1577dfe331af, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -98,7 +98,7 @@ GameObject:
   m_TagString: Food
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &5593456460711197124
 Transform:
@@ -143,6 +143,7 @@ MonoBehaviour:
   maxAge: 10
   reproductionAge: 0.5
   growsInSize: 0
+  scaleFactor: 1
 --- !u!65 &-6408510606905362412
 BoxCollider:
   m_ObjectHideFlags: 0
