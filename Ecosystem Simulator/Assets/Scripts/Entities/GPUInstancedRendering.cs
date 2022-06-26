@@ -8,7 +8,7 @@ public class GPUInstancedRendering : MonoBehaviour
     public Material[] materials;
     private List<List<Matrix4x4>> batches = new List<List<Matrix4x4>>();
 
-    void Update()
+    void LateUpdate()
     {
         RenderBatches();
     }
