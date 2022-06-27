@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -40,10 +39,6 @@ public class GPUInstancedRendering : MonoBehaviour
                 batches.Add(new List<Matrix4x4>());
                 addedMatrices = 0;
             }
-
-            matrices[i].SetTRS(pos: new Vector3(0.0f, 0.0f, 0.0f),
-                q: Random.rotation,
-                s: new Vector3(1.0f, 1.0f, 1.0f));
 
             batches[batches.Count - 1].Add(matrices[i]);
             addedMatrices++;

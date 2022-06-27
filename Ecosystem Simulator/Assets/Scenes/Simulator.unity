@@ -1281,8 +1281,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eca431c53d4603b44a28d0053b3bbfec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxTrees: 10000
-  maxFood: 5000
+  maxTrees: 90000
+  maxFood: 0
   maxAnimals: 500
   maxEntitiesToDeletePerFrame: 1000
 --- !u!114 &1232884837
