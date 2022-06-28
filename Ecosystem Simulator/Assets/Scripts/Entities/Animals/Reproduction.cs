@@ -43,18 +43,14 @@ public class Reproduction : MonoBehaviour
     {
         currPregnancyTime++;
         if(currPregnancyTime >= gestationPeriod)
-        {
-            EntityManager entityManager = GameObject.Find("GameManager").GetComponent<EntityManager>();
-            if(entityManager.isMaxCapReached(EntityManager.EntityType.ANIMAL) == false)
-            {
-                Animal animalScript = gameObject.GetComponent<Animal>();
+        {            
+            Animal animalScript = gameObject.GetComponent<Animal>();
 
-                EntityFactory entityFactory = GameObject.Find("GameManager").GetComponent<EntityFactory>();
-                for(int i = 0; i < amountOfBabies; i++)
-                {
-                    entityFactory.SpawnAnimalOfRandomGender((int)animalScript.species, gameObject.transform.position.x, gameObject.transform.position.z, 2f);
-                }
-            }
+            EntityFactory entityFactory = GameObject.Find("GameManager").GetComponent<EntityFactory>();
+            for(int i = 0; i < amountOfBabies; i++)
+            {
+                entityFactory.SpawnAnimalOfRandomGender((int)animalScript.species, gameObject.transform.position.x, gameObject.transform.position.z, 2f);
+            }            
 
             currPregnancyTime = 0;
             isPregnant = false;

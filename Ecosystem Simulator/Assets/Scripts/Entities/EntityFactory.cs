@@ -104,6 +104,8 @@ public class EntityFactory : MonoBehaviour
 
     public GameObject SpawnAnimalOfRandomGender(int speciesID, float x, float z, float randomVariation = 0, bool randomAge = false)
     {
+        if (entityManager.isMaxCapReached(EntityManager.EntityType.ANIMAL)) return null;
+
         Vector3 spawnPos = GenerateSpawnPosition(x, z, randomVariation);
         if (!HeightmapData.Instance.IsValidPosition(EntityManager.EntityType.ANIMAL, spawnPos)) return null;
 
@@ -168,6 +170,8 @@ public class EntityFactory : MonoBehaviour
 
     public GameObject SpawnRandomTree(float x, float z, float randomVariation = 0, byte initialAge = 1)
     {
+        if (entityManager.isMaxCapReached(EntityManager.EntityType.TREE)) return null;
+
         Vector3 spawnPos = GenerateSpawnPosition(x, z, randomVariation);
         if (!HeightmapData.Instance.IsValidPosition(EntityManager.EntityType.TREE, spawnPos)) return null;
            
@@ -202,6 +206,8 @@ public class EntityFactory : MonoBehaviour
 
     public GameObject SpawnFood(float x, float z, float randomVariation = 0)
     {
+        if (entityManager.isMaxCapReached(EntityManager.EntityType.FOOD)) return null;
+
         Vector3 spawnPos = GenerateSpawnPosition(x, z, randomVariation);
         if (!HeightmapData.Instance.IsValidPosition(EntityManager.EntityType.FOOD, spawnPos)) return null;
 

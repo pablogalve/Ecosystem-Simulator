@@ -58,13 +58,9 @@ public class TreeManager : MonoBehaviour
                         
             GameObject tree = entityManager.entities[entityManager.entitiesByType[(int)EntityManager.EntityType.TREE][i]];
             
-            // Possible bug? Only the trees at the top of the list are being reproduced when they are close to the maximum population
-            if (entityManager.isMaxCapReached(EntityManager.EntityType.TREE)) break;
-
             AgeController ageController = tree.GetComponent<AgeController>();
             if (ageController == null) throw new System.Exception("AgeController is null on EntityManager.cs: Reproduce()");
             
-
             if (ageController.IsBaby() == false)
             {
                 entityFactory.SpawnRandomTree(
