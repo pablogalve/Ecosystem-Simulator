@@ -35,8 +35,7 @@ public class TreeManager : MonoBehaviour
             AgeController ageScript = tree.GetComponent<AgeController>();
             if (ageScript == null) throw new System.Exception("tree " + i + " is null on TreeManager.cs: FoodGeneration");               
 
-            // Check that tree is old enough to produce food
-            if (ageScript.age >= ageScript.reproductionAge * ageScript.maxAge)
+            if (!ageScript.IsBaby())
             {
                 entityFactory.SpawnFood(tree.transform.position.x, tree.transform.position.z, 2f);
             }
