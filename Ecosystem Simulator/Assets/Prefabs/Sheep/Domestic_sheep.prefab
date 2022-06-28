@@ -1065,8 +1065,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   age: 1
-  maxAge: 10
-  reproductionAge: 0.5
+  maxAge: 30
+  reproductionAge: 0.3
   growsInSize: 1
   scaleFactor: 0.8
 --- !u!114 &876396728699692953
@@ -1083,7 +1083,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gender: 0
   isPregnant: 0
-  gestationPeriod: 2
+  gestationPeriod: 1
   currPregnancyTime: 0
   amountOfBabies: 1
 --- !u!114 &4923802994595239050

@@ -209,6 +209,13 @@ public class EntityFactory : MonoBehaviour
         if (entityManager.isMaxCapReached(EntityManager.EntityType.FOOD)) return null;
 
         Vector3 spawnPos = GenerateSpawnPosition(x, z, randomVariation);
+
+        {
+            // Food shouldn't be on the tree
+            if (spawnPos.x - x < 1.0f && spawnPos.x - x > 1.0f) spawnPos.x = x + 2.0f;
+            if (spawnPos.z - z < 1.0f && spawnPos.z - z > 1.0f) spawnPos.z = z + 2.0f;
+        }
+
         if (!HeightmapData.Instance.IsValidPosition(EntityManager.EntityType.FOOD, spawnPos)) return null;
 
         GameObject newFood;

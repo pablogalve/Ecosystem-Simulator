@@ -117,9 +117,9 @@ public class EntityManager : MonoBehaviour
             {
                 entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 1000f, 1000f, 300f);
             }
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < 1000; i++)
             {
-                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 1000f, 500f, 300f);
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 1000f, 1000f, 100f);
             }
             for (int i = 0; i < 0; i++)
             {
