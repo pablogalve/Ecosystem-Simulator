@@ -31,7 +31,7 @@ public class EntityManager : MonoBehaviour
 
     // Acess to other scripts
     private EntityFactory entityFactory = null;
-    private Dictionary<int, GPUInstancedRendering> instancedRendering = new Dictionary<int, GPUInstancedRendering>();
+    private GPUInstancedRendering treeInstancedRenderer;
 
     private void Awake()
     {
@@ -41,9 +41,7 @@ public class EntityManager : MonoBehaviour
             entitiesByType.Add(i, list);
         }
 
-        instancedRendering[(int)EntityType.TREE] = GameObject.Find("TreeRenderer").GetComponent<GPUInstancedRendering>();
-        instancedRendering[(int)EntityType.FOOD] = GameObject.Find("FoodRenderer").GetComponent<GPUInstancedRendering>();
-        instancedRendering[(int)EntityType.ANIMAL] = GameObject.Find("TreeRenderer").GetComponent<GPUInstancedRendering>(); // TODO: Set AnimalRenderers
+        treeInstancedRenderer = GameObject.Find("TreeRenderer").GetComponent<GPUInstancedRendering>();
     }
 
     void Start()
@@ -137,10 +135,7 @@ public class EntityManager : MonoBehaviour
     private IEnumerator GrowOrDie()
     {
         // Declare transformation data to send to the instanced renderer
-        Dictionary<int, List<Matrix4x4>> matrices = new Dictionary<int, List<Matrix4x4>>();
-        matrices[(int)EntityType.TREE] = new List<Matrix4x4>();
-        matrices[(int)EntityType.FOOD] = new List<Matrix4x4>();
-        matrices[(int)EntityType.ANIMAL] = new List<Matrix4x4>();
+        List<Matrix4x4> matrices = new List<Matrix4x4>();
 
         for(LinkedListNode<Entity> entity = UUIDs.First; entity != null; entity = entity.Next)
         {
@@ -175,14 +170,12 @@ public class EntityManager : MonoBehaviour
                     q: go.transform.rotation,
                     s: go.transform.localScale
                     );
-                matrices[(int)entity.Value.type].Add(matrix);
+                matrices.Add(matrix);
             }
         }
 
-        // Send data to the instanced renderers
-        // TODO: At the moment only the tree type is using instanced rendering
-        instancedRendering[(int)EntityType.TREE].RecalculateMatrices(matrices[(int)EntityType.TREE]);
-        instancedRendering[(int)EntityType.FOOD].RecalculateMatrices(matrices[(int)EntityType.FOOD]);
+        // Send data to the tree instanced renderer
+        treeInstancedRenderer.RecalculateMatrices(matrices);
 
         yield return new WaitForSeconds(30f);
         StartCoroutine(GrowOrDie());
