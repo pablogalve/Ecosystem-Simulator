@@ -31,14 +31,19 @@ public class EntityManager : MonoBehaviour
 
     // Acess to other scripts
     private EntityFactory entityFactory = null;
+    private Dictionary<int, GPUInstancedRendering> instancedRendering = new Dictionary<int, GPUInstancedRendering>();
 
     private void Awake()
-    {        
+    {
         for (int i = 0; i < 3; ++i)
         {
             var list = new List<string>();
             entitiesByType.Add(i, list);
         }
+
+        instancedRendering[(int)EntityType.TREE] = GameObject.Find("TreeRenderer").GetComponent<GPUInstancedRendering>();
+        instancedRendering[(int)EntityType.FOOD] = GameObject.Find("FoodRenderer").GetComponent<GPUInstancedRendering>();
+        instancedRendering[(int)EntityType.ANIMAL] = GameObject.Find("TreeRenderer").GetComponent<GPUInstancedRendering>(); // TODO: Set AnimalRenderers
     }
 
     void Start()
@@ -102,21 +107,21 @@ public class EntityManager : MonoBehaviour
     private void SetInitialScene()
     {
         EntityFactory entityFactory = gameObject.GetComponent<EntityFactory>();
-        for (int i = 0; i < 500; i++) {
+        for (int i = 0; i < 10000; i++) {
             entityFactory.SpawnRandomTree(1000f, 1000f, 500f, 12);
         }
 
         // Set up animals
         {
-            for (int i = 0; i < 300; i++)
+            for (int i = 0; i < 0; i++)
             {
                 entityFactory.SpawnAnimalOfRandomGender((int)AnimalManager.Species.LONGHORN, 1000f, 1000f, 100f);
             }
-            for (int i = 0; i < 450; i++)
+            for (int i = 0; i < 0; i++)
             {
                 entityFactory.SpawnAnimalOfRandomGender((int)AnimalManager.Species.SHEEP, 1000f, 500f, 100f);
             }
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 0; i++)
             {
                 entityFactory.SpawnAnimalOfRandomGender((int)AnimalManager.Species.WOLF, 500f, 1000f, 100f);
             }
@@ -131,6 +136,12 @@ public class EntityManager : MonoBehaviour
     // Updates entity's age, grows it in size, and kills if it it's too old
     private IEnumerator GrowOrDie()
     {
+        // Declare transformation data to send to the instanced renderer
+        Dictionary<int, List<Matrix4x4>> matrices = new Dictionary<int, List<Matrix4x4>>();
+        matrices[(int)EntityType.TREE] = new List<Matrix4x4>();
+        matrices[(int)EntityType.FOOD] = new List<Matrix4x4>();
+        matrices[(int)EntityType.ANIMAL] = new List<Matrix4x4>();
+
         for(LinkedListNode<Entity> entity = UUIDs.First; entity != null; entity = entity.Next)
         {
             AgeController ageController = entities[entity.Value.UUID].GetComponent<AgeController>();
@@ -140,6 +151,7 @@ public class EntityManager : MonoBehaviour
             if (ageController.age + 1 > ageController.maxAge)
             {
                 TryToKill(entity);
+                continue;
             }
             else ageController.age++;
 
@@ -153,7 +165,25 @@ public class EntityManager : MonoBehaviour
             {
                 entities[entity.Value.UUID].transform.localScale = Vector3.one * ageController.scaleFactor;
             }
+
+            // Save data for the instanced renderer
+            if(entity.Value.type != EntityType.ANIMAL)
+            {
+                GameObject go = entities[entity.Value.UUID].gameObject;
+                Matrix4x4 matrix = Matrix4x4.TRS(
+                    pos: go.transform.position,
+                    q: go.transform.rotation,
+                    s: go.transform.localScale
+                    );
+                matrices[(int)entity.Value.type].Add(matrix);
+            }
         }
+
+        // Send data to the instanced renderers
+        // TODO: At the moment only the tree type is using instanced rendering
+        instancedRendering[(int)EntityType.TREE].RecalculateMatrices(matrices[(int)EntityType.TREE]);
+        instancedRendering[(int)EntityType.FOOD].RecalculateMatrices(matrices[(int)EntityType.FOOD]);
+
         yield return new WaitForSeconds(30f);
         StartCoroutine(GrowOrDie());
     }
