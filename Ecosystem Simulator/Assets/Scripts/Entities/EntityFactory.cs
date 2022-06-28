@@ -102,8 +102,10 @@ public class EntityFactory : MonoBehaviour
         _idToObjectPool[species].Push(gameObject);
     }
 
-    public GameObject SpawnAnimalOfRandomGender(int speciesID, float x, float z, float randomVariation = 0)
+    public GameObject SpawnAnimalOfRandomGender(int speciesID, float x, float z, float randomVariation = 0, bool randomAge = false)
     {
+        if (entityManager.isMaxCapReached(EntityManager.EntityType.ANIMAL)) return null;
+
         Vector3 spawnPos = GenerateSpawnPosition(x, z, randomVariation);
         if (!HeightmapData.Instance.IsValidPosition(EntityManager.EntityType.ANIMAL, spawnPos)) return null;
 
@@ -125,9 +127,7 @@ public class EntityFactory : MonoBehaviour
             newAnimal.SetActive(true);
             objectsInPool.Pop();
 
-            NavMeshAgent agent = newAnimal.GetComponent<NavMeshAgent>();
-            bool succeed = agent.Warp(spawnPos);
-            if (succeed!) Debug.LogError("Warp failed on animal spawn");
+            newAnimal.transform.position = spawnPos;            
         }
         else // Instantiate a new GO
         {
@@ -144,13 +144,34 @@ public class EntityFactory : MonoBehaviour
         Reproduction reproduction = newAnimal.GetComponent<Reproduction>();
         reproduction.gender = gender;
 
+        if(randomAge)
+        {
+            AgeController ageController = newAnimal.GetComponent<AgeController>();
+            int newAge = UnityEngine.Random.Range(0, ageController.maxAge - 1);
+            ageController.age = (byte)newAge;
+        }
+        else
+        {
+            AgeController ageController = newAnimal.GetComponent<AgeController>();
+            ageController.age = 1;
+        }
+
         AddToEntitiesList(EntityManager.EntityType.ANIMAL, newAnimal);              
+
+        return newAnimal;
+    }
+
+    public GameObject SpawnAnimalOfRandomGenderAndAge(int speciesID, float x, float z, float randomVariation = 0)
+    {
+        GameObject newAnimal = SpawnAnimalOfRandomGender(speciesID, x, z, randomVariation, true);
 
         return newAnimal;
     }
 
     public GameObject SpawnRandomTree(float x, float z, float randomVariation = 0, byte initialAge = 1)
     {
+        if (entityManager.isMaxCapReached(EntityManager.EntityType.TREE)) return null;
+
         Vector3 spawnPos = GenerateSpawnPosition(x, z, randomVariation);
         if (!HeightmapData.Instance.IsValidPosition(EntityManager.EntityType.TREE, spawnPos)) return null;
            
@@ -185,7 +206,16 @@ public class EntityFactory : MonoBehaviour
 
     public GameObject SpawnFood(float x, float z, float randomVariation = 0)
     {
+        if (entityManager.isMaxCapReached(EntityManager.EntityType.FOOD)) return null;
+
         Vector3 spawnPos = GenerateSpawnPosition(x, z, randomVariation);
+
+        {
+            // Food shouldn't be on the tree
+            if (spawnPos.x - x < 1.0f && spawnPos.x - x > 1.0f) spawnPos.x = x + 2.0f;
+            if (spawnPos.z - z < 1.0f && spawnPos.z - z > 1.0f) spawnPos.z = z + 2.0f;
+        }
+
         if (!HeightmapData.Instance.IsValidPosition(EntityManager.EntityType.FOOD, spawnPos)) return null;
 
         GameObject newFood;

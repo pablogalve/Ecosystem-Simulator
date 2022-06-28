@@ -1,10 +1,12 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TreeManager : MonoBehaviour
 {
     private EntityManager entityManager = null;
     private EntityFactory entityFactory = null;
+    private GPUInstancedRendering foodInstancedRenderer = null;
 
     public int maxUpdatesPerFrame = 50;
 
@@ -12,9 +14,11 @@ public class TreeManager : MonoBehaviour
     {
         entityManager = GetComponent<EntityManager>();
         entityFactory = GetComponent<EntityFactory>();
+        foodInstancedRenderer = GameObject.Find("FoodRenderer").GetComponent<GPUInstancedRendering>();
 
         StartCoroutine(GenerateFood());
         StartCoroutine(AsexualReproduction());
+        StartCoroutine(SendFoodMatricesToInstancedRenderer());
     }
 
     private IEnumerator GenerateFood()
@@ -58,13 +62,9 @@ public class TreeManager : MonoBehaviour
                         
             GameObject tree = entityManager.entities[entityManager.entitiesByType[(int)EntityManager.EntityType.TREE][i]];
             
-            // Possible bug? Only the trees at the top of the list are being reproduced when they are close to the maximum population
-            if (entityManager.isMaxCapReached(EntityManager.EntityType.TREE)) break;
-
             AgeController ageController = tree.GetComponent<AgeController>();
             if (ageController == null) throw new System.Exception("AgeController is null on EntityManager.cs: Reproduce()");
             
-
             if (ageController.IsBaby() == false)
             {
                 entityFactory.SpawnRandomTree(
@@ -76,5 +76,29 @@ public class TreeManager : MonoBehaviour
 
         yield return new WaitForSeconds(15f);
         StartCoroutine(AsexualReproduction());
+    }
+
+    private IEnumerator SendFoodMatricesToInstancedRenderer()
+    {
+        if (foodInstancedRenderer == null) throw new System.Exception("entityManager was null on AnimalManager.cs on GenerateFood()");
+
+        // Declare transformation data to send to the instanced renderer
+        List<Matrix4x4> matrices = new List<Matrix4x4>();
+
+        for (int i = 0; i < entityManager.entitiesByType[(int)EntityManager.EntityType.FOOD].Count - 1; i++)
+        {
+            GameObject go = entityManager.entities[entityManager.entitiesByType[(int)EntityManager.EntityType.FOOD][i]];
+            Matrix4x4 matrix = Matrix4x4.TRS(
+                pos: go.transform.position,
+                q: go.transform.rotation,
+                s: go.transform.localScale
+                );
+            matrices.Add(matrix);
+        }
+
+        foodInstancedRenderer.RecalculateMatrices(matrices);
+
+        yield return new WaitForSeconds(1f);
+        StartCoroutine(SendFoodMatricesToInstancedRenderer());
     }
 }
