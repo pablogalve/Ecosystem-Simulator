@@ -99,5 +99,6 @@ public class TreeManager : MonoBehaviour
         foodInstancedRenderer.RecalculateMatrices(matrices);
 
         yield return new WaitForSeconds(1f);
+        StartCoroutine(SendFoodMatricesToInstancedRenderer());
     }
 }

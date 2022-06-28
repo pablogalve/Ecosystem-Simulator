@@ -105,25 +105,24 @@ public class EntityManager : MonoBehaviour
     private void SetInitialScene()
     {
         EntityFactory entityFactory = gameObject.GetComponent<EntityFactory>();
-        for (int i = 0; i < 10000; i++) {
+
+        for (int i = 0; i < 1000; i++) 
+        {
             entityFactory.SpawnRandomTree(1000f, 1000f, 500f, 12);
         }
-
-        // Set up animals
+        
+        for (int i = 0; i < 0; i++)
         {
-            for (int i = 0; i < 0; i++)
-            {
-                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 1000f, 1000f, 300f);
-            }
-            for (int i = 0; i < 1000; i++)
-            {
-                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 1000f, 1000f, 100f);
-            }
-            for (int i = 0; i < 0; i++)
-            {
-                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 500f, 1000f, 300f);
-            }
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 1000f, 1000f, 300f);
         }
+        for (int i = 0; i < 1000; i++)
+        {
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 1000f, 1000f, 100f);
+        }
+        for (int i = 0; i < 0; i++)
+        {
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 500f, 1000f, 300f);
+        }        
     }
 
     public void TryToKill(LinkedListNode<Entity> entityNode)
