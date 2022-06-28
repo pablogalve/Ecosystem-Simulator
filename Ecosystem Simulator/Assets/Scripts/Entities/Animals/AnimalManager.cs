@@ -210,9 +210,7 @@ public class AnimalManager : MonoBehaviour
         Collider[] hitColliders = Physics.OverlapSphere(animalScript.transform.position, animalScript.fieldOfView);
         for(int i = 0; i < hitColliders.Length; i++)
         {
-            GameObject food = hitColliders[i].gameObject;
-            if (food.CompareTag("Herbivore")) continue;
-            if (food.CompareTag("Carnivore")) continue;
+            GameObject food = hitColliders[i].gameObject;            
 
             if(food.CompareTag("Tree"))
             {
@@ -220,6 +218,8 @@ public class AnimalManager : MonoBehaviour
                 if (!treeAge.IsBaby())
                     continue;
             }
+
+            if (!food.CompareTag("Food")) continue;
 
             foundAtLeastOne = true;
 

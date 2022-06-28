@@ -128,7 +128,10 @@ public class Animal : MonoBehaviour
         if (ageController == null) { throw new System.Exception("ageController was null on Animal.cs on MoveTo()"); }
         if (reproduction == null) { throw new System.Exception("reproduction was null on Animal.cs on MoveTo()"); }
 
-        myNavMeshAgent.SetDestination(targetPosition);
+        if (myNavMeshAgent.destination != targetPosition)
+        {
+            myNavMeshAgent.SetDestination(targetPosition);
+        }
 
         // Reduce speed to babies and pregnant females
         if (ageController.IsBaby() || reproduction.IsPregnant()) myNavMeshAgent.speed = speedForBabiesAndPregnants;        
@@ -140,7 +143,10 @@ public class Animal : MonoBehaviour
         NavMeshAgent myNavMeshAgent = gameObject.GetComponent<NavMeshAgent>();
         if (myNavMeshAgent == null) throw new System.Exception("myNavMeshAgent was null on AnimalManager.cs on StopMoving()");
 
-        myNavMeshAgent.SetDestination(gameObject.transform.position);
+        if(myNavMeshAgent.hasPath)
+        {
+            myNavMeshAgent.SetDestination(gameObject.transform.position);
+        }        
     }
 
     public GameObject GetCurrentUIimage()

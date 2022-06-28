@@ -1282,7 +1282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxTrees: 5000
-  maxFood: 0
+  maxFood: 500
   maxAnimals: 500
   maxEntitiesToDeletePerFrame: 1000
 --- !u!114 &1232884837
