@@ -26,8 +26,6 @@ public class Animal : MonoBehaviour
     public float eatingTime = 10.0f;
     public float eatingTimer = 0.0f;
 
-    public List<GameObject> UIimageToDisplayState = new List<GameObject>();
-
     // Start is called before the first frame update
     void Awake()
     {
@@ -149,17 +147,6 @@ public class Animal : MonoBehaviour
         }        
     }
 
-    public GameObject GetCurrentUIimage()
-    {
-        // The UI Image is the same for states EATING and LOOKING_FOR_FOOD, so it is stored only once to save memory
-        if(state == AnimalManager.States.EATING) return UIimageToDisplayState[(int)AnimalManager.States.LOOKING_FOR_FOOD];
-
-        if ((int)state >= UIimageToDisplayState.Count)
-            throw new System.Exception("The UI image was not set in an animal for the state: " + state.ToString());
-
-        return UIimageToDisplayState[(int)state];
-    }
-
     public AnimalManager.States GetState()
     {
         return state;
@@ -167,9 +154,7 @@ public class Animal : MonoBehaviour
 
     public void SetState(AnimalManager.States newState)
     {
-        GetCurrentUIimage().SetActive(false);
-        state = newState;
-        GetCurrentUIimage().SetActive(true);        
+        state = newState;     
 
         HandleAnimatorController();
     }
