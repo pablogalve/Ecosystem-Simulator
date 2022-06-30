@@ -25,7 +25,7 @@ public class EntityFactory : MonoBehaviour
     {
         _idToEntity = new Dictionary<int, GameObject>();
 
-        foreach (var animal in maleAnimals)
+        /*foreach (var animal in maleAnimals)
         {
             Animal animalScript = animal.GetComponent<Animal>();
             Stack<GameObject> newPool = new Stack<GameObject>();
@@ -45,7 +45,7 @@ public class EntityFactory : MonoBehaviour
 
             _idToEntity.Add(key, animal);
             _idToObjectPool.Add(key, newPool);
-        }
+        }*/
 
         int i = 100; // Random int that is not equal to any animal species. // TODO: This is a bad practice
         foreach(var tree in trees)
@@ -173,7 +173,7 @@ public class EntityFactory : MonoBehaviour
         if (entityManager.isMaxCapReached(EntityManager.EntityType.TREE)) return null;
 
         Vector3 spawnPos = GenerateSpawnPosition(x, z, randomVariation);
-        if (!HeightmapData.Instance.IsValidPosition(EntityManager.EntityType.TREE, spawnPos)) return null;
+        //if (!HeightmapData.Instance.IsValidPosition(EntityManager.EntityType.TREE, spawnPos)) return null;
            
         GameObject newTree;
         if (!_idToObjectPool.TryGetValue(100, out Stack<GameObject> objectsInPool))

@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 784950602
+CRC: 1684726242
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: e35c82b58e839d3b5dab192fd8a72416
+    Hash: 075097ad2bd5cdfac3420b2d2a90f822
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5ad585dd02dfb5016c0dad519eab8f49
@@ -13,5 +13,6 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
+- Assets/AnimationTexture/Domestic_sheep.bytes
 - Assets/AnimationTexture/Zombie1.bytes
 Dependencies: []
