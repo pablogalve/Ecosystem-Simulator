@@ -18,7 +18,7 @@ public class AnimalManager : MonoBehaviour
         LOOKING_FOR_FOOD,
         LOOKING_FOR_MATE,
         EATING,
-        DYING
+        DYING,        
     }
 
     public int maxAnimalsToUpdatePerFrame = 50;
@@ -72,12 +72,12 @@ public class AnimalManager : MonoBehaviour
                     if (animalScript.isHungry())
                     {
                         animalScript.SetState(States.LOOKING_FOR_FOOD);
-                    }                        
+                    }
                     else if (animalScript.wantsToReproduce())
                     {
                         animalScript.SetState(States.LOOKING_FOR_MATE);
                     }
-                    break;
+                    break;                
 
                 case States.LOOKING_FOR_FOOD: // Primary need
                     if (animalScript.isHungry() == false)

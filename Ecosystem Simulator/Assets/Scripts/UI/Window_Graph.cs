@@ -67,8 +67,11 @@ public class Window_Graph : MonoBehaviour
         {
             // Update values
             int currNum;
-            if (i < 2) currNum = entityManager.entitiesByType[i].Count;
+            //if (i < 2) currNum = entityManager.entitiesByType[i].Count; // Trees and food
+            //else currNum = entityFactory.GetCurrentAmountOfAnimal((AnimalManager.Species)i - 1);
+            if (i < 2) continue;
             else currNum = entityFactory.GetCurrentAmountOfAnimal((AnimalManager.Species)i - 1);
+
             entitiesAmountHistory[i].Add(currNum);
 
             if (currNum > yMaximum) yMaximum = currNum;

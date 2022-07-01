@@ -594,8 +594,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   age: 1
-  maxAge: 10
-  reproductionAge: 0.5
+  maxAge: 30
+  reproductionAge: 0.3
   growsInSize: 1
   scaleFactor: 1
 --- !u!114 &-4199632034766764582
@@ -610,9 +610,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e17eb3b508c91d409936e51714071f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gender: 0
+  gender: 1
   isPregnant: 0
-  gestationPeriod: 2
+  gestationPeriod: 0
   currPregnancyTime: 0
   amountOfBabies: 1
 --- !u!114 &-3044435660526125391
@@ -676,23 +676,23 @@ LODGroup:
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.6
+  - screenRelativeHeight: 0.044310957
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 137279498846116766}
-  - screenRelativeHeight: 0.3
+  - screenRelativeHeight: 0.030556558
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 2531065460507887511}
-  - screenRelativeHeight: 0.1
+  - screenRelativeHeight: 0.020165127
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 4329994298786062017}
-  - screenRelativeHeight: 0.035573076
+  - screenRelativeHeight: 0.011157342
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 550599381709329309}
-  - screenRelativeHeight: 0.01298263
+  - screenRelativeHeight: 0.0050997767
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 5340916930510344203}

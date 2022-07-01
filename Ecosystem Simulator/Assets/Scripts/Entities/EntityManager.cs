@@ -106,22 +106,22 @@ public class EntityManager : MonoBehaviour
     {
         EntityFactory entityFactory = gameObject.GetComponent<EntityFactory>();
 
-        for (int i = 0; i < 5000; i++) 
+        for (int i = 0; i < 10000; i++) 
         {
-            entityFactory.SpawnRandomTree(100f, 100f, 200f, 12);
+            entityFactory.SpawnRandomTree(1000f, 1000f, 2000f, 12);
         }
         
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 500; i++)
         {
-            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 150f, 150f, 50f);
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 900f, 900f, 50f);
         }
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 0; i++)
         {
-            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 100f, 100f, 50f);
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 1000f, 1000f, 50f);
         }
         for (int i = 0; i < 100; i++)
         {
-            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 50f, 50f, 50f);
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 950f, 950f, 50f);
         }        
     }
 

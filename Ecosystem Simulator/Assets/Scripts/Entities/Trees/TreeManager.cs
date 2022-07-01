@@ -42,10 +42,15 @@ public class TreeManager : MonoBehaviour
             if (!ageScript.IsBaby())
             {
                 entityFactory.SpawnFood(tree.transform.position.x, tree.transform.position.z, 2f);
+                entityFactory.SpawnFood(tree.transform.position.x, tree.transform.position.z, 2f);
+                entityFactory.SpawnFood(tree.transform.position.x, tree.transform.position.z, 2f);
+                entityFactory.SpawnFood(tree.transform.position.x, tree.transform.position.z, 2f);
+                entityFactory.SpawnFood(tree.transform.position.x, tree.transform.position.z, 2f);
+                entityFactory.SpawnFood(tree.transform.position.x, tree.transform.position.z, 2f);
             }
         }
 
-        yield return new WaitForSeconds(35.0f); // Wait before repeating the cycle
+        yield return new WaitForSeconds(15.0f); // Wait before repeating the cycle
         StartCoroutine(GenerateFood());
     }
 

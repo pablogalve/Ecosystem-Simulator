@@ -49,9 +49,11 @@ public class Animal : MonoBehaviour
 
     public void OnSpawn()
     {
+        byte random = (byte)Random.Range(1, maxNeed);
+
         state = AnimalManager.States.IDLE;
-        reproductionUrge = maxNeed;
-        hunger = maxNeed;
+        reproductionUrge = random;
+        hunger = random;
         minDistanceToEat = Mathf.Pow(minDistanceToEat, 2);
 
         Reproduction reproduction = gameObject.GetComponent<Reproduction>();
