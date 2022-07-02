@@ -14,12 +14,17 @@ public class CameraMovement : MonoBehaviour
 
     private float yaw = 0f;
     private float pitch = 0f;
-        
+
+    public GameObject gameObjectWithUIScript = null;
+    private SelectedAnimalStats UIScript = null;
+
     private void Start()
     {
         // Initialize the correct initial rotation
-        this.yaw = this.transform.eulerAngles.y;
-        this.pitch = this.transform.eulerAngles.x;
+        yaw = transform.eulerAngles.y;
+        pitch = transform.eulerAngles.x;
+
+        UIScript = gameObjectWithUIScript.GetComponent<SelectedAnimalStats>();
     }
 
     private void Update()
@@ -80,7 +85,8 @@ public class CameraMovement : MonoBehaviour
                     selectedGO = hitInfo.transform.gameObject;
                     transform.SetParent(selectedGO.transform);
 
-                    moving = true;                    
+                    moving = true;
+                    UIScript.SelectAnimal(selectedGO);
                 }
                 else // There is a hit with an object that can't be selected
                 {
@@ -111,5 +117,6 @@ public class CameraMovement : MonoBehaviour
     {
         selectedGO = null;
         gameObject.transform.parent = null;
+        UIScript.DeselectAnimal();
     }
 }

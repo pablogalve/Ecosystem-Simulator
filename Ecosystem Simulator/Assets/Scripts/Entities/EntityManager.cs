@@ -108,12 +108,12 @@ public class EntityManager : MonoBehaviour
 
         for (int i = 0; i < 10000; i++) 
         {
-            entityFactory.SpawnRandomTree(1000f, 1000f, 2000f, 12);
+            entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 12);
         }
         
         for (int i = 0; i < 500; i++)
         {
-            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 900f, 900f, 50f);
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 900f, 900f, 200f);
         }
         for (int i = 0; i < 0; i++)
         {
@@ -153,7 +153,7 @@ public class EntityManager : MonoBehaviour
             if (ageController.growsInSize && ageController.IsBaby())
             {
                 float agePercentage = (float)(ageController.age) / (float)(ageController.maxAge);
-                entities[entity.Value.UUID].transform.localScale = Vector3.one * agePercentage * ageController.scaleFactor;
+                entities[entity.Value.UUID].transform.localScale = Vector3.one * agePercentage * 2 * ageController.scaleFactor;
             }
             else
             {
