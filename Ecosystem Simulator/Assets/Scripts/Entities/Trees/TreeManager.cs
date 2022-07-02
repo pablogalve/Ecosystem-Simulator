@@ -41,12 +41,12 @@ public class TreeManager : MonoBehaviour
 
             if (!ageScript.IsBaby())
             {
-                entityFactory.SpawnFood(tree.transform.position.x, tree.transform.position.z, 2f);
-                entityFactory.SpawnFood(tree.transform.position.x, tree.transform.position.z, 2f);
-                entityFactory.SpawnFood(tree.transform.position.x, tree.transform.position.z, 2f);
-                entityFactory.SpawnFood(tree.transform.position.x, tree.transform.position.z, 2f);
-                entityFactory.SpawnFood(tree.transform.position.x, tree.transform.position.z, 2f);
-                entityFactory.SpawnFood(tree.transform.position.x, tree.transform.position.z, 2f);
+                entityFactory.SpawnFood(tree.transform.position.x, tree.transform.position.z, 10f);
+                entityFactory.SpawnFood(tree.transform.position.x, tree.transform.position.z, 10f);
+                entityFactory.SpawnFood(tree.transform.position.x, tree.transform.position.z, 10f);
+                entityFactory.SpawnFood(tree.transform.position.x, tree.transform.position.z, 10f);
+                entityFactory.SpawnFood(tree.transform.position.x, tree.transform.position.z, 10f);
+                entityFactory.SpawnFood(tree.transform.position.x, tree.transform.position.z, 10f);
             }
         }
 
