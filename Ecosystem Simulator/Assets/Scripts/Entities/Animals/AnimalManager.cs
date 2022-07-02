@@ -51,7 +51,7 @@ public class AnimalManager : MonoBehaviour
             if (myGender.gender == 0 && myGender.IsPregnant()) myGender.UpdatePregnancy();
         }
         
-        yield return new WaitForSeconds(15.0f); // Wait before repeating the cycle
+        yield return new WaitForSeconds(5.0f); // Wait before repeating the cycle
         StartCoroutine(UpdateStats());
     }
 

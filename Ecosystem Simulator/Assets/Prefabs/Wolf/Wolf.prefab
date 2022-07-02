@@ -2359,7 +2359,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   species: 3
   state: 0
-  maxNeed: 10
+  maxNeed: 50
   reproductionUrge: 0
   hunger: 0
   minDistanceToEat: 1
@@ -2382,7 +2382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   age: 1
-  maxAge: 10
+  maxAge: 30
   reproductionAge: 0.4
   growsInSize: 1
   scaleFactor: 1.7
