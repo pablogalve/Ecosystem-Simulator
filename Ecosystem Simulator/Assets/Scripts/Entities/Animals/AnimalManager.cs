@@ -217,9 +217,7 @@ public class AnimalManager : MonoBehaviour
                 AgeController treeAge = food.GetComponent<AgeController>();
                 if (!treeAge.IsBaby())
                     continue;
-            }
-
-            if (!food.CompareTag("Food")) continue;
+            }else if (!food.CompareTag("Food")) continue;
 
             foundAtLeastOne = true;
 
