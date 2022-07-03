@@ -2362,12 +2362,12 @@ MonoBehaviour:
   maxNeed: 50
   reproductionUrge: 0
   hunger: 0
-  minDistanceToEat: 1
+  minDistanceToEat: 3
   isHerbivore: 0
   speed: 5.5
   speedForBabiesAndPregnants: 1
   fieldOfView: 50
-  eatingTime: 10
+  eatingTime: 5
   eatingTimer: 0
 --- !u!114 &8298627016790486572
 MonoBehaviour:
