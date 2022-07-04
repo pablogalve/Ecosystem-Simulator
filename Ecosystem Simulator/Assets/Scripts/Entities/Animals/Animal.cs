@@ -146,6 +146,7 @@ public class Animal : MonoBehaviour
         if(myNavMeshAgent.hasPath)
         {
             myNavMeshAgent.SetDestination(gameObject.transform.position);
+            //myNavMeshAgent.isStopped = true;
         }        
     }
 

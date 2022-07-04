@@ -51,7 +51,7 @@ public class AnimalManager : MonoBehaviour
             if (myGender.gender == 0 && myGender.IsPregnant()) myGender.UpdatePregnancy();
         }
         
-        yield return new WaitForSeconds(15.0f); // Wait before repeating the cycle
+        yield return new WaitForSeconds(5.0f); // Wait before repeating the cycle
         StartCoroutine(UpdateStats());
     }
 
@@ -202,7 +202,6 @@ public class AnimalManager : MonoBehaviour
     private (bool, Vector3) FindClosestFood(Animal animalScript)
     {
         // Herbivores can eat both food and baby trees
-
         Vector3 closestFood = new Vector3(0f, 0f, 0f);
         float smallestDistance = float.MaxValue;
         bool foundAtLeastOne = false;
@@ -322,7 +321,7 @@ public class AnimalManager : MonoBehaviour
 
             if (myGender.gender == 0)
             {
-                if (distanceSqr < 1f)
+                if (distanceSqr < 3f)
                 {
                     if (myGender.RequestMate(mateGender) == true) // Mate accepted
                     {

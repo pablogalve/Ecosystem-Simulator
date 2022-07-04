@@ -2359,15 +2359,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   species: 3
   state: 0
-  maxNeed: 10
+  maxNeed: 50
   reproductionUrge: 0
   hunger: 0
-  minDistanceToEat: 1
+  minDistanceToEat: 3
   isHerbivore: 0
   speed: 5.5
   speedForBabiesAndPregnants: 1
   fieldOfView: 50
-  eatingTime: 10
+  eatingTime: 5
   eatingTimer: 0
 --- !u!114 &8298627016790486572
 MonoBehaviour:
@@ -2382,7 +2382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   age: 1
-  maxAge: 10
+  maxAge: 30
   reproductionAge: 0.4
   growsInSize: 1
   scaleFactor: 1.7
