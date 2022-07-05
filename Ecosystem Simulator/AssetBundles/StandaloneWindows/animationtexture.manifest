@@ -1,0 +1,17 @@
+ManifestFileVersion: 0
+CRC: 2588931932
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: fc0290a2a9fd1dd2bb41df4910d5d39d
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5ad585dd02dfb5016c0dad519eab8f49
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/AnimationTexture/Domestic_sheep.bytes
+Dependencies: []

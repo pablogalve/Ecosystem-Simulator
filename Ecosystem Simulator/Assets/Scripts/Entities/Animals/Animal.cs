@@ -1,6 +1,5 @@
-using System.Collections;
+using AnimationInstancingNamespace;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,8 +7,9 @@ public class Animal : MonoBehaviour
 {
     public AnimalManager.Species species = AnimalManager.Species.UNDEFINED;
     [SerializeField] private AnimalManager.States state;
+    [SerializeField] private AnimalManager.Animation currAnimation;
 
-    private Animator animator;
+    private AnimationInstancing animationInstancing;
 
     // Basic needs for animals
     public byte maxNeed = 10; // Needs go from 
@@ -29,7 +29,7 @@ public class Animal : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        animator = GetComponent<Animator>();
+        animationInstancing = GetComponent<AnimationInstancing>();
 
         OnSpawn();
     }
@@ -164,11 +164,44 @@ public class Animal : MonoBehaviour
 
     private void HandleAnimatorController()
     {
-        if (animator == null) { throw new System.Exception("This animal does not have an animator controller, but all animals must have one."); }
-        
-        animator.SetInteger("state", (int)state);
+        switch (state)
+        {
+            case AnimalManager.States.IDLE:
+                currAnimation = AnimalManager.Animation.IDLE;
+                break;
 
-        NavMeshAgent myNavMeshAgent = gameObject.GetComponent<NavMeshAgent>();
-        animator.SetFloat("speed", myNavMeshAgent.speed);        
+            case AnimalManager.States.LOOKING_FOR_FOOD:
+                NavMeshAgent myNavMeshAgent0 = gameObject.GetComponent<NavMeshAgent>();
+                if(Mathf.Approximately(myNavMeshAgent0.speed, speedForBabiesAndPregnants))
+                {
+                    currAnimation = AnimalManager.Animation.WALK;
+                }
+                else
+                {
+                    currAnimation = AnimalManager.Animation.RUN;
+                }                
+                break;
+
+            case AnimalManager.States.LOOKING_FOR_MATE:
+                NavMeshAgent myNavMeshAgent1 = gameObject.GetComponent<NavMeshAgent>();
+                if (Mathf.Approximately(myNavMeshAgent1.speed, speedForBabiesAndPregnants))
+                {
+                    currAnimation = AnimalManager.Animation.WALK;
+                }
+                else
+                {
+                    currAnimation = AnimalManager.Animation.RUN;
+                }
+                break;
+
+            case AnimalManager.States.EATING:
+                currAnimation = AnimalManager.Animation.EAT;
+                break;
+
+            default:
+                throw new System.Exception("State not being handled on Animal.cs HandleAnimatorController()");
+        }
+
+        animationInstancing.PlayAnimation((int)currAnimation);
     }
 }

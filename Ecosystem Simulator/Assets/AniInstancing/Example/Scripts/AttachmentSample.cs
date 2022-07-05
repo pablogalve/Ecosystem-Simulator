@@ -12,12 +12,12 @@ public class AttachmentSample : MonoBehaviour
 		if (!initialize)
 		{
 			initialize = true;
-			AnimationInstancing.AnimationInstancing instance = GetComponent<AnimationInstancing.AnimationInstancing>();
+			AnimationInstancingNamespace.AnimationInstancing instance = GetComponent<AnimationInstancingNamespace.AnimationInstancing>();
 			if (instance)
             {  
 				int count = instance.GetAnimationCount();
 				instance.PlayAnimation(Random.Range(0, count));
-                AnimationInstancing.AnimationInstancing attachmentScript = attachment.GetComponent<AnimationInstancing.AnimationInstancing>();
+                AnimationInstancingNamespace.AnimationInstancing attachmentScript = attachment.GetComponent<AnimationInstancingNamespace.AnimationInstancing>();
 				instance.Attach("ik_hand_r", attachmentScript);
 
 				// Deattach the attachment

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AnimationInstancing
+namespace AnimationInstancingNamespace
 {
     public class RuntimeHelper
     {

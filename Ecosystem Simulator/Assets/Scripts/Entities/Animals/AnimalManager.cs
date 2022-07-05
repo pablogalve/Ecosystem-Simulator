@@ -13,12 +13,21 @@ public class AnimalManager : MonoBehaviour
         WOLF,
     }
 
-    public enum States { 
+    public enum States 
+    { 
         IDLE,
         LOOKING_FOR_FOOD,
         LOOKING_FOR_MATE,
         EATING,
         DYING,        
+    }
+
+    public enum Animation
+    {
+        WALK,        
+        EAT,
+        IDLE,
+        RUN
     }
 
     public int maxAnimalsToUpdatePerFrame = 50;

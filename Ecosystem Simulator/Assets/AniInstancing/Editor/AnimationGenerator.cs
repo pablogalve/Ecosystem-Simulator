@@ -8,7 +8,7 @@ using UnityEditorInternal;
 using System.IO;
 
 
-namespace AnimationInstancing
+namespace AnimationInstancingNamespace
 {
     public class AnimationGenerator : EditorWindow
     {

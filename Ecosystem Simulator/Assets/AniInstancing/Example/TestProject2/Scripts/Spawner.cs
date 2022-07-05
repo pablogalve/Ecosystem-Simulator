@@ -24,10 +24,10 @@ public class Spawner: MonoBehaviour {
             showCount += 50;
         }
 
-        string text = AnimationInstancing.AnimationInstancingMgr.Instance.UseInstancing ? "EnableInstancing" : "DisableInstancing";
+        string text = AnimationInstancingNamespace.AnimationInstancingMgr.Instance.UseInstancing ? "EnableInstancing" : "DisableInstancing";
         if (GUI.Button(new Rect(10, 150, 140, 40), text))
         {
-            AnimationInstancing.AnimationInstancingMgr.Instance.UseInstancing = !AnimationInstancing.AnimationInstancingMgr.Instance.UseInstancing;
+            AnimationInstancingNamespace.AnimationInstancingMgr.Instance.UseInstancing = !AnimationInstancingNamespace.AnimationInstancingMgr.Instance.UseInstancing;
             Clear();
         }
     }
@@ -37,12 +37,12 @@ public class Spawner: MonoBehaviour {
         lastTime = Time.time;
         objList = new List<GameObject>();
         LoadAB();
-		AnimationInstancing.AnimationInstancingMgr.Instance.UseInstancing = true;
+		AnimationInstancingNamespace.AnimationInstancingMgr.Instance.UseInstancing = true;
     }
 
     void LoadAB()
     {
-		StartCoroutine(AnimationInstancing.AnimationManager.Instance.LoadAnimationAssetBundle(Application.streamingAssetsPath + "/AssetBundle/animationtexture"));
+		StartCoroutine(AnimationInstancingNamespace.AnimationManager.Instance.LoadAnimationAssetBundle(Application.streamingAssetsPath + "/AssetBundle/animationtexture"));
     }
 
 
@@ -52,7 +52,7 @@ public class Spawner: MonoBehaviour {
         {
             Destroy(obj);
         }
-        AnimationInstancing.AnimationInstancingMgr.Instance.Clear();
+        AnimationInstancingNamespace.AnimationInstancingMgr.Instance.Clear();
 
         objList.Clear();
         count = 0;
@@ -66,11 +66,11 @@ public class Spawner: MonoBehaviour {
 
             if (Time.time - lastTime > 0.1f)
             {
-                if (AnimationInstancing.AnimationInstancingMgr.Instance.UseInstancing)
+                if (AnimationInstancingNamespace.AnimationInstancingMgr.Instance.UseInstancing)
                 {
                     if (prefabA != null)
                     {
-                        GameObject obj = AnimationInstancing.AnimationInstancingMgr.Instance.CreateInstance(prefabA);
+                        GameObject obj = AnimationInstancingNamespace.AnimationInstancingMgr.Instance.CreateInstance(prefabA);
                         obj.transform.position = new Vector3(0, 0, 0);
                         objList.Add(obj);
                         //obj.transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);

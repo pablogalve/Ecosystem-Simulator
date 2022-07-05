@@ -6,12 +6,10 @@ AnimationInstancing.cs - The core part of the Animation Instancing library
 */
 
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System;
 
-namespace AnimationInstancing
+namespace AnimationInstancingNamespace
 {
     [AddComponentMenu("AnimationInstancing")]
     public class AnimationInstancing : MonoBehaviour
@@ -86,6 +84,8 @@ namespace AnimationInstancing
 
         void Start()
         {
+            prototype = GameObject.Find("Sheep_Instanced");
+
             if (!AnimationInstancingMgr.Instance.UseInstancing)
             {
                 gameObject.SetActive(false);

@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-namespace AnimationInstancing
+namespace AnimationInstancingNamespace
 {
     public class AnimationManager : Singleton<AnimationManager>
     {

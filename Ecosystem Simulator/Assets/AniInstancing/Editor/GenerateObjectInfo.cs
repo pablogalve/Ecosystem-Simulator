@@ -2,7 +2,7 @@
 using UnityEditor;
 using System;
 
-namespace AnimationInstancing
+namespace AnimationInstancingNamespace
 {
     public class GenerateOjbectInfo
     {

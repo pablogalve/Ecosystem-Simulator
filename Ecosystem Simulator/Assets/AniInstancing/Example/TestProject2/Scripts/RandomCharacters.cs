@@ -15,7 +15,7 @@ public class RandomCharacters : MonoBehaviour {
 	public float AvatarRange = 25;
 
 	protected Animator avatar;
-	private AnimationInstancing.AnimationInstancing instancing;
+	private AnimationInstancingNamespace.AnimationInstancing instancing;
 	private float SpeedDampTime = .25f;	
 	private float DirectionDampTime = .25f;	
 	private Vector3 TargetPosition = new Vector3(0,0,0);
@@ -23,13 +23,13 @@ public class RandomCharacters : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-        if (!AnimationInstancing.AnimationInstancingMgr.Instance.UseInstancing)
+        if (!AnimationInstancingNamespace.AnimationInstancingMgr.Instance.UseInstancing)
         {
             avatar = GetComponent<Animator>();
         }
         else
         {
-            instancing = GetComponent<AnimationInstancing.AnimationInstancing>();
+            instancing = GetComponent<AnimationInstancingNamespace.AnimationInstancing>();
             Debug.Assert(instancing);
             if (instancing == null)
             {
@@ -48,7 +48,7 @@ public class RandomCharacters : MonoBehaviour {
 
     void Update () 
 	{
-        if (AnimationInstancing.AnimationInstancingMgr.Instance.UseInstancing)
+        if (AnimationInstancingNamespace.AnimationInstancingMgr.Instance.UseInstancing)
         {
             if (instancing == null)
             {

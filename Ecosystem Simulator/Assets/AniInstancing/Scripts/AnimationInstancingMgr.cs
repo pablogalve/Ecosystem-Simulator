@@ -12,7 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
-namespace AnimationInstancing
+namespace AnimationInstancingNamespace
 {
     [AddComponentMenu("AnimationInstancingMgr")]
     public class AnimationInstancingMgr : Singleton<AnimationInstancingMgr>

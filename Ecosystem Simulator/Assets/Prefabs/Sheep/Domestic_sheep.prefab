@@ -953,7 +953,7 @@ GameObject:
   - component: {fileID: 876396728699692953}
   - component: {fileID: 4923802994595239050}
   - component: {fileID: -905898782950225431}
-  - component: {fileID: 6445786710043738551}
+  - component: {fileID: 7447855063460502133}
   m_Layer: 0
   m_Name: Domestic_sheep
   m_TagString: Herbivore
@@ -1037,6 +1037,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   species: 2
   state: 0
+  animationInstancingGO: {fileID: 0}
   maxNeed: 20
   reproductionUrge: 0
   hunger: 0
@@ -1106,37 +1107,24 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!205 &6445786710043738551
-LODGroup:
+--- !u!114 &7447855063460502133
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1588765982522956}
-  serializedVersion: 2
-  m_LocalReferencePoint: {x: -0.0024691224, y: 0.5717806, z: 0.12927508}
-  m_Size: 1.6832834
-  m_FadeMode: 0
-  m_AnimateCrossFading: 0
-  m_LastLODIsBillboard: 0
-  m_LODs:
-  - screenRelativeHeight: 0.082550526
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 137678946342586494}
-  - screenRelativeHeight: 0.049542915
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 6321652140895253513}
-  - screenRelativeHeight: 0.017038254
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 5091533790574782240}
-  - screenRelativeHeight: 0.0041259527
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 2955940701995401693}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f47bf4169ec5dd4cbf530cf6929eeab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prototype: {fileID: 0}
+  playSpeed: 1
+  shadowCastingMode: 0
+  receiveShadow: 0
+  applyRootMotion: 0
+  bonePerVertex: 4
 --- !u!1 &1602045007366120
 GameObject:
   m_ObjectHideFlags: 0
@@ -1833,7 +1821,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4483050112514626816
 Transform:
   m_ObjectHideFlags: 0
@@ -2176,7 +2164,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5752924902494727256
 Transform:
   m_ObjectHideFlags: 0
@@ -2257,7 +2245,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5060412171871304260
 Transform:
   m_ObjectHideFlags: 0

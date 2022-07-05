@@ -111,15 +111,16 @@ public class EntityManager : MonoBehaviour
             entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 1);
         }
         
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 0; i++)
         {
             entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 1500f, 1400f, 200f);
         }
         for (int i = 0; i < 1000; i++)
         {
-            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 1500f, 900f, 50f);
+            //entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 1500f, 900f, 50f);
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 950f, 950f, 200f);
         }
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 0; i++)
         {
             entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 950f, 950f, 1000f);
         }        
