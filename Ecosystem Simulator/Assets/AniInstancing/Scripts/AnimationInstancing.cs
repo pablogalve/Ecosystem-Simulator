@@ -18,6 +18,7 @@ namespace AnimationInstancingNamespace
         [NonSerialized]
         public Transform worldTransform;
         //public GameObject prefab { get; set; }
+        public string protoTypeName;
 		public GameObject prototype;
         public BoundingSphere boundingSpere;
         public bool visible { get; set; }
@@ -84,7 +85,7 @@ namespace AnimationInstancingNamespace
 
         void Start()
         {
-            prototype = GameObject.Find("Sheep_Instanced");
+            prototype = GameObject.Find(protoTypeName);
 
             if (!AnimationInstancingMgr.Instance.UseInstancing)
             {
