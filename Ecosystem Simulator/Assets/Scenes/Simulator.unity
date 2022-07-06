@@ -1072,7 +1072,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd7d5cec637538c43a9c10f9203fa270, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: 100
+  distance: 70
 --- !u!114 &963194231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1088,6 +1088,7 @@ MonoBehaviour:
   idleInstancedRenderer: {fileID: 1971499530}
   hungerInstancedRenderer: {fileID: 1101619701}
   loveInstancedRenderer: {fileID: 1334987953}
+  maxUItoDisplay: 500
   radius: 50
 --- !u!1 &967732099
 GameObject:
@@ -1472,7 +1473,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxTrees: 20000
   maxFood: 5000
-  maxAnimals: 5000
+  maxAnimals: 100000
   maxEntitiesToDeletePerFrame: 1000
 --- !u!114 &1232884837
 MonoBehaviour:

@@ -8,6 +8,8 @@ public class UIFrustumController : MonoBehaviour
     public GPUInstancedRendering hungerInstancedRenderer = null;
     public GPUInstancedRendering loveInstancedRenderer = null;
 
+    public int maxUItoDisplay = 100;
+
     public float radius;
 
     // Update is called once per frame
@@ -21,7 +23,7 @@ public class UIFrustumController : MonoBehaviour
         List<Matrix4x4> hungerMatrices = new List<Matrix4x4>();
         List<Matrix4x4> loveMatrices = new List<Matrix4x4>();
 
-        for(int i = 0; i < hits.Length; i++)
+        for(int i = hits.Length - 1; i >= 0; i--)
         {
             Animal animalScript = hits[i].gameObject.GetComponent<Animal>();
             if (animalScript == null) continue;
@@ -51,6 +53,8 @@ public class UIFrustumController : MonoBehaviour
                     break;
                 }
             }
+
+            if (hits.Length - i >= maxUItoDisplay) break;
         }
 
         // Send data to instanced renderer
