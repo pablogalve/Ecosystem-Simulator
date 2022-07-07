@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2588931932
+CRC: 1510911251
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: fc0290a2a9fd1dd2bb41df4910d5d39d
+    Hash: fa6ee1d977b340fb4236569013caf93a
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5ad585dd02dfb5016c0dad519eab8f49
@@ -13,5 +13,7 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/AnimationTexture/Domestic_sheep.bytes
+- Assets/AnimationTexture/Longhorn_cattle_female_LOD0.bytes
+- Assets/AnimationTexture/Longhorn_cattle_male.bytes
+- Assets/AnimationTexture/Sheep_Instanced_LOD0.bytes
 Dependencies: []
