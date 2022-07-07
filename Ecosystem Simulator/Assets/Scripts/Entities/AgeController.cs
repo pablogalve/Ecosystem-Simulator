@@ -15,7 +15,7 @@ public class AgeController : MonoBehaviour
         if (growsInSize)
         {
             float agePercentage = (float)(age) / (float)(maxAge);
-            transform.localScale = Vector3.one * agePercentage * 2 * scaleFactor;
+            transform.localScale = Vector3.one * (0.5f + agePercentage) * scaleFactor;
         }
     }
 

@@ -30,7 +30,8 @@ public class AnimalManager : MonoBehaviour
         RUN
     }
 
-    public int maxAnimalsToUpdatePerFrame = 50;
+    public int maxStatesUpdatePerFrame = 50;
+    public int maxActionsUpdatePerFrame = 50;
 
     private EntityManager entityManager = null;
 
@@ -124,7 +125,7 @@ public class AnimalManager : MonoBehaviour
             }
 
             // Divide the workload in multiple frames
-            if (i != 0 && i % maxAnimalsToUpdatePerFrame == 0)
+            if (i != 0 && i % maxStatesUpdatePerFrame == 0)
                 yield return null;
         }
 
@@ -136,8 +137,12 @@ public class AnimalManager : MonoBehaviour
     {
         if (entityManager == null) throw new System.Exception("entityManager was null on AnimalManager.cs on ActionOfTheAnimalsStateMachine()");
 
+        int i = 0;
+
         for (LinkedListNode<EntityManager.Entity> entity = entityManager.UUIDs.First; entity != null; entity = entity.Next)
         {
+            i++;
+
             if (entity.Value.type != EntityManager.EntityType.ANIMAL) continue;
             GameObject animal = entityManager.entities[entity.Value.UUID];
 
@@ -169,7 +174,11 @@ public class AnimalManager : MonoBehaviour
 
                     break;
             }
-        }
+
+            // Divide the workload in multiple frames
+            if (i % maxActionsUpdatePerFrame == 0)
+                yield return null;
+        }        
 
         yield return new WaitForSeconds(1.0f); // Wait before repeating the cycle
         StartCoroutine(UpdateAnimalsStateMachine());

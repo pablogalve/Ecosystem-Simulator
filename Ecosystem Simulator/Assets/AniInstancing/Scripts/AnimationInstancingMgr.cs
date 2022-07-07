@@ -103,7 +103,7 @@ namespace AnimationInstancingNamespace
 
         private void OnEnable()
         {
-            boundingSphere = new BoundingSphere[5000];
+            boundingSphere = new BoundingSphere[20000];
             InitializeCullingGroup();
             cameraTransform = Camera.main.transform;
             aniInstancingList = new List<AnimationInstancing>(1000);
@@ -115,11 +115,6 @@ namespace AnimationInstancingNamespace
 
 			vertexCachePool = new Dictionary<int, VertexCache>();
 			instanceDataPool = new Dictionary<int, InstanceData>();
-        }
-
-        private void Start()
-        {
-            
         }
 
         private void InitializeCullingGroup()
