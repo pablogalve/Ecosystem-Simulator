@@ -648,7 +648,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 1
 --- !u!65 &1632480228408057341
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1295,7 +1295,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1cb15df6c7f03f7429860a2fb11653d8, type: 2}
+  - {fileID: 2100000, guid: d254a3b2751fa2a419421d0a08aead2a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
