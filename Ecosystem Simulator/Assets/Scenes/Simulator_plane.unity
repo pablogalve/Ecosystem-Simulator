@@ -1262,7 +1262,7 @@ MonoBehaviour:
   hungerInstancedRenderer: {fileID: 1101619701}
   loveInstancedRenderer: {fileID: 1334987953}
   maxUItoDisplay: 500
-  radius: 50
+  radius: 30
 --- !u!1 &967732099
 GameObject:
   m_ObjectHideFlags: 0

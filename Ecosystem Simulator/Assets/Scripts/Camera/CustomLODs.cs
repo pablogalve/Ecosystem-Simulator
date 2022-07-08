@@ -54,7 +54,7 @@ public class CustomLODs : MonoBehaviour
                     Matrix4x4 matrix = Matrix4x4.TRS(
                             pos: go.transform.position,
                             q: Quaternion.Euler(go.transform.rotation.x, go.transform.rotation.y, go.transform.rotation.z),
-                            s: new Vector3(1.5f, 1.5f, 1.5f)
+                            s: go.transform.localScale
                             );
 
                     // Add to the matrices list depending on the mesh
