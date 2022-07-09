@@ -671,7 +671,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   protoTypeName: Longhorn_cattle_male_LOD0
-  prototype: {fileID: 1276782084699662}
+  prototype: {fileID: 0}
   playSpeed: 1
   shadowCastingMode: 0
   receiveShadow: 0

@@ -51,15 +51,22 @@ public class CustomLODs : MonoBehaviour
                 {
                     // GPU Instanced renderer without animations and lower quality fbx
                     animator.enabled = false;
+                    Animal animalScript = go.GetComponent<Animal>();
+                    float extraRotationX = 0f;
+
+                    if(animalScript.species == AnimalManager.Species.SHEEP)
+                    {
+                        extraRotationX = -90f;
+                    }
+
                     Matrix4x4 matrix = Matrix4x4.TRS(
                             pos: go.transform.position,
-                            q: Quaternion.Euler(go.transform.rotation.x, go.transform.rotation.y, go.transform.rotation.z),
+                            q: Quaternion.Euler(extraRotationX + go.transform.rotation.x, go.transform.rotation.y, go.transform.rotation.z),
                             s: go.transform.localScale
                             );
 
-                    // Add to the matrices list depending on the mesh
-                    Animal animalScript = go.GetComponent<Animal>();
-                    if(animalScript.species == AnimalManager.Species.SHEEP)
+                    // Add to the matrices list depending on the mesh                    
+                    if (animalScript.species == AnimalManager.Species.SHEEP)
                     {
                         sheepMatrices.Add(matrix);
                     }

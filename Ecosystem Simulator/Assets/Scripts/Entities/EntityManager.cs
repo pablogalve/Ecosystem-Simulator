@@ -106,19 +106,23 @@ public class EntityManager : MonoBehaviour
     {
         EntityFactory entityFactory = gameObject.GetComponent<EntityFactory>();
 
-        for (int i = 0; i < 30000; i++) 
+        for (int i = 0; i < 0000; i++) 
         {
             entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 1);
         }
         
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 200; i++)
         {
-            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 800f, 800f, 100f);
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 500f, 500f, 50f);
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 800f, 800f, 50f);
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 1200f, 1200f, 50f);
         }
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 200; i++)
         {
             //entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 1500f, 900f, 50f);
-            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 800f, 800f, 100f);
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 500f, 1200f, 100f);
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 700f, 700f, 100f);
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 1200f, 500f, 100f);
         }
         for (int i = 0; i < 0; i++)
         {
