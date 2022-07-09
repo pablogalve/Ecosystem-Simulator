@@ -157,51 +157,55 @@ public class Animal : MonoBehaviour
 
     public void SetState(AnimalManager.States newState)
     {
-        state = newState;     
-
-        HandleAnimatorController();
+        state = newState;
     }
 
-    private void HandleAnimatorController()
+    public void PlayAnimation(int animationIndex)
+    {
+        animationInstancing.PlayAnimation(animationIndex);
+    }
+
+    public AnimalManager.Animation CalculateCurrentAnimation()
     {
         switch (state)
         {
             case AnimalManager.States.IDLE:
-                currAnimation = AnimalManager.Animation.IDLE;
-                break;
+                return AnimalManager.Animation.IDLE;
 
             case AnimalManager.States.LOOKING_FOR_FOOD:
                 NavMeshAgent myNavMeshAgent0 = gameObject.GetComponent<NavMeshAgent>();
-                if(Mathf.Approximately(myNavMeshAgent0.speed, speedForBabiesAndPregnants))
+                if (Mathf.Approximately(myNavMeshAgent0.speed, speedForBabiesAndPregnants))
                 {
-                    currAnimation = AnimalManager.Animation.WALK;
+                    return AnimalManager.Animation.WALK;
                 }
                 else
                 {
-                    currAnimation = AnimalManager.Animation.RUN;
-                }                
-                break;
+                    return AnimalManager.Animation.RUN;
+                }
 
             case AnimalManager.States.LOOKING_FOR_MATE:
                 NavMeshAgent myNavMeshAgent1 = gameObject.GetComponent<NavMeshAgent>();
                 if (Mathf.Approximately(myNavMeshAgent1.speed, speedForBabiesAndPregnants))
                 {
-                    currAnimation = AnimalManager.Animation.WALK;
+                    return AnimalManager.Animation.WALK;
                 }
                 else
                 {
-                    currAnimation = AnimalManager.Animation.RUN;
+                    return AnimalManager.Animation.RUN;
                 }
-                break;
 
             case AnimalManager.States.EATING:
-                currAnimation = AnimalManager.Animation.EAT;
-                break;
+                if (species == AnimalManager.Species.WOLF) // Wolf fbx does not have EAT animation
+                {
+                    return AnimalManager.Animation.IDLE;
+                }
+                else
+                {
+                    return AnimalManager.Animation.EAT;
+                }
 
             default:
                 throw new System.Exception("State not being handled on Animal.cs HandleAnimatorController()");
         }
-
-        animationInstancing.PlayAnimation((int)currAnimation);
     }
 }

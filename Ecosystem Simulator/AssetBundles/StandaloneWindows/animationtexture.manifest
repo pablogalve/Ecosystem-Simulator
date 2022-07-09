@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3535592956
+CRC: 3495217872
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 80cbfcb00619c7bcea867e0c821817bb
+    Hash: 9a3d4ba8150be6cb03360db9a1268123
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5ad585dd02dfb5016c0dad519eab8f49
@@ -16,4 +16,5 @@ Assets:
 - Assets/AnimationTexture/Longhorn_cattle_female_LOD0.bytes
 - Assets/AnimationTexture/Sheep_Instanced_LOD0.bytes
 - Assets/AnimationTexture/Longhorn_cattle_male_LOD0.bytes
+- Assets/AnimationTexture/Wolf.bytes
 Dependencies: []

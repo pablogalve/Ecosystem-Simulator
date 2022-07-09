@@ -75,7 +75,7 @@ public class AnimalManager : MonoBehaviour
 
             Animal animalScript = animal.GetComponent<Animal>();
             if (animalScript == null) throw new System.Exception("animalScript list was null on AnimalManager.cs");
-
+            
             switch (animalScript.GetState())
             {
                 case States.IDLE: // Default state when there are no other needs
@@ -123,6 +123,8 @@ public class AnimalManager : MonoBehaviour
 
                     break;
             }
+
+            animalScript.PlayAnimation(GetAnimationIndex(animalScript.species, animalScript.CalculateCurrentAnimation()));
 
             // Divide the workload in multiple frames
             if (i != 0 && i % maxStatesUpdatePerFrame == 0)
@@ -380,5 +382,40 @@ public class AnimalManager : MonoBehaviour
 
             animalScript.MoveTo(newTarget);
         }
+    }
+
+    public int GetAnimationIndex(Species species, Animation animation)
+    {
+        switch(animation)
+        {
+            case Animation.IDLE:
+                if (species == Species.SHEEP) return 2;
+                if (species == Species.LONGHORN) return 0;
+                if (species == Species.WOLF) return 0;
+                break;
+
+            case Animation.WALK:
+                if (species == Species.SHEEP) return 0;
+                if (species == Species.LONGHORN) return 0;
+                if (species == Species.WOLF) return 0;
+                break;
+
+            case Animation.RUN:
+                if (species == Species.SHEEP) return 3;
+                if (species == Species.LONGHORN) return 0;
+                if (species == Species.WOLF) return 0;
+                break;
+
+            case Animation.EAT:
+                if (species == Species.SHEEP) return 1;
+                if (species == Species.LONGHORN) return 0;
+                if (species == Species.WOLF) return 0;
+                break;
+
+            default:
+                throw new System.Exception("Animation not being handled on GetAnimationIndex()");
+        }
+
+        throw new System.Exception("Animal species not being handled on GetAnimationIndex()");
     }
 }

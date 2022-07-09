@@ -123,14 +123,15 @@ public class EntityManager : MonoBehaviour
         }
         for (int i = 0; i < 200; i++)
         {
-            //entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 1500f, 900f, 50f);
             entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 500f, 1200f, 100f);
             entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 700f, 700f, 100f);
             entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 1200f, 500f, 100f);
         }
-        for (int i = 0; i < 0; i++)
+        for (int i = 0; i < 20; i++)
         {
-            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 950f, 950f, 1000f);
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 600f, 600f, 1000f);
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 700f, 700f, 1000f);
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 500f, 850f, 1000f);
         }        
     }
 

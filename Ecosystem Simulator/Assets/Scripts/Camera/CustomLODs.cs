@@ -14,6 +14,7 @@ public class CustomLODs : MonoBehaviour
     private GPUInstancedRendering sheepRenderer = null;
     private GPUInstancedRendering longhornMaleRenderer = null;
     private GPUInstancedRendering longhornFemaleRenderer = null;
+    private GPUInstancedRendering wolfRenderer = null;
 
     private void Start()
     {
@@ -23,8 +24,9 @@ public class CustomLODs : MonoBehaviour
         sheepRenderer = GameObject.Find("SheepUnanimatedRenderer").GetComponent<GPUInstancedRendering>();
         longhornMaleRenderer = GameObject.Find("LonghornMaleUnanimatedRenderer").GetComponent<GPUInstancedRendering>();
         longhornFemaleRenderer = GameObject.Find("LonghornFemaleUnanimatedRenderer").GetComponent<GPUInstancedRendering>();
+        wolfRenderer = GameObject.Find("WolfUnanimatedRenderer").GetComponent<GPUInstancedRendering>();
 
-        StartCoroutine(CullAnimators());
+        StartCoroutine(CullAnimators()); 
     }    
 
     private IEnumerator CullAnimators()
@@ -35,6 +37,7 @@ public class CustomLODs : MonoBehaviour
         List<Matrix4x4> sheepMatrices = new List<Matrix4x4>();
         List<Matrix4x4> longhornMaleMatrices = new List<Matrix4x4>();
         List<Matrix4x4> longhornFemaleMatrices = new List<Matrix4x4>();
+        List<Matrix4x4> wolfMatrices = new List<Matrix4x4>();
 
         for (int i = 0; i < eM.entitiesByType[(int)EntityManager.EntityType.ANIMAL].Count; i++)
         {
@@ -80,7 +83,7 @@ public class CustomLODs : MonoBehaviour
                     }
                     else if (animalScript.species == AnimalManager.Species.WOLF)
                     {
-                        // TODO: Implement for wolves
+                        wolfMatrices.Add(matrix);
                     }
                 }
             }
@@ -95,6 +98,7 @@ public class CustomLODs : MonoBehaviour
         sheepRenderer.RecalculateMatrices(sheepMatrices);
         longhornMaleRenderer.RecalculateMatrices(longhornMaleMatrices);
         longhornFemaleRenderer.RecalculateMatrices(longhornFemaleMatrices);
+        wolfRenderer.RecalculateMatrices(wolfMatrices);
 
         yield return null;
         StartCoroutine(CullAnimators());
