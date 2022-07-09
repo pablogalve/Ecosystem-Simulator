@@ -396,19 +396,19 @@ public class AnimalManager : MonoBehaviour
 
             case Animation.WALK:
                 if (species == Species.SHEEP) return 0;
-                if (species == Species.LONGHORN) return 0;
-                if (species == Species.WOLF) return 0;
+                if (species == Species.LONGHORN) return 1;
+                if (species == Species.WOLF) return 2;
                 break;
 
             case Animation.RUN:
                 if (species == Species.SHEEP) return 3;
-                if (species == Species.LONGHORN) return 0;
-                if (species == Species.WOLF) return 0;
+                if (species == Species.LONGHORN) return 3;
+                if (species == Species.WOLF) return 1;
                 break;
 
             case Animation.EAT:
                 if (species == Species.SHEEP) return 1;
-                if (species == Species.LONGHORN) return 0;
+                if (species == Species.LONGHORN) return 2;
                 if (species == Species.WOLF) return 0;
                 break;
 
