@@ -53,16 +53,17 @@ public class CustomLODs : MonoBehaviour
                     animator.enabled = false;
                     Animal animalScript = go.GetComponent<Animal>();
                     float extraRotationX = 0f;
-
+                    float sizeMultiplier = 1f;
                     if(animalScript.species == AnimalManager.Species.SHEEP)
                     {
                         extraRotationX = -90f;
+                        sizeMultiplier = 1.5f;
                     }
 
                     Matrix4x4 matrix = Matrix4x4.TRS(
                             pos: go.transform.position,
                             q: Quaternion.Euler(extraRotationX + go.transform.rotation.x, go.transform.rotation.y, go.transform.rotation.z),
-                            s: go.transform.localScale
+                            s: go.transform.localScale * sizeMultiplier
                             );
 
                     // Add to the matrices list depending on the mesh                    

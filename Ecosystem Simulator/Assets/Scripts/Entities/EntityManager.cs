@@ -106,9 +106,13 @@ public class EntityManager : MonoBehaviour
     {
         EntityFactory entityFactory = gameObject.GetComponent<EntityFactory>();
 
-        for (int i = 0; i < 0000; i++) 
+        for (int i = 0; i < 1000; i++) 
         {
             entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 1);
+            entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 10);
+            entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 20);
+            entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 30);
+            entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 40);
         }
         
         for (int i = 0; i < 200; i++)
