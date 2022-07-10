@@ -54,28 +54,26 @@ public class CustomLODs : MonoBehaviour
                 {
                     // GPU Instanced renderer without animations and lower quality fbx
                     animator.enabled = false;
-                    Animal animalScript = go.GetComponent<Animal>();
-                    float extraRotationX = 0f;
-                    float sizeMultiplier = 1f;
-                    if(animalScript.species == AnimalManager.Species.SHEEP)
-                    {
-                        extraRotationX = -90f;
-                        sizeMultiplier = 1.5f;
-                    }
-
-                    Matrix4x4 matrix = Matrix4x4.TRS(
-                            pos: go.transform.position,
-                            q: Quaternion.Euler(extraRotationX + go.transform.rotation.x, go.transform.rotation.y, go.transform.rotation.z),
-                            s: go.transform.localScale * sizeMultiplier
-                            );
+                    Animal animalScript = go.GetComponent<Animal>();                
 
                     // Add to the matrices list depending on the mesh                    
                     if (animalScript.species == AnimalManager.Species.SHEEP)
                     {
+                        Matrix4x4 matrix = Matrix4x4.TRS(
+                            pos: go.transform.position,
+                            q: Quaternion.Euler(-90f + go.transform.rotation.x, go.transform.rotation.y, go.transform.rotation.z),
+                            s: go.transform.localScale * 1.5f
+                            );
                         sheepMatrices.Add(matrix);
                     }
                     else if (animalScript.species == AnimalManager.Species.LONGHORN)
                     {
+                        Matrix4x4 matrix = Matrix4x4.TRS(
+                            pos: go.transform.position,
+                            q: Quaternion.Euler(go.transform.rotation.x, go.transform.rotation.y, go.transform.rotation.z),
+                            s: go.transform.localScale
+                            );
+
                         // In longhorns, the mesh is different depending on gender
                         Reproduction reproduction = go.GetComponent<Reproduction>();
                         if(reproduction.gender == 0) longhornFemaleMatrices.Add(matrix);
@@ -83,6 +81,12 @@ public class CustomLODs : MonoBehaviour
                     }
                     else if (animalScript.species == AnimalManager.Species.WOLF)
                     {
+                        // Modify wolf matrices because its mesh is not working
+                        Matrix4x4 matrix = Matrix4x4.TRS(
+                            pos: new Vector3(go.transform.position.x, go.transform.position.y + 0.365f, go.transform.position.z),
+                            q: Quaternion.Euler(go.transform.rotation.x -9.47f, go.transform.rotation.y, go.transform.rotation.z),
+                            s: new Vector3(go.transform.localScale.x * 0.16f, go.transform.localScale.y * 0.26f, go.transform.localScale.z * 0.63f)
+                            );
                         wolfMatrices.Add(matrix);
                     }
                 }
