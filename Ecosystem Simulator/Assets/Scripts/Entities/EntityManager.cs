@@ -109,9 +109,8 @@ public class EntityManager : MonoBehaviour
         for (int i = 0; i < 10000; i++) 
         {
             entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 1);
+            entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 5);
             entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 10);
-            entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 20);
-            entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 30);
             entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 40);
         }
         
