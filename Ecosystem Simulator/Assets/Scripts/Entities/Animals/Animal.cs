@@ -1,6 +1,5 @@
-using System.Collections;
+using AnimationInstancingNamespace;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,8 +7,9 @@ public class Animal : MonoBehaviour
 {
     public AnimalManager.Species species = AnimalManager.Species.UNDEFINED;
     [SerializeField] private AnimalManager.States state;
+    [SerializeField] private AnimalManager.Animation currAnimation;
 
-    private Animator animator;
+    private AnimationInstancing animationInstancing;
 
     // Basic needs for animals
     public byte maxNeed = 10; // Needs go from 
@@ -29,7 +29,7 @@ public class Animal : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        animator = GetComponent<Animator>();
+        animationInstancing = GetComponent<AnimationInstancing>();
 
         OnSpawn();
     }
@@ -157,18 +157,55 @@ public class Animal : MonoBehaviour
 
     public void SetState(AnimalManager.States newState)
     {
-        state = newState;     
-
-        HandleAnimatorController();
+        state = newState;
     }
 
-    private void HandleAnimatorController()
+    public void PlayAnimation(int animationIndex)
     {
-        if (animator == null) { throw new System.Exception("This animal does not have an animator controller, but all animals must have one."); }
-        
-        animator.SetInteger("state", (int)state);
+        animationInstancing.PlayAnimation(animationIndex);
+    }
 
-        NavMeshAgent myNavMeshAgent = gameObject.GetComponent<NavMeshAgent>();
-        animator.SetFloat("speed", myNavMeshAgent.speed);        
+    public AnimalManager.Animation CalculateCurrentAnimation()
+    {
+        switch (state)
+        {
+            case AnimalManager.States.IDLE:
+                return AnimalManager.Animation.IDLE;
+
+            case AnimalManager.States.LOOKING_FOR_FOOD:
+                NavMeshAgent myNavMeshAgent0 = gameObject.GetComponent<NavMeshAgent>();
+                if (Mathf.Approximately(myNavMeshAgent0.speed, speedForBabiesAndPregnants))
+                {
+                    return AnimalManager.Animation.WALK;
+                }
+                else
+                {
+                    return AnimalManager.Animation.RUN;
+                }
+
+            case AnimalManager.States.LOOKING_FOR_MATE:
+                NavMeshAgent myNavMeshAgent1 = gameObject.GetComponent<NavMeshAgent>();
+                if (Mathf.Approximately(myNavMeshAgent1.speed, speedForBabiesAndPregnants))
+                {
+                    return AnimalManager.Animation.WALK;
+                }
+                else
+                {
+                    return AnimalManager.Animation.RUN;
+                }
+
+            case AnimalManager.States.EATING:
+                if (species == AnimalManager.Species.WOLF) // Wolf fbx does not have EAT animation
+                {
+                    return AnimalManager.Animation.IDLE;
+                }
+                else
+                {
+                    return AnimalManager.Animation.EAT;
+                }
+
+            default:
+                throw new System.Exception("State not being handled on Animal.cs HandleAnimatorController()");
+        }
     }
 }

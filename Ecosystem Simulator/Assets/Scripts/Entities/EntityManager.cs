@@ -106,22 +106,36 @@ public class EntityManager : MonoBehaviour
     {
         EntityFactory entityFactory = gameObject.GetComponent<EntityFactory>();
 
-        for (int i = 0; i < 30000; i++) 
+        for (int i = 0; i < 10000; i++) 
         {
             entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 1);
+            entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 10);
+            entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 20);
+            entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 30);
+            entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 40);
         }
         
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 200; i++)
         {
-            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 1500f, 1400f, 200f);
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 500f, 500f, 50f);
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 600f, 600f, 50f);
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 1200f, 600f, 50f);
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 800f, 800f, 50f);
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 1200f, 1200f, 50f);
         }
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 200; i++)
         {
-            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 1500f, 900f, 50f);
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 500f, 1200f, 100f);
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 700f, 700f, 100f);
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 1200f, 500f, 100f);
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 500f, 1200f, 100f);
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 700f, 600f, 100f);
         }
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 200; i++)
         {
-            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 950f, 950f, 1000f);
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 600f, 600f, 100f);
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 700f, 700f, 100f);
+            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 500f, 850f, 100f);
         }        
     }
 
@@ -153,7 +167,7 @@ public class EntityManager : MonoBehaviour
             if (ageController.growsInSize && ageController.IsBaby())
             {
                 float agePercentage = (float)(ageController.age) / (float)(ageController.maxAge);
-                entities[entity.Value.UUID].transform.localScale = Vector3.one * agePercentage * 2 * ageController.scaleFactor;
+                entities[entity.Value.UUID].transform.localScale = Vector3.one * (0.5f + agePercentage) * ageController.scaleFactor;
             }
             else
             {

@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 3495217872
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 9a3d4ba8150be6cb03360db9a1268123
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5ad585dd02dfb5016c0dad519eab8f49
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/AnimationTexture/Longhorn_cattle_female_LOD0.bytes
+- Assets/AnimationTexture/Sheep_Instanced_LOD0.bytes
+- Assets/AnimationTexture/Longhorn_cattle_male_LOD0.bytes
+- Assets/AnimationTexture/Wolf.bytes
+Dependencies: []

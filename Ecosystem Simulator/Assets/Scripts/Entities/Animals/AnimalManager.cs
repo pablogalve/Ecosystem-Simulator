@@ -13,7 +13,8 @@ public class AnimalManager : MonoBehaviour
         WOLF,
     }
 
-    public enum States { 
+    public enum States 
+    { 
         IDLE,
         LOOKING_FOR_FOOD,
         LOOKING_FOR_MATE,
@@ -21,7 +22,16 @@ public class AnimalManager : MonoBehaviour
         DYING,        
     }
 
-    public int maxAnimalsToUpdatePerFrame = 50;
+    public enum Animation
+    {
+        WALK,        
+        EAT,
+        IDLE,
+        RUN
+    }
+
+    public int maxStatesUpdatePerFrame = 50;
+    public int maxActionsUpdatePerFrame = 50;
 
     private EntityManager entityManager = null;
 
@@ -38,8 +48,12 @@ public class AnimalManager : MonoBehaviour
     {
         if (entityManager == null) throw new System.Exception("entityManager was null on AnimalManager.cs on UpdateStats()");
 
+        int i = 0;
+
         for (LinkedListNode<EntityManager.Entity> entity = entityManager.UUIDs.First; entity != null; entity = entity.Next)
         {
+            i++;
+
             if (entity.Value.type != EntityManager.EntityType.ANIMAL) continue;
             GameObject animal = entityManager.entities[entity.Value.UUID];
 
@@ -49,6 +63,8 @@ public class AnimalManager : MonoBehaviour
 
             animalScript.UpdateAllStats(entity);
             if (myGender.gender == 0 && myGender.IsPregnant()) myGender.UpdatePregnancy();
+
+            if (i % maxStatesUpdatePerFrame == 0) yield return null;
         }
         
         yield return new WaitForSeconds(5.0f); // Wait before repeating the cycle
@@ -65,7 +81,7 @@ public class AnimalManager : MonoBehaviour
 
             Animal animalScript = animal.GetComponent<Animal>();
             if (animalScript == null) throw new System.Exception("animalScript list was null on AnimalManager.cs");
-
+            
             switch (animalScript.GetState())
             {
                 case States.IDLE: // Default state when there are no other needs
@@ -114,8 +130,10 @@ public class AnimalManager : MonoBehaviour
                     break;
             }
 
+            animalScript.PlayAnimation(GetAnimationIndex(animalScript.species, animalScript.CalculateCurrentAnimation()));
+
             // Divide the workload in multiple frames
-            if (i != 0 && i % maxAnimalsToUpdatePerFrame == 0)
+            if (i != 0 && i % maxStatesUpdatePerFrame == 0)
                 yield return null;
         }
 
@@ -127,8 +145,12 @@ public class AnimalManager : MonoBehaviour
     {
         if (entityManager == null) throw new System.Exception("entityManager was null on AnimalManager.cs on ActionOfTheAnimalsStateMachine()");
 
+        int i = 0;
+
         for (LinkedListNode<EntityManager.Entity> entity = entityManager.UUIDs.First; entity != null; entity = entity.Next)
         {
+            i++;
+
             if (entity.Value.type != EntityManager.EntityType.ANIMAL) continue;
             GameObject animal = entityManager.entities[entity.Value.UUID];
 
@@ -160,7 +182,11 @@ public class AnimalManager : MonoBehaviour
 
                     break;
             }
-        }
+
+            // Divide the workload in multiple frames
+            if (i % maxActionsUpdatePerFrame == 0)
+                yield return null;
+        }        
 
         yield return new WaitForSeconds(1.0f); // Wait before repeating the cycle
         StartCoroutine(UpdateAnimalsStateMachine());
@@ -362,5 +388,40 @@ public class AnimalManager : MonoBehaviour
 
             animalScript.MoveTo(newTarget);
         }
+    }
+
+    public int GetAnimationIndex(Species species, Animation animation)
+    {
+        switch(animation)
+        {
+            case Animation.IDLE:
+                if (species == Species.SHEEP) return 2;
+                if (species == Species.LONGHORN) return 0;
+                if (species == Species.WOLF) return 0;
+                break;
+
+            case Animation.WALK:
+                if (species == Species.SHEEP) return 0;
+                if (species == Species.LONGHORN) return 1;
+                if (species == Species.WOLF) return 2;
+                break;
+
+            case Animation.RUN:
+                if (species == Species.SHEEP) return 3;
+                if (species == Species.LONGHORN) return 3;
+                if (species == Species.WOLF) return 1;
+                break;
+
+            case Animation.EAT:
+                if (species == Species.SHEEP) return 1;
+                if (species == Species.LONGHORN) return 2;
+                if (species == Species.WOLF) return 0;
+                break;
+
+            default:
+                throw new System.Exception("Animation not being handled on GetAnimationIndex()");
+        }
+
+        throw new System.Exception("Animal species not being handled on GetAnimationIndex()");
     }
 }
