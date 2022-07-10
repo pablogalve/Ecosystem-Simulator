@@ -48,8 +48,12 @@ public class AnimalManager : MonoBehaviour
     {
         if (entityManager == null) throw new System.Exception("entityManager was null on AnimalManager.cs on UpdateStats()");
 
+        int i = 0;
+
         for (LinkedListNode<EntityManager.Entity> entity = entityManager.UUIDs.First; entity != null; entity = entity.Next)
         {
+            i++;
+
             if (entity.Value.type != EntityManager.EntityType.ANIMAL) continue;
             GameObject animal = entityManager.entities[entity.Value.UUID];
 
@@ -59,6 +63,8 @@ public class AnimalManager : MonoBehaviour
 
             animalScript.UpdateAllStats(entity);
             if (myGender.gender == 0 && myGender.IsPregnant()) myGender.UpdatePregnancy();
+
+            if (i % maxStatesUpdatePerFrame == 0) yield return null;
         }
         
         yield return new WaitForSeconds(5.0f); // Wait before repeating the cycle
