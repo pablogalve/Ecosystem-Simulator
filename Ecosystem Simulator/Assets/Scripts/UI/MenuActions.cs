@@ -8,6 +8,11 @@ public class MenuActions : MonoBehaviour
         SceneManager.LoadScene("Simulator");
     }
 
+    public void StartSandbox()
+    {
+        SceneManager.LoadScene("Sandbox");
+    }
+
     public void Exit()
     {
         Application.Quit();
