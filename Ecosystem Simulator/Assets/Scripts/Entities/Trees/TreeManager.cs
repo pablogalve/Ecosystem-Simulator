@@ -26,12 +26,7 @@ public class TreeManager : MonoBehaviour
         if (entityManager == null) throw new System.Exception("entityManager was null on AnimalManager.cs on GenerateFood()");
 
         for (int i = 0; i < entityManager.entitiesByType[(int)EntityManager.EntityType.TREE].Count - 1; i++)
-        {
-            if (i != 0 && i % maxUpdatesPerFrame == 0)
-            {
-                yield return null;
-            }
-            
+        {  
             GameObject tree = entityManager.entities[entityManager.entitiesByType[(int)EntityManager.EntityType.TREE][i]];
 
             if (entityManager.isMaxCapReached(EntityManager.EntityType.FOOD)) break;
@@ -41,12 +36,12 @@ public class TreeManager : MonoBehaviour
 
             if (!ageScript.IsBaby())
             {
-                entityFactory.SpawnFood(tree.transform.position.x, tree.transform.position.z, 10f);
-                entityFactory.SpawnFood(tree.transform.position.x, tree.transform.position.z, 10f);
-                entityFactory.SpawnFood(tree.transform.position.x, tree.transform.position.z, 10f);
-                entityFactory.SpawnFood(tree.transform.position.x, tree.transform.position.z, 10f);
-                entityFactory.SpawnFood(tree.transform.position.x, tree.transform.position.z, 10f);
-                entityFactory.SpawnFood(tree.transform.position.x, tree.transform.position.z, 10f);
+                entityFactory.SpawnFood(tree.transform.position.x, tree.transform.position.z, 20f);
+            }
+
+            if (i != 0 && i % maxUpdatesPerFrame == 0)
+            {
+                yield return null;
             }
         }
 
