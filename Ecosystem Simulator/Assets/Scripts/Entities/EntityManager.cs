@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EntityManager : MonoBehaviour
 {    
@@ -106,36 +107,75 @@ public class EntityManager : MonoBehaviour
     {
         EntityFactory entityFactory = gameObject.GetComponent<EntityFactory>();
 
-        for (int i = 0; i < 10000; i++) 
+        #region Sandbox SetInitialScene
+        if(SceneManager.GetActiveScene().name == "Sandbox")
         {
-            entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 1);
-            entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 5);
-            entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 10);
-            entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 40);
+            for (int i = 0; i < 10000; i++)
+            {
+                entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 1);
+                entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 5);
+                entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 10);
+                entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 40);
+            }
+
+            for (int i = 0; i < 200; i++)
+            {
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 500f, 500f, 50f);
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 600f, 600f, 50f);
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 1200f, 600f, 50f);
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 800f, 800f, 50f);
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 1200f, 1200f, 50f);
+            }
+            for (int i = 0; i < 200; i++)
+            {
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 500f, 1200f, 100f);
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 700f, 700f, 100f);
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 1200f, 500f, 100f);
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 500f, 1200f, 100f);
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 700f, 600f, 100f);
+            }
+            for (int i = 0; i < 200; i++)
+            {
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 600f, 600f, 100f);
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 700f, 700f, 100f);
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 500f, 850f, 100f);
+            }
         }
-        
-        for (int i = 0; i < 200; i++)
+        #endregion
+        #region Simulator SetInitialScene
+        else if (SceneManager.GetActiveScene().name == "Simulator")
         {
-            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 500f, 500f, 50f);
-            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 600f, 600f, 50f);
-            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 1200f, 600f, 50f);
-            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 800f, 800f, 50f);
-            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 1200f, 1200f, 50f);
+            for (int i = 0; i < 10000; i++)
+            {
+                entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 1);
+                entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 5);
+                entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 10);
+            }
+
+            for (int i = 0; i < 200; i++)
+            {
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 1100f, 1500f, 50f);
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 600f, 600f, 50f);
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 1200f, 600f, 50f);
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 800f, 800f, 50f);
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 1200f, 1200f, 50f);
+            }
+            for (int i = 0; i < 200; i++)
+            {
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 800f, 1200f, 50f);
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 700f, 700f, 50f);
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 1200f, 500f, 50f);
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 1300f, 1200f, 50f);
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 700f, 1000f, 50f);
+            }
+            for (int i = 0; i < 200; i++)
+            {
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 1000f, 1000f, 50f);
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 700f, 700f, 50f);
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 600f, 850f, 50f);
+            }
         }
-        for (int i = 0; i < 200; i++)
-        {
-            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 500f, 1200f, 100f);
-            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 700f, 700f, 100f);
-            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 1200f, 500f, 100f);
-            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 500f, 1200f, 100f);
-            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 700f, 600f, 100f);
-        }
-        for (int i = 0; i < 200; i++)
-        {
-            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 600f, 600f, 100f);
-            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 700f, 700f, 100f);
-            entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 500f, 850f, 100f);
-        }        
+        #endregion
     }
 
     public void TryToKill(LinkedListNode<Entity> entityNode)
