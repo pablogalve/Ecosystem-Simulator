@@ -2463,7 +2463,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   protoTypeName: Wolf_LOD0
-  prototype: {fileID: 177940}
+  prototype: {fileID: 0}
   playSpeed: 1
   shadowCastingMode: 0
   receiveShadow: 0
