@@ -6,7 +6,6 @@ using UnityEngine;
 public class CustomLODs : MonoBehaviour
 {
     public float distance;
-    public float updateRate;
 
     private EntityManager eM = null;
     private Camera cam;

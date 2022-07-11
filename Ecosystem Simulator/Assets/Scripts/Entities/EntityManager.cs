@@ -110,7 +110,7 @@ public class EntityManager : MonoBehaviour
         #region Sandbox SetInitialScene
         if(SceneManager.GetActiveScene().name == "Sandbox")
         {
-            for (int i = 0; i < 10000; i++)
+            /*for (int i = 0; i < 10000; i++)
             {
                 entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 1);
                 entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 5);
@@ -139,6 +139,37 @@ public class EntityManager : MonoBehaviour
                 entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 600f, 600f, 100f);
                 entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 700f, 700f, 100f);
                 entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 500f, 850f, 100f);
+            }*/
+
+            for (int i = 0; i < 1000; i++)
+            {
+                entityFactory.SpawnRandomTree(800f, 800f, 300f, 1);
+                entityFactory.SpawnRandomTree(800f, 800f, 300f, 5);
+                //entityFactory.SpawnRandomTree(1000f, 1000f, 1000f, 10);
+                entityFactory.SpawnRandomTree(800f, 800f, 300f, 40);
+            }
+
+            for (int i = 0; i < 3000; i++)
+            {
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 800f, 800f, 200f);
+                //entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 600f, 600f, 50f);
+                //entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 1200f, 600f, 50f);
+                //entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 800f, 800f, 50f);
+                //entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.LONGHORN, 1200f, 1200f, 50f);
+            }
+            for (int i = 0; i < 3000; i++)
+            {
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 800f, 800f, 200f);
+                //entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 700f, 700f, 100f);
+                //entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 1200f, 500f, 100f);
+                //entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 500f, 1200f, 100f);
+                //entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.SHEEP, 700f, 600f, 100f);
+            }
+            for (int i = 0; i < 500; i++)
+            {
+                entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 800f, 800f, 300f);
+                //entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 700f, 700f, 100f);
+                //entityFactory.SpawnAnimalOfRandomGenderAndAge((int)AnimalManager.Species.WOLF, 500f, 850f, 100f);
             }
         }
         #endregion
