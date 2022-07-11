@@ -2087,8 +2087,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2445dbd7b4635f54c9bacff724111a77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxStatesUpdatePerFrame: 50
-  maxActionsUpdatePerFrame: 20
+  maxStatesUpdatePerFrame: 30
+  maxActionsUpdatePerFrame: 10
 --- !u!114 &1232884838
 MonoBehaviour:
   m_ObjectHideFlags: 0
