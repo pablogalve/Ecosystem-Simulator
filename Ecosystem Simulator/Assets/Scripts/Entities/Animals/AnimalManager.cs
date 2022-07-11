@@ -130,14 +130,12 @@ public class AnimalManager : MonoBehaviour
                     break;
             }
 
-            animalScript.PlayAnimation(GetAnimationIndex(animalScript.species, animalScript.CalculateCurrentAnimation()));
-
             // Divide the workload in multiple frames
             if (i != 0 && i % maxStatesUpdatePerFrame == 0)
                 yield return null;
         }
 
-        yield return new WaitForSeconds(1.0f);
+        //yield return new WaitForSeconds(1.0f);
         StartCoroutine(ActionOfTheAnimalsStateMachine());
     }
 
@@ -161,38 +159,44 @@ public class AnimalManager : MonoBehaviour
             {
                 case States.IDLE: // Default state when there are no other needs
                     animalScript.StopMoving();
-
+                    animalScript.PlayAnimation(GetAnimationIndex(animalScript.species, animalScript.CalculateCurrentAnimation()));
                     break;
 
                 case States.LOOKING_FOR_FOOD: // Primary need
-                    MoveToFood(animalScript, entity.Value.UUID);
+                    if(MoveToFood(animalScript, entity.Value.UUID))
+                    {
+                        animalScript.PlayAnimation(GetAnimationIndex(animalScript.species, animalScript.CalculateCurrentAnimation()));
+                    }
 
                     break;
 
                 case States.LOOKING_FOR_MATE: // Secondary need
-                    MoveToClosestPotentialMate(animalScript);
+                    if(MoveToClosestPotentialMate(animalScript))
+                    {
+                        animalScript.PlayAnimation(GetAnimationIndex(animalScript.species, animalScript.CalculateCurrentAnimation()));
+                    }
 
                     break;
 
-                case States.EATING: 
-
+                case States.EATING:
+                    animalScript.PlayAnimation(GetAnimationIndex(animalScript.species, animalScript.CalculateCurrentAnimation()));
                     break;
 
                 case States.DYING:
 
                     break;
-            }
+            }            
 
             // Divide the workload in multiple frames
             if (i % maxActionsUpdatePerFrame == 0)
                 yield return null;
         }        
 
-        yield return new WaitForSeconds(1.0f); // Wait before repeating the cycle
+        //yield return new WaitForSeconds(1.0f); // Wait before repeating the cycle
         StartCoroutine(UpdateAnimalsStateMachine());
     }
 
-    private void MoveToFood(Animal animalScript, string myUUID)
+    private bool MoveToFood(Animal animalScript, string myUUID)
     {
         // Food is different for herbivores and carnivores
 
@@ -210,18 +214,18 @@ public class AnimalManager : MonoBehaviour
         // Step 2: If food was found, move there. Otherwise, find in random location using LevyWalk
         if(ret.Item1 == true) // If there's food nearby, move there
         {
-            animalScript.MoveTo(ret.Item2);
+            return animalScript.MoveTo(ret.Item2);
         }
         else
         {
             // If animal is not already moving, set new direction using Levy walk
             NavMeshAgent myNavMeshAgent = animalScript.gameObject.GetComponent<NavMeshAgent>();
-            if (myNavMeshAgent.hasPath) return;
+            if (myNavMeshAgent.hasPath) return true;
 
             // Move to random position looking for food
             Vector3 newTarget = HeightmapData.Instance.LevyWalk(animalScript.gameObject.transform.position, 10f, 1000f, 2.0f);
                                
-            animalScript.MoveTo(newTarget);
+            return animalScript.MoveTo(newTarget);
         }        
     }
 
@@ -317,7 +321,7 @@ public class AnimalManager : MonoBehaviour
         else return (false, closestHerbivore);
     }
 
-    private void MoveToClosestPotentialMate(Animal animalScript)
+    private bool MoveToClosestPotentialMate(Animal animalScript)
     {
         Vector3 closestMate = new Vector3(0f, 0f, 0f);
         float smallestDistance = float.MaxValue;
@@ -376,18 +380,20 @@ public class AnimalManager : MonoBehaviour
 
         if (foundAtLeastOne && myGender.gender == 1)
         {
-            animalScript.MoveTo(closestMate);
-        }else if(!foundAtLeastOne)
+            return animalScript.MoveTo(closestMate);
+        }
+        else if (!foundAtLeastOne)
         {
             // If animal is not already moving, set new direction using Levy walk
             NavMeshAgent myNavMeshAgent = animalScript.gameObject.GetComponent<NavMeshAgent>();
-            if (myNavMeshAgent.hasPath) return;
+            if (myNavMeshAgent.hasPath) return true;
 
             // Move to random position looking for mate
             Vector3 newTarget = HeightmapData.Instance.LevyWalk(animalScript.gameObject.transform.position, 10f, 1000f, 2.0f);
 
-            animalScript.MoveTo(newTarget);
+            return animalScript.MoveTo(newTarget);
         }
+        else return false;
     }
 
     public int GetAnimationIndex(Species species, Animation animation)

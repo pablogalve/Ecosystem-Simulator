@@ -114,11 +114,11 @@ public class Animal : MonoBehaviour
         entityManager.TryToKill(entityNode);
     }
 
-    public void MoveTo(Vector3 targetPosition)
+    public bool MoveTo(Vector3 targetPosition)
     {
-        if (state == AnimalManager.States.IDLE) return;
-        if (state == AnimalManager.States.EATING) return;
-        if (state == AnimalManager.States.DYING) return;
+        if (state == AnimalManager.States.IDLE) return false;
+        if (state == AnimalManager.States.EATING) return false;
+        if (state == AnimalManager.States.DYING) return false;
 
         NavMeshAgent myNavMeshAgent = gameObject.GetComponent<NavMeshAgent>();
         AgeController ageController = gameObject.GetComponent <AgeController>();
@@ -131,11 +131,20 @@ public class Animal : MonoBehaviour
         if (myNavMeshAgent.destination != targetPosition)
         {
             myNavMeshAgent.SetDestination(targetPosition);
-        }
+            if (myNavMeshAgent.pathStatus == NavMeshPathStatus.PathInvalid)
+            {
+                return false;
+            }
+            else
+            {
+                // Reduce speed to babies and pregnant females
+                if (ageController.IsBaby() || reproduction.IsPregnant()) myNavMeshAgent.speed = speedForBabiesAndPregnants;
+                else myNavMeshAgent.speed = speed;
 
-        // Reduce speed to babies and pregnant females
-        if (ageController.IsBaby() || reproduction.IsPregnant()) myNavMeshAgent.speed = speedForBabiesAndPregnants;        
-        else myNavMeshAgent.speed = speed;
+                return true;
+            }
+        }
+        else return false;
     }
 
     public void StopMoving()
