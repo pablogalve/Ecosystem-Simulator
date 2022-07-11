@@ -55,13 +55,8 @@ public class TreeManager : MonoBehaviour
 
         for (int i = 0; i < entityManager.entitiesByType[(int)EntityManager.EntityType.TREE].Count - 1; i++)
         {
-            if (i != 0 && i % maxUpdatesPerFrame == 0)
-            {
-                yield return null;
-            }
-                        
             GameObject tree = entityManager.entities[entityManager.entitiesByType[(int)EntityManager.EntityType.TREE][i]];
-            
+
             AgeController ageController = tree.GetComponent<AgeController>();
             if (ageController == null) throw new System.Exception("AgeController is null on EntityManager.cs: Reproduce()");
             
@@ -71,6 +66,11 @@ public class TreeManager : MonoBehaviour
                     tree.transform.position.x,
                     tree.transform.position.z,
                     50f);
+            }
+
+            if (i != 0 && i % maxUpdatesPerFrame == 0)
+            {
+                yield return null;
             }
         }
 
