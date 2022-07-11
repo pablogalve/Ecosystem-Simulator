@@ -1036,7 +1036,7 @@ MonoBehaviour:
   maxNeed: 20
   reproductionUrge: 0
   hunger: 0
-  minDistanceToEat: 1
+  minDistanceToEat: 3
   isHerbivore: 1
   speed: 4
   speedForBabiesAndPregnants: 2
